@@ -1,0 +1,9 @@
+DONE c9 tb: 300 programs x 1000 cycles
+/tmp/beru-4004/tests/random/c9/tb.sv:92: $finish called at 24312950 (1s)
+coverage (instructions retired by the model): ADD=14744, ADM=717, BBL=13329, CLB=1110, CLC=1077, CMA=949, CMC=1126, DAA=1001, DAC=755, DCL=1160, FE=0, FF=0, FIM=6265, FIN=6285, IAC=788, INC=14901, ISZ=11050, JCN=13483, JIN=42225, JMS=10141, JUN=10540, KBP=1245, LD=15491, LDM=14462, NOP=1207, RAL=1161, RAR=1795, RD0=939, RD1=1426, RD2=1541, RD3=774, RDM=747, RDR=1007, SBM=981, SRC=8945, STC=739, SUB=15571, TCC=1461, TCS=969, WMP=999, WPM=536, WR0=992, WR1=664, WR2=683, WR3=671, WRM=736, WRR=813, XCH=13739
+coverage (corner cases): I/O with multi-line DCL=2544, RAM op, empty bank selected=3505, RAM op, populated bank selected=8365, page quirk: 2-word at xFE=33, page quirk: FIN/JIN at xFF=20, pc wrap at FFF=113, stack: 4th JMS wraps sp=2372, stack: BBL with sp=0 (underflow)=3322
+coverage (mid-run resets): 203 in 98 programs, by period A1=25, A2=25, A3=22, M1=28, M2=26, X1=22, X2=25, X3=30
+unexercised instructions: none
+multi-bank: 0 programs stopped at their first bus conflict, bus_conflict raised every time
+c9: ram_banks=0,3 seed=4343 programs=300 cycles=1000 mismatching_programs=0
+PASS
