@@ -144,12 +144,22 @@ def main():
     ap.add_argument("--out", default=os.path.join(ROOT, "build", "c9"))
     ap.add_argument("--ram-bank", type=int, default=0, choices=range(4), help="bank holding the 4 x 4002")
     ap.add_argument("--rtl", default=os.path.join(ROOT, "rtl"), help="RTL directory under test")
+    ap.add_argument("--gen", choices=["c9", "acc3"], default="c9",
+                    help="acc3: the programs of acceptance test 3 (tests/random/acc3, program p from "
+                         "seed SEED+p, pages 0-4, the rest 00 = no ROM under spec 2), so the RTL runs "
+                         "the same programs as the MAME comparison (spec 9)")
     a = ap.parse_args()
+    if a.gen == "acc3":
+        sys.path.insert(0, os.path.join(ROOT, "tests", "random", "acc3"))
+        import importlib
+        acc3 = importlib.import_module("run")
     rng = random.Random(a.seed)
     os.makedirs(a.out, exist_ok=True)
     progs = []
     for p in range(a.nprog):
         prog, io_in, tests = gen(rng, a.ncyc)
+        if a.gen == "acc3":
+            prog = acc3.gen(random.Random(a.seed + p)) + [0x00] * (4096 - 5 * 256)
         write(f"{a.out}/prog{p}", prog, io_in, tests)
         progs.append((prog, io_in, tests))
     rtl = sorted(os.path.join(dp, f) for dp, _, fs in os.walk(a.rtl) for f in fs if f.endswith(".v"))
@@ -177,7 +187,7 @@ def main():
           "by period " + ", ".join(f"{n}={resets.count(i)}" for i, n in enumerate("A1 A2 A3 M1 M2 X1 X2 X3".split())))
     missing = [n for n in names if not cov.get(n) and n not in ("FE", "FF")]
     print("unexercised instructions: " + (", ".join(missing) if missing else "none"))
-    print(f"c9: ram_bank={a.ram_bank} seed={a.seed} programs={a.nprog} cycles={a.ncyc} mismatching_programs={bad}")
+    print(f"c9: gen={a.gen} ram_bank={a.ram_bank} seed={a.seed} programs={a.nprog} cycles={a.ncyc} mismatching_programs={bad}")
     print("PASS" if bad == 0 else "FAIL")
     return 1 if bad else 0
 
