@@ -10,33 +10,52 @@ NOARG = {"NOP":0x00,"WRM":0xE0,"WMP":0xE1,"WRR":0xE2,"WPM":0xE3,"SBM":0xE8,"RDM"
 REG = {"INC":0x60,"ADD":0x80,"SUB":0x90,"LD":0xA0,"XCH":0xB0}
 IMM = {"BBL":0xC0,"LDM":0xD0}
 WR = {"WR0":0xE4,"WR1":0xE5,"WR2":0xE6,"WR3":0xE7,"RD0":0xEC,"RD1":0xED,"RD2":0xEE,"RD3":0xEF}
-num = lambda t: int(t, 0)
-pair = lambda t: int(t.upper().lstrip("P"))
+class AsmError(Exception): pass
+def num(t, lo=0, hi=15, what="value"):
+    try: v = int(t, 0)
+    except ValueError: raise AsmError("%s '%s' is not a number or known label" % (what, t))
+    if not lo <= v <= hi: raise AsmError("%s %d out of range %d..%d" % (what, v, lo, hi))
+    return v
+def pair(t):
+    u = t.upper()
+    if not (u.startswith("P") and u[1:].isdigit()): raise AsmError("pair '%s' must look like P0..P7" % t)
+    return num(u[1:], 0, 7, "pair")
+def need(a, n):
+    if len(a) != n: raise AsmError("expected %d operand(s), got %d" % (n, len(a)))
 def assemble(lines):
     items, labels, pc = [], {}, 0
-    for ln in lines:
-        ln = ln.split(";")[0].strip()
-        while ":" in ln:
-            l, ln = ln.split(":", 1); labels[l.strip()] = pc; ln = ln.strip()
-        if not ln: continue
-        m, *a = ln.replace(",", " ").split()
-        m = m.upper(); size = 2 if m in ("FIM","JUN","JMS","JCN","ISZ") else 1
-        items.append((pc, m, a)); pc += size
+    for no, ln in enumerate(lines, 1):
+        try:
+            ln = ln.split(";")[0].strip()
+            while ":" in ln:
+                l, ln = ln.split(":", 1); labels[l.strip()] = pc; ln = ln.strip()
+            if not ln: continue
+            m, *a = ln.replace(",", " ").split()
+            m = m.upper(); size = 2 if m in ("FIM","JUN","JMS","JCN","ISZ") else 1
+            if pc + size > 256: raise AsmError("instruction ends past byte 255 (one 4001 holds 256 bytes)")
+            items.append((no, pc, m, a)); pc += size
+        except AsmError as e: sys.exit("line %d: %s" % (no, e))
     out = bytearray(256)
-    val = lambda t: labels[t] if t in labels else num(t)
-    for pc, m, a in items:
-        if m in NOARG: b = [NOARG[m]]
-        elif m in WR: b = [WR[m]]
-        elif m in REG: b = [REG[m] | num(a[0])]
-        elif m in IMM: b = [IMM[m] | num(a[0])]
-        elif m == "SRC": b = [0x20 | (pair(a[0]) << 1) | 1]
-        elif m == "JIN": b = [0x30 | (pair(a[0]) << 1) | 1]
-        elif m == "FIN": b = [0x30 | (pair(a[0]) << 1)]
-        elif m == "FIM": b = [0x20 | (pair(a[0]) << 1), val(a[1]) & 255]
-        elif m in ("JUN","JMS"): t = val(a[0]); b = [(0x40 if m == "JUN" else 0x50) | (t >> 8), t & 255]
-        elif m == "JCN": b = [0x10 | num(a[0]), val(a[1]) & 255]
-        elif m == "ISZ": b = [0x70 | num(a[0]), val(a[1]) & 255]
-        else: sys.exit("unknown mnemonic " + m)
+    def val(t, lo, hi, what):
+        return labels[t] if t in labels else num(t, lo, hi, what)
+    def same_page(t, pc):   # spec 6.2: a short jump stays in the page of the address after its second word
+        if (t >> 8) != ((pc + 2) >> 8): raise AsmError("target 0x%03x is not in the page of the next instruction (page %d)" % (t, (pc + 2) >> 8))
+        return t & 255
+    for no, pc, m, a in items:
+        try:
+            if m in NOARG: need(a, 0); b = [NOARG[m]]
+            elif m in WR: need(a, 0); b = [WR[m]]
+            elif m in REG: need(a, 1); b = [REG[m] | num(a[0], 0, 15, "register")]
+            elif m in IMM: need(a, 1); b = [IMM[m] | num(a[0], 0, 15, "immediate")]
+            elif m == "SRC": need(a, 1); b = [0x20 | (pair(a[0]) << 1) | 1]
+            elif m == "JIN": need(a, 1); b = [0x30 | (pair(a[0]) << 1) | 1]
+            elif m == "FIN": need(a, 1); b = [0x30 | (pair(a[0]) << 1)]
+            elif m == "FIM": need(a, 2); b = [0x20 | (pair(a[0]) << 1), num(a[1], 0, 255, "byte")]
+            elif m in ("JUN","JMS"): need(a, 1); t = val(a[0], 0, 4095, "address"); b = [(0x40 if m == "JUN" else 0x50) | (t >> 8), t & 255]
+            elif m == "JCN": need(a, 2); b = [0x10 | num(a[0], 0, 15, "condition"), same_page(val(a[1], 0, 4095, "address"), pc)]
+            elif m == "ISZ": need(a, 2); b = [0x70 | num(a[0], 0, 15, "register"), same_page(val(a[1], 0, 4095, "address"), pc)]
+            else: raise AsmError("unknown mnemonic " + m)
+        except AsmError as e: sys.exit("line %d: %s" % (no, e))
         out[pc:pc+len(b)] = bytes(b)
     return out
 if __name__ == "__main__":
