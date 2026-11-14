@@ -86,13 +86,18 @@ def model_pins(prog, io_in, tests, cov=None, ram_bank=0):
     roms = [R.Rom4001(n, prog[256 * n:256 * (n + 1)], port_in=bool((PORT_IN >> n) & 1)) for n in range(16)]
     s = R.System(roms, [R.Ram4002(ram_bank, c) for c in range(4)])
     s.rom_io_in = {n: io_in[n] for n in range(16)}
-    s.do_reset()
     out = []
+    RESET = ("R", "0", "0", "0000", "0")     # spec 5: pins while reset = 1
+    for _ in range(64):
+        s.step(1)
+        out.append(RESET)
     for v in tests:
         t, rst, rp = v & 1, (v >> 1) & 1, (v >> 2) & 7
         for k in range(8):
             if rst and k == rp:
-                s.do_reset(64)                # not compared while reset = 1 (spec 5)
+                for _ in range(64):           # spec 5: only the fixed reset pins are compared
+                    s.step(1)
+                    out.append(RESET)
                 break
             p = s.step(0, t)
             out.append(("%d" % p.sync, "%d" % p.cm_rom, format(p.cm_ram, "04b"), "%d" % p.d_oe,
@@ -108,13 +113,24 @@ def compare(pdir, want):
     errs = []
     if len(got) != len(want):
         errs.append(f"length: rtl {len(got)} periods, model {len(want)}")
+    cyc = 0; per = 0
     for i, (g, w) in enumerate(zip(got, want)):
+        if w[0] == "R" or g[0] == "R":
+            if g != list(w):
+                errs.append(f"line {i} (reset held): rtl {' '.join(g)} model {' '.join(w)} "
+                            "(R sync cm_rom cm_ram d_oe)")
+                break
+            per = 0
+            continue
+        where = f"after-reset cycle {cyc} period {'A1 A2 A3 M1 M2 X1 X2 X3'.split()[per]}"
+        per += 1
+        if per == 8:
+            per = 0; cyc += 1
         for k, name in enumerate(FIELDS):
             if name == "d_out" and w[k] is None:
                 continue                      # spec 4: "-" = not compared
             if g[k] != w[k]:
-                errs.append(f"cycle {i // 8} period {'A1 A2 A3 M1 M2 X1 X2 X3'.split()[i % 8]}: "
-                            f"{name} rtl={g[k]} model={w[k]}")
+                errs.append(f"line {i}, {where}: {name} rtl={g[k]} model={w[k]}")
         if errs:
             break                             # first diverging period is what matters
     return errs

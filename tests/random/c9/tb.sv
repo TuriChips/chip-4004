@@ -4,7 +4,8 @@
 // Files in +dir=<d>: prog<p>/rom<n>.hex (256 bytes each), prog<p>/stim.hex
 //   (line 0: rom_io_in, 64-bit hex; lines 1..NCYC per instruction cycle: bit 0 = TEST,
 //    bit 1 = reset during this cycle, bits 4:2 = the period at which reset is raised).
-// Output <d>/prog<p>/pins.txt: one line per period after reset:
+// Output <d>/prog<p>/pins.txt: one line per period; while reset = 1: R sync cm_rom cm_ram d_oe;
+// otherwise:
 //   sync cm_rom cm_ram d_oe d_out bus conflict   (d_out printed in binary so X/Z shows)
 `ifndef RAM_BANK
 `define RAM_BANK 0
@@ -12,6 +13,8 @@
 `ifndef PORT_IN
 `define PORT_IN 16'hF0F0
 `endif
+// While reset = 1, spec 5 fixes only these four pins; one "R" line per period.
+`define DUMP_RESET $fdisplay(fd, "R %b %b %b %b", dut.cpu_sync, dut.cpu_cm_rom, dut.cpu_cm_ram, dut.cpu_d_oe)
 module tb;
     reg clk = 0, reset = 1, test = 0;
     reg  [63:0] rom_io_in = 0;
@@ -55,23 +58,23 @@ module tb;
             end
             $readmemh({pdir, "/stim.hex"}, stim, 0, ncyc);
             rom_io_in = stim[0];
-            reset = 1; test = 0;
-            repeat (64) begin #5 clk = 1; #5 clk = 0; end
-            reset = 0;
             fd = $fopen({pdir, "/pins.txt"}, "w");
+            reset = 1; test = 0;
+            repeat (64) begin #4 `DUMP_RESET; #1 clk = 1; #5 clk = 0; end
+            reset = 0;
             for (c = 0; c < ncyc; c = c + 1) begin
                 test = stim[c + 1][0];
                 for (k = 0; k < 8; k = k + 1) begin
-                    #4;   // outputs settled for this period
                     if (stim[c + 1][1] && k == stim[c + 1][4:2]) begin
-                        // mid-run reset at period k of this cycle: hold 64 edges (spec 5), not dumped;
-                        // the next cycle starts at A1 (spec 4)
+                        // mid-run reset raised at the start of period k of this cycle (right after
+                        // the falling edge, so the pins have settled before the first sample);
+                        // held 64 edges (spec 5); the next cycle starts at A1 (spec 4)
                         reset = 1;
-                        #1 clk = 1; #5 clk = 0;
-                        repeat (63) begin #4; #1 clk = 1; #5 clk = 0; end
+                        repeat (64) begin #4 `DUMP_RESET; #1 clk = 1; #5 clk = 0; end
                         reset = 0;         // at a falling edge, half a period from any rising edge
                         k = 8;             // leave this cycle; the next one starts at A1
                     end else begin
+                        #4;   // outputs settled for this period
                         $fdisplay(fd, "%b %b %b %b %b %b %b", dut.cpu_sync, dut.cpu_cm_rom, dut.cpu_cm_ram,
                                   dut.cpu_d_oe, dut.cpu_d_out, bus, bus_conflict);
                         #1 clk = 1; #5 clk = 0;
