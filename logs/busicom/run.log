@@ -1,4 +1,4 @@
-main commit: fd29456ae5ebbed88f4cce764263a811af6244f4
+main commit: d49563f7ae1c4e9afacae4ec106812beef644c56
 PRINT |             18+ |
 PRINT |             42+ |
 PRINT |             60 *|
@@ -14,5 +14,5 @@ PRINT |             12= |
 PRINT |            144 *|
 PRINT |                 |
 done after 5366400 clocks, 258 pulses
-sw/busicom/busicom_tb.sv:137: $finish called at 53664795000 (1ps)
+sw/busicom/busicom_tb.sv:139: $finish called at 53664795000 (1ps)
 BUSICOM PASS: printed lines match sw/busicom/sums.expected
