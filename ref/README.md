@@ -74,5 +74,12 @@ Random programs in pages 0–4 run in MAME `busicom` and in `ref4004.py`, compar
   stops a program at the first RAM instruction where the two latched addresses differ, and
   reports it as "stopped", not as a pass or a mismatch. Our spec follows the manual (per-chip
   latch); MAME's system models the latch in the CPU.
+**Same programs on the RTL (spec §9: "the same random programs as C9").** `tests/random/c9/run.py
+--gen acc3 --seed 100 --nprog 40 --ncyc 4000` runs the acceptance-test-3 programs (byte-identical,
+same seeds) on `mcs4_system` against the model, every pin every period. Evidence `logs/c9-acc3progs-20261114T141255Z/`:
+40 programs, 0 mismatches. So, on the same 40 programs, RTL ≡ model (C9, pins) and model ≡ MAME
+(acc3, per instruction, up to the §6.3 difference). C9's TEST, RAM fit and bus follow our spec;
+acc3's follow MAME's busicom. Each comparison is checked under its own system.
+
 Other candidates seen, not evaluated: lpg2709/emulator-Intel-4004 (C, MIT, "still in
 development"), yurafx/i4004-py (GPL-3.0).
