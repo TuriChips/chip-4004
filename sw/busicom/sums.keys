@@ -1,0 +1,30 @@
+// $readmemh file: one scan code per line (listing section 3.2: 0x81 + column*4 + row); 00 ends the list
+// 18 + 42 + =
+9b
+95
+8e
+9a
+97
+8e
+8c
+// C
+a0
+// 100 - 35 =
+9b
+9c
+9c
+8d
+93
+96
+8d
+8c
+// C
+a0
+// 12 x 12 =
+9b
+97
+8b
+9b
+97
+8c
+00
