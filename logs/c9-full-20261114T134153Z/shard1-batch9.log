@@ -1,0 +1,8 @@
+DONE c9 tb: 500 programs x 1000 cycles
+/tmp/beru-c9full/tests/random/c9/tb.sv:87: $finish called at 40563830 (1s)
+coverage (instructions retired by the model): ADD=23981, ADM=1229, BBL=21638, CLB=1237, CLC=1803, CMA=1445, CMC=1389, DAA=1279, DAC=2396, DCL=1474, FE=0, FF=0, FIM=10829, FIN=10631, IAC=1810, INC=22671, ISZ=19742, JCN=23693, JIN=79128, JMS=17521, JUN=15813, KBP=1408, LD=23554, LDM=25106, NOP=1508, RAL=1223, RAR=1273, RD0=1465, RD1=1658, RD2=2290, RD3=1351, RDM=1362, RDR=1454, SBM=1327, SRC=12672, STC=1494, SUB=24361, TCC=1632, TCS=1287, WMP=1263, WPM=1451, WR0=1495, WR1=1604, WR2=1057, WR3=1480, WRM=1335, WRR=1415, XCH=23962
+coverage (corner cases): I/O with multi-line DCL=4138, RAM op, empty bank selected=5265, RAM op, populated bank selected=13651, page quirk: 2-word at xFE=89, page quirk: FIN/JIN at xFF=42, pc wrap at FFF=143, stack: 4th JMS wraps sp=3935, stack: BBL with sp=0 (underflow)=5214
+coverage (mid-run resets): 409 in 194 programs, by period A1=45, A2=53, A3=42, M1=59, M2=59, X1=41, X2=46, X3=64
+unexercised instructions: none
+c9: ram_bank=0 seed=50009 programs=500 cycles=1000 mismatching_programs=0
+PASS
