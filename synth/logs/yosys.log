@@ -1,0 +1,1720 @@
+
+ /----------------------------------------------------------------------------\
+ |                                                                            |
+ |  yosys -- Yosys Open SYnthesis Suite                                       |
+ |                                                                            |
+ |  Copyright (C) 2012 - 2020  Claire Xenia Wolf <claire@yosyshq.com>         |
+ |                                                                            |
+ |  Permission to use, copy, modify, and/or distribute this software for any  |
+ |  purpose with or without fee is hereby granted, provided that the above    |
+ |  copyright notice and this permission notice appear in all copies.         |
+ |                                                                            |
+ |  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES  |
+ |  WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF          |
+ |  MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR   |
+ |  ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES    |
+ |  WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN     |
+ |  ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF   |
+ |  OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.            |
+ |                                                                            |
+ \----------------------------------------------------------------------------/
+
+ Yosys 0.33 (git sha1 2584903a060)
+
+
+-- Running command `
+read_verilog rtl/top.v rtl/control/i4004_control.v rtl/control/i4004_timing.v rtl/datapath/i4004_addr.v rtl/datapath/i4004_alu.v rtl/datapath/i4004_regs.v ;
+hierarchy -check -top i4004;
+proc; flatten; opt; memory -nomap; memory_map; opt; techmap; opt;
+abc -g AND,NAND,OR,NOR,XOR,XNOR,ANDNOT,ORNOT,MUX; opt_clean -purge;
+check -assert;
+tee -o synth/report.txt stat;
+tee -a synth/report.txt ltp -noff
+' --
+
+1. Executing Verilog-2005 frontend: rtl/top.v
+Parsing Verilog input from `rtl/top.v' to AST representation.
+Generating RTLIL representation for module `\i4004'.
+Successfully finished Verilog frontend.
+
+2. Executing Verilog-2005 frontend: rtl/control/i4004_control.v
+Parsing Verilog input from `rtl/control/i4004_control.v' to AST representation.
+Generating RTLIL representation for module `\i4004_control'.
+Successfully finished Verilog frontend.
+
+3. Executing Verilog-2005 frontend: rtl/control/i4004_timing.v
+Parsing Verilog input from `rtl/control/i4004_timing.v' to AST representation.
+Generating RTLIL representation for module `\i4004_timing'.
+Successfully finished Verilog frontend.
+
+4. Executing Verilog-2005 frontend: rtl/datapath/i4004_addr.v
+Parsing Verilog input from `rtl/datapath/i4004_addr.v' to AST representation.
+Generating RTLIL representation for module `\i4004_addr'.
+Successfully finished Verilog frontend.
+
+5. Executing Verilog-2005 frontend: rtl/datapath/i4004_alu.v
+Parsing Verilog input from `rtl/datapath/i4004_alu.v' to AST representation.
+Generating RTLIL representation for module `\i4004_alu'.
+Successfully finished Verilog frontend.
+
+6. Executing Verilog-2005 frontend: rtl/datapath/i4004_regs.v
+Parsing Verilog input from `rtl/datapath/i4004_regs.v' to AST representation.
+Generating RTLIL representation for module `\i4004_regs'.
+Successfully finished Verilog frontend.
+
+7. Executing HIERARCHY pass (managing design hierarchy).
+
+7.1. Analyzing design hierarchy..
+Top module:  \i4004
+Used module:     \i4004_addr
+Used module:     \i4004_regs
+Used module:     \i4004_alu
+Used module:     \i4004_control
+Used module:     \i4004_timing
+
+7.2. Analyzing design hierarchy..
+Top module:  \i4004
+Used module:     \i4004_addr
+Used module:     \i4004_regs
+Used module:     \i4004_alu
+Used module:     \i4004_control
+Used module:     \i4004_timing
+Removed 0 unused modules.
+
+8. Executing PROC pass (convert processes to netlists).
+
+8.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+8.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Marked 3 switch rules as full_case in process $proc$rtl/datapath/i4004_regs.v:21$210 in module i4004_regs.
+Marked 1 switch rules as full_case in process $proc$rtl/datapath/i4004_alu.v:55$184 in module i4004_alu.
+Marked 5 switch rules as full_case in process $proc$rtl/datapath/i4004_alu.v:15$168 in module i4004_alu.
+Marked 7 switch rules as full_case in process $proc$rtl/datapath/i4004_addr.v:19$88 in module i4004_addr.
+Marked 1 switch rules as full_case in process $proc$rtl/control/i4004_timing.v:11$72 in module i4004_timing.
+Marked 2 switch rules as full_case in process $proc$rtl/control/i4004_control.v:190$68 in module i4004_control.
+Marked 10 switch rules as full_case in process $proc$rtl/control/i4004_control.v:123$60 in module i4004_control.
+Marked 4 switch rules as full_case in process $proc$rtl/control/i4004_control.v:93$34 in module i4004_control.
+Marked 1 switch rules as full_case in process $proc$rtl/control/i4004_control.v:71$24 in module i4004_control.
+Removed a total of 0 dead cases.
+
+8.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 1 redundant assignment.
+Promoted 62 assignments to connections.
+
+8.4. Executing PROC_INIT pass (extract init attributes).
+
+8.5. Executing PROC_ARST pass (detect async resets in processes).
+
+8.6. Executing PROC_ROM pass (convert switches to ROMs).
+Converted 0 switches.
+<suppressed ~38 debug messages>
+
+8.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
+Creating decoders for process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+     1/41: $3$memwr$\r$rtl/datapath/i4004_regs.v:28$204_EN[3:0]$275
+     2/41: $3$memwr$\r$rtl/datapath/i4004_regs.v:28$204_DATA[3:0]$274
+     3/41: $3$memwr$\r$rtl/datapath/i4004_regs.v:28$204_ADDR[3:0]$273
+     4/41: $3$memwr$\r$rtl/datapath/i4004_regs.v:27$203_EN[3:0]$272
+     5/41: $3$memwr$\r$rtl/datapath/i4004_regs.v:27$203_DATA[3:0]$271
+     6/41: $3$memwr$\r$rtl/datapath/i4004_regs.v:27$203_ADDR[3:0]$270
+     7/41: $2$memwr$\r$rtl/datapath/i4004_regs.v:25$202_EN[3:0]$263
+     8/41: $2$memwr$\r$rtl/datapath/i4004_regs.v:25$202_DATA[3:0]$262
+     9/41: $2$memwr$\r$rtl/datapath/i4004_regs.v:25$202_ADDR[3:0]$261
+    10/41: $2$memwr$\r$rtl/datapath/i4004_regs.v:28$204_EN[3:0]$269
+    11/41: $2$memwr$\r$rtl/datapath/i4004_regs.v:28$204_DATA[3:0]$268
+    12/41: $2$memwr$\r$rtl/datapath/i4004_regs.v:28$204_ADDR[3:0]$267
+    13/41: $2$memwr$\r$rtl/datapath/i4004_regs.v:27$203_EN[3:0]$266
+    14/41: $2$memwr$\r$rtl/datapath/i4004_regs.v:27$203_DATA[3:0]$265
+    15/41: $2$memwr$\r$rtl/datapath/i4004_regs.v:27$203_ADDR[3:0]$264
+    16/41: $1\i[31:0]
+    17/41: $1$memwr$\r$rtl/datapath/i4004_regs.v:23$201_EN[3:0]$251
+    18/41: $1$memwr$\r$rtl/datapath/i4004_regs.v:23$200_EN[3:0]$250
+    19/41: $1$memwr$\r$rtl/datapath/i4004_regs.v:23$199_EN[3:0]$249
+    20/41: $1$memwr$\r$rtl/datapath/i4004_regs.v:23$198_EN[3:0]$248
+    21/41: $1$memwr$\r$rtl/datapath/i4004_regs.v:23$197_EN[3:0]$247
+    22/41: $1$memwr$\r$rtl/datapath/i4004_regs.v:23$196_EN[3:0]$246
+    23/41: $1$memwr$\r$rtl/datapath/i4004_regs.v:23$195_EN[3:0]$245
+    24/41: $1$memwr$\r$rtl/datapath/i4004_regs.v:23$194_EN[3:0]$244
+    25/41: $1$memwr$\r$rtl/datapath/i4004_regs.v:23$193_EN[3:0]$243
+    26/41: $1$memwr$\r$rtl/datapath/i4004_regs.v:23$192_EN[3:0]$242
+    27/41: $1$memwr$\r$rtl/datapath/i4004_regs.v:23$191_EN[3:0]$241
+    28/41: $1$memwr$\r$rtl/datapath/i4004_regs.v:23$190_EN[3:0]$240
+    29/41: $1$memwr$\r$rtl/datapath/i4004_regs.v:23$189_EN[3:0]$239
+    30/41: $1$memwr$\r$rtl/datapath/i4004_regs.v:23$188_EN[3:0]$238
+    31/41: $1$memwr$\r$rtl/datapath/i4004_regs.v:23$187_EN[3:0]$237
+    32/41: $1$memwr$\r$rtl/datapath/i4004_regs.v:23$186_EN[3:0]$236
+    33/41: $1$memwr$\r$rtl/datapath/i4004_regs.v:28$204_EN[3:0]$260
+    34/41: $1$memwr$\r$rtl/datapath/i4004_regs.v:28$204_DATA[3:0]$259
+    35/41: $1$memwr$\r$rtl/datapath/i4004_regs.v:28$204_ADDR[3:0]$258
+    36/41: $1$memwr$\r$rtl/datapath/i4004_regs.v:27$203_EN[3:0]$257
+    37/41: $1$memwr$\r$rtl/datapath/i4004_regs.v:27$203_DATA[3:0]$256
+    38/41: $1$memwr$\r$rtl/datapath/i4004_regs.v:27$203_ADDR[3:0]$255
+    39/41: $1$memwr$\r$rtl/datapath/i4004_regs.v:25$202_EN[3:0]$254
+    40/41: $1$memwr$\r$rtl/datapath/i4004_regs.v:25$202_DATA[3:0]$253
+    41/41: $1$memwr$\r$rtl/datapath/i4004_regs.v:25$202_ADDR[3:0]$252
+Creating decoders for process `\i4004_alu.$proc$rtl/datapath/i4004_alu.v:55$184'.
+     1/2: $0\cy[0:0]
+     2/2: $0\acc[3:0]
+Creating decoders for process `\i4004_alu.$proc$rtl/datapath/i4004_alu.v:15$168'.
+     1/13: $4\n_cy[0:0]
+     2/13: $5\n_acc[3:0]
+     3/13: $4\t[4:0]
+     4/13: $4\n_acc[3:0]
+     5/13: $3\n_cy[0:0]
+     6/13: $3\n_acc[3:0]
+     7/13: $3\t[4:0]
+     8/13: $2\n_cy[0:0]
+     9/13: $2\n_acc[3:0]
+    10/13: $2\t[4:0]
+    11/13: $1\t[4:0]
+    12/13: $1\n_cy[0:0]
+    13/13: $1\n_acc[3:0]
+Creating decoders for process `\i4004_addr.$proc$rtl/datapath/i4004_addr.v:19$88'.
+     1/60: $6$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_EN[11:0]$165
+     2/60: $6$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_DATA[11:0]$164
+     3/60: $6$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_ADDR[1:0]$163
+     4/60: $5$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_EN[11:0]$159
+     5/60: $5$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_DATA[11:0]$158
+     6/60: $5$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_ADDR[1:0]$157
+     7/60: $5$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_EN[11:0]$162
+     8/60: $5$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_DATA[11:0]$161
+     9/60: $5$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_ADDR[1:0]$160
+    10/60: $4$memwr$\slot$rtl/datapath/i4004_addr.v:30$84_EN[11:0]$150
+    11/60: $4$memwr$\slot$rtl/datapath/i4004_addr.v:30$84_DATA[11:0]$149
+    12/60: $4$memwr$\slot$rtl/datapath/i4004_addr.v:30$84_ADDR[1:0]$148
+    13/60: $4$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_EN[11:0]$156
+    14/60: $4$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_DATA[11:0]$155
+    15/60: $4$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_ADDR[1:0]$154
+    16/60: $4$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_EN[11:0]$153
+    17/60: $4$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_DATA[11:0]$152
+    18/60: $4$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_ADDR[1:0]$151
+    19/60: $3$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_EN[11:0]$146
+    20/60: $3$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_DATA[11:0]$145
+    21/60: $3$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_ADDR[1:0]$144
+    22/60: $3$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_EN[11:0]$143
+    23/60: $3$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_DATA[11:0]$142
+    24/60: $3$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_ADDR[1:0]$141
+    25/60: $3$memwr$\slot$rtl/datapath/i4004_addr.v:30$84_EN[11:0]$140
+    26/60: $3$memwr$\slot$rtl/datapath/i4004_addr.v:30$84_DATA[11:0]$139
+    27/60: $3$memwr$\slot$rtl/datapath/i4004_addr.v:30$84_ADDR[1:0]$138
+    28/60: $3$memwr$\slot$rtl/datapath/i4004_addr.v:26$83_EN[11:0]$136
+    29/60: $3$memwr$\slot$rtl/datapath/i4004_addr.v:26$83_DATA[11:0]$135
+    30/60: $3$memwr$\slot$rtl/datapath/i4004_addr.v:26$83_ADDR[1:0]$134
+    31/60: $2$memwr$\slot$rtl/datapath/i4004_addr.v:26$83_EN[11:0]$123
+    32/60: $2$memwr$\slot$rtl/datapath/i4004_addr.v:26$83_DATA[11:0]$122
+    33/60: $2$memwr$\slot$rtl/datapath/i4004_addr.v:26$83_ADDR[1:0]$121
+    34/60: $2$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_EN[11:0]$132
+    35/60: $2$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_DATA[11:0]$131
+    36/60: $2$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_ADDR[1:0]$130
+    37/60: $2$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_EN[11:0]$129
+    38/60: $2$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_DATA[11:0]$128
+    39/60: $2$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_ADDR[1:0]$127
+    40/60: $2$memwr$\slot$rtl/datapath/i4004_addr.v:30$84_EN[11:0]$126
+    41/60: $2$memwr$\slot$rtl/datapath/i4004_addr.v:30$84_DATA[11:0]$125
+    42/60: $2$memwr$\slot$rtl/datapath/i4004_addr.v:30$84_ADDR[1:0]$124
+    43/60: $1\i[31:0]
+    44/60: $1$memwr$\slot$rtl/datapath/i4004_addr.v:21$82_EN[11:0]$108
+    45/60: $1$memwr$\slot$rtl/datapath/i4004_addr.v:21$81_EN[11:0]$107
+    46/60: $1$memwr$\slot$rtl/datapath/i4004_addr.v:21$80_EN[11:0]$106
+    47/60: $1$memwr$\slot$rtl/datapath/i4004_addr.v:21$79_EN[11:0]$105
+    48/60: $1$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_EN[11:0]$120
+    49/60: $1$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_DATA[11:0]$119
+    50/60: $1$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_ADDR[1:0]$118
+    51/60: $1$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_EN[11:0]$117
+    52/60: $1$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_DATA[11:0]$116
+    53/60: $1$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_ADDR[1:0]$115
+    54/60: $1$memwr$\slot$rtl/datapath/i4004_addr.v:30$84_EN[11:0]$114
+    55/60: $1$memwr$\slot$rtl/datapath/i4004_addr.v:30$84_DATA[11:0]$113
+    56/60: $1$memwr$\slot$rtl/datapath/i4004_addr.v:30$84_ADDR[1:0]$112
+    57/60: $1$memwr$\slot$rtl/datapath/i4004_addr.v:26$83_EN[11:0]$111
+    58/60: $1$memwr$\slot$rtl/datapath/i4004_addr.v:26$83_DATA[11:0]$110
+    59/60: $1$memwr$\slot$rtl/datapath/i4004_addr.v:26$83_ADDR[1:0]$109
+    60/60: $0\sp[1:0]
+Creating decoders for process `\i4004_timing.$proc$rtl/control/i4004_timing.v:11$72'.
+     1/1: $0\cnt[2:0]
+Creating decoders for process `\i4004_control.$proc$rtl/control/i4004_control.v:190$68'.
+     1/9: $0\src_hi[3:0]
+     2/9: $0\ram_bank[2:0]
+     3/9: $0\src_addr[3:0]
+     4/9: $0\test_s[0:0]
+     5/9: $0\rd_data[3:0]
+     6/9: $0\fetch_lo[3:0]
+     7/9: $0\fetch_hi[3:0]
+     8/9: $0\second[0:0]
+     9/9: $0\ir[7:0]
+Creating decoders for process `\i4004_control.$proc$rtl/control/i4004_control.v:123$60'.
+     1/63: $8\pc_load_val[11:0]
+     2/63: $8\pc_load_low[0:0]
+     3/63: $7\pc_load_val[11:0]
+     4/63: $7\pc_load_low[0:0]
+     5/63: $6\pc_load_val[11:0]
+     6/63: $6\pc_load_low[0:0]
+     7/63: $4\pc_push[0:0]
+     8/63: $4\pc_load_full[0:0]
+     9/63: $4\p_wdata[7:0]
+    10/63: $5\r_wdata[3:0]
+    11/63: $4\p_we[0:0]
+    12/63: $5\r_we[0:0]
+    13/63: $5\alu_b[3:0]
+    14/63: $5\alu_op[4:0]
+    15/63: $5\alu_we[0:0]
+    16/63: $5\pc_load_val[11:0]
+    17/63: $5\pc_load_low[0:0]
+    18/63: $4\r_wdata[3:0]
+    19/63: $4\r_we[0:0]
+    20/63: $4\pc_load_val[11:0]
+    21/63: $4\pc_pop[0:0]
+    22/63: $4\pc_load_low[0:0]
+    23/63: $4\alu_b[3:0]
+    24/63: $4\alu_op[4:0]
+    25/63: $4\alu_we[0:0]
+    26/63: $3\pc_load_val[11:0]
+    27/63: $3\pc_pop[0:0]
+    28/63: $3\pc_load_low[0:0]
+    29/63: $3\r_wdata[3:0]
+    30/63: $3\alu_b[3:0]
+    31/63: $3\alu_op[4:0]
+    32/63: $3\r_we[0:0]
+    33/63: $3\alu_we[0:0]
+    34/63: $3\pc_push[0:0]
+    35/63: $3\pc_load_full[0:0]
+    36/63: $3\p_wdata[7:0]
+    37/63: $3\p_we[0:0]
+    38/63: $2\pc_load_val[11:0]
+    39/63: $2\pc_pop[0:0]
+    40/63: $2\pc_push[0:0]
+    41/63: $2\pc_load_full[0:0]
+    42/63: $2\pc_load_low[0:0]
+    43/63: $2\p_wdata[7:0]
+    44/63: $2\r_wdata[3:0]
+    45/63: $2\alu_b[3:0]
+    46/63: $2\alu_op[4:0]
+    47/63: $2\p_we[0:0]
+    48/63: $2\r_we[0:0]
+    49/63: $2\alu_we[0:0]
+    50/63: $2\pc_inc[0:0]
+    51/63: $1\pc_load_val[11:0]
+    52/63: $1\pc_pop[0:0]
+    53/63: $1\pc_push[0:0]
+    54/63: $1\pc_load_full[0:0]
+    55/63: $1\pc_load_low[0:0]
+    56/63: $1\p_wdata[7:0]
+    57/63: $1\r_wdata[3:0]
+    58/63: $1\alu_b[3:0]
+    59/63: $1\alu_op[4:0]
+    60/63: $1\p_we[0:0]
+    61/63: $1\r_we[0:0]
+    62/63: $1\alu_we[0:0]
+    63/63: $1\pc_inc[0:0]
+Creating decoders for process `\i4004_control.$proc$rtl/control/i4004_control.v:93$34'.
+     1/8: $4\dout_r[3:0]
+     2/8: $4\doe_r[0:0]
+     3/8: $3\dout_r[3:0]
+     4/8: $3\doe_r[0:0]
+     5/8: $2\dout_r[3:0]
+     6/8: $2\doe_r[0:0]
+     7/8: $1\dout_r[3:0]
+     8/8: $1\doe_r[0:0]
+Creating decoders for process `\i4004_control.$proc$rtl/control/i4004_control.v:71$24'.
+     1/1: $1\lines[3:0]
+
+8.8. Executing PROC_DLATCH pass (convert process syncs to latches).
+No latch inferred for signal `\i4004_alu.\n_acc' from process `\i4004_alu.$proc$rtl/datapath/i4004_alu.v:15$168'.
+No latch inferred for signal `\i4004_alu.\n_cy' from process `\i4004_alu.$proc$rtl/datapath/i4004_alu.v:15$168'.
+No latch inferred for signal `\i4004_alu.\t' from process `\i4004_alu.$proc$rtl/datapath/i4004_alu.v:15$168'.
+No latch inferred for signal `\i4004_control.\alu_we' from process `\i4004_control.$proc$rtl/control/i4004_control.v:123$60'.
+No latch inferred for signal `\i4004_control.\r_we' from process `\i4004_control.$proc$rtl/control/i4004_control.v:123$60'.
+No latch inferred for signal `\i4004_control.\p_we' from process `\i4004_control.$proc$rtl/control/i4004_control.v:123$60'.
+No latch inferred for signal `\i4004_control.\alu_op' from process `\i4004_control.$proc$rtl/control/i4004_control.v:123$60'.
+No latch inferred for signal `\i4004_control.\alu_b' from process `\i4004_control.$proc$rtl/control/i4004_control.v:123$60'.
+No latch inferred for signal `\i4004_control.\r_wdata' from process `\i4004_control.$proc$rtl/control/i4004_control.v:123$60'.
+No latch inferred for signal `\i4004_control.\p_wdata' from process `\i4004_control.$proc$rtl/control/i4004_control.v:123$60'.
+No latch inferred for signal `\i4004_control.\pc_inc' from process `\i4004_control.$proc$rtl/control/i4004_control.v:123$60'.
+No latch inferred for signal `\i4004_control.\pc_load_low' from process `\i4004_control.$proc$rtl/control/i4004_control.v:123$60'.
+No latch inferred for signal `\i4004_control.\pc_load_full' from process `\i4004_control.$proc$rtl/control/i4004_control.v:123$60'.
+No latch inferred for signal `\i4004_control.\pc_push' from process `\i4004_control.$proc$rtl/control/i4004_control.v:123$60'.
+No latch inferred for signal `\i4004_control.\pc_pop' from process `\i4004_control.$proc$rtl/control/i4004_control.v:123$60'.
+No latch inferred for signal `\i4004_control.\pc_load_val' from process `\i4004_control.$proc$rtl/control/i4004_control.v:123$60'.
+No latch inferred for signal `\i4004_control.\dout_r' from process `\i4004_control.$proc$rtl/control/i4004_control.v:93$34'.
+No latch inferred for signal `\i4004_control.\doe_r' from process `\i4004_control.$proc$rtl/control/i4004_control.v:93$34'.
+No latch inferred for signal `\i4004_control.\lines' from process `\i4004_control.$proc$rtl/control/i4004_control.v:71$24'.
+
+8.9. Executing PROC_DFF pass (convert process syncs to FFs).
+Creating register for signal `\i4004_regs.\i' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1855' with positive edge clock.
+Creating register for signal `\i4004_regs.$memwr$\r$rtl/datapath/i4004_regs.v:23$186_EN' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1856' with positive edge clock.
+Creating register for signal `\i4004_regs.$memwr$\r$rtl/datapath/i4004_regs.v:23$187_EN' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1857' with positive edge clock.
+Creating register for signal `\i4004_regs.$memwr$\r$rtl/datapath/i4004_regs.v:23$188_EN' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1858' with positive edge clock.
+Creating register for signal `\i4004_regs.$memwr$\r$rtl/datapath/i4004_regs.v:23$189_EN' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1859' with positive edge clock.
+Creating register for signal `\i4004_regs.$memwr$\r$rtl/datapath/i4004_regs.v:23$190_EN' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1860' with positive edge clock.
+Creating register for signal `\i4004_regs.$memwr$\r$rtl/datapath/i4004_regs.v:23$191_EN' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1861' with positive edge clock.
+Creating register for signal `\i4004_regs.$memwr$\r$rtl/datapath/i4004_regs.v:23$192_EN' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1862' with positive edge clock.
+Creating register for signal `\i4004_regs.$memwr$\r$rtl/datapath/i4004_regs.v:23$193_EN' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1863' with positive edge clock.
+Creating register for signal `\i4004_regs.$memwr$\r$rtl/datapath/i4004_regs.v:23$194_EN' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1864' with positive edge clock.
+Creating register for signal `\i4004_regs.$memwr$\r$rtl/datapath/i4004_regs.v:23$195_EN' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1865' with positive edge clock.
+Creating register for signal `\i4004_regs.$memwr$\r$rtl/datapath/i4004_regs.v:23$196_EN' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1866' with positive edge clock.
+Creating register for signal `\i4004_regs.$memwr$\r$rtl/datapath/i4004_regs.v:23$197_EN' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1867' with positive edge clock.
+Creating register for signal `\i4004_regs.$memwr$\r$rtl/datapath/i4004_regs.v:23$198_EN' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1868' with positive edge clock.
+Creating register for signal `\i4004_regs.$memwr$\r$rtl/datapath/i4004_regs.v:23$199_EN' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1869' with positive edge clock.
+Creating register for signal `\i4004_regs.$memwr$\r$rtl/datapath/i4004_regs.v:23$200_EN' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1870' with positive edge clock.
+Creating register for signal `\i4004_regs.$memwr$\r$rtl/datapath/i4004_regs.v:23$201_EN' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1871' with positive edge clock.
+Creating register for signal `\i4004_regs.$memwr$\r$rtl/datapath/i4004_regs.v:25$202_ADDR' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1872' with positive edge clock.
+Creating register for signal `\i4004_regs.$memwr$\r$rtl/datapath/i4004_regs.v:25$202_DATA' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1873' with positive edge clock.
+Creating register for signal `\i4004_regs.$memwr$\r$rtl/datapath/i4004_regs.v:25$202_EN' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1874' with positive edge clock.
+Creating register for signal `\i4004_regs.$memwr$\r$rtl/datapath/i4004_regs.v:27$203_ADDR' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1875' with positive edge clock.
+Creating register for signal `\i4004_regs.$memwr$\r$rtl/datapath/i4004_regs.v:27$203_DATA' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1876' with positive edge clock.
+Creating register for signal `\i4004_regs.$memwr$\r$rtl/datapath/i4004_regs.v:27$203_EN' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1877' with positive edge clock.
+Creating register for signal `\i4004_regs.$memwr$\r$rtl/datapath/i4004_regs.v:28$204_ADDR' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1878' with positive edge clock.
+Creating register for signal `\i4004_regs.$memwr$\r$rtl/datapath/i4004_regs.v:28$204_DATA' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1879' with positive edge clock.
+Creating register for signal `\i4004_regs.$memwr$\r$rtl/datapath/i4004_regs.v:28$204_EN' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1880' with positive edge clock.
+Creating register for signal `\i4004_alu.\acc' using process `\i4004_alu.$proc$rtl/datapath/i4004_alu.v:55$184'.
+  created $dff cell `$procdff$1881' with positive edge clock.
+Creating register for signal `\i4004_alu.\cy' using process `\i4004_alu.$proc$rtl/datapath/i4004_alu.v:55$184'.
+  created $dff cell `$procdff$1882' with positive edge clock.
+Creating register for signal `\i4004_addr.\sp' using process `\i4004_addr.$proc$rtl/datapath/i4004_addr.v:19$88'.
+  created $dff cell `$procdff$1883' with positive edge clock.
+Creating register for signal `\i4004_addr.\i' using process `\i4004_addr.$proc$rtl/datapath/i4004_addr.v:19$88'.
+  created $dff cell `$procdff$1884' with positive edge clock.
+Creating register for signal `\i4004_addr.$memwr$\slot$rtl/datapath/i4004_addr.v:21$79_EN' using process `\i4004_addr.$proc$rtl/datapath/i4004_addr.v:19$88'.
+  created $dff cell `$procdff$1885' with positive edge clock.
+Creating register for signal `\i4004_addr.$memwr$\slot$rtl/datapath/i4004_addr.v:21$80_EN' using process `\i4004_addr.$proc$rtl/datapath/i4004_addr.v:19$88'.
+  created $dff cell `$procdff$1886' with positive edge clock.
+Creating register for signal `\i4004_addr.$memwr$\slot$rtl/datapath/i4004_addr.v:21$81_EN' using process `\i4004_addr.$proc$rtl/datapath/i4004_addr.v:19$88'.
+  created $dff cell `$procdff$1887' with positive edge clock.
+Creating register for signal `\i4004_addr.$memwr$\slot$rtl/datapath/i4004_addr.v:21$82_EN' using process `\i4004_addr.$proc$rtl/datapath/i4004_addr.v:19$88'.
+  created $dff cell `$procdff$1888' with positive edge clock.
+Creating register for signal `\i4004_addr.$memwr$\slot$rtl/datapath/i4004_addr.v:26$83_ADDR' using process `\i4004_addr.$proc$rtl/datapath/i4004_addr.v:19$88'.
+  created $dff cell `$procdff$1889' with positive edge clock.
+Creating register for signal `\i4004_addr.$memwr$\slot$rtl/datapath/i4004_addr.v:26$83_DATA' using process `\i4004_addr.$proc$rtl/datapath/i4004_addr.v:19$88'.
+  created $dff cell `$procdff$1890' with positive edge clock.
+Creating register for signal `\i4004_addr.$memwr$\slot$rtl/datapath/i4004_addr.v:26$83_EN' using process `\i4004_addr.$proc$rtl/datapath/i4004_addr.v:19$88'.
+  created $dff cell `$procdff$1891' with positive edge clock.
+Creating register for signal `\i4004_addr.$memwr$\slot$rtl/datapath/i4004_addr.v:30$84_ADDR' using process `\i4004_addr.$proc$rtl/datapath/i4004_addr.v:19$88'.
+  created $dff cell `$procdff$1892' with positive edge clock.
+Creating register for signal `\i4004_addr.$memwr$\slot$rtl/datapath/i4004_addr.v:30$84_DATA' using process `\i4004_addr.$proc$rtl/datapath/i4004_addr.v:19$88'.
+  created $dff cell `$procdff$1893' with positive edge clock.
+Creating register for signal `\i4004_addr.$memwr$\slot$rtl/datapath/i4004_addr.v:30$84_EN' using process `\i4004_addr.$proc$rtl/datapath/i4004_addr.v:19$88'.
+  created $dff cell `$procdff$1894' with positive edge clock.
+Creating register for signal `\i4004_addr.$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_ADDR' using process `\i4004_addr.$proc$rtl/datapath/i4004_addr.v:19$88'.
+  created $dff cell `$procdff$1895' with positive edge clock.
+Creating register for signal `\i4004_addr.$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_DATA' using process `\i4004_addr.$proc$rtl/datapath/i4004_addr.v:19$88'.
+  created $dff cell `$procdff$1896' with positive edge clock.
+Creating register for signal `\i4004_addr.$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_EN' using process `\i4004_addr.$proc$rtl/datapath/i4004_addr.v:19$88'.
+  created $dff cell `$procdff$1897' with positive edge clock.
+Creating register for signal `\i4004_addr.$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_ADDR' using process `\i4004_addr.$proc$rtl/datapath/i4004_addr.v:19$88'.
+  created $dff cell `$procdff$1898' with positive edge clock.
+Creating register for signal `\i4004_addr.$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_DATA' using process `\i4004_addr.$proc$rtl/datapath/i4004_addr.v:19$88'.
+  created $dff cell `$procdff$1899' with positive edge clock.
+Creating register for signal `\i4004_addr.$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_EN' using process `\i4004_addr.$proc$rtl/datapath/i4004_addr.v:19$88'.
+  created $dff cell `$procdff$1900' with positive edge clock.
+Creating register for signal `\i4004_timing.\cnt' using process `\i4004_timing.$proc$rtl/control/i4004_timing.v:11$72'.
+  created $dff cell `$procdff$1901' with positive edge clock.
+Creating register for signal `\i4004_control.\ir' using process `\i4004_control.$proc$rtl/control/i4004_control.v:190$68'.
+  created $dff cell `$procdff$1902' with positive edge clock.
+Creating register for signal `\i4004_control.\second' using process `\i4004_control.$proc$rtl/control/i4004_control.v:190$68'.
+  created $dff cell `$procdff$1903' with positive edge clock.
+Creating register for signal `\i4004_control.\fetch_hi' using process `\i4004_control.$proc$rtl/control/i4004_control.v:190$68'.
+  created $dff cell `$procdff$1904' with positive edge clock.
+Creating register for signal `\i4004_control.\fetch_lo' using process `\i4004_control.$proc$rtl/control/i4004_control.v:190$68'.
+  created $dff cell `$procdff$1905' with positive edge clock.
+Creating register for signal `\i4004_control.\rd_data' using process `\i4004_control.$proc$rtl/control/i4004_control.v:190$68'.
+  created $dff cell `$procdff$1906' with positive edge clock.
+Creating register for signal `\i4004_control.\src_addr' using process `\i4004_control.$proc$rtl/control/i4004_control.v:190$68'.
+  created $dff cell `$procdff$1907' with positive edge clock.
+Creating register for signal `\i4004_control.\src_hi' using process `\i4004_control.$proc$rtl/control/i4004_control.v:190$68'.
+  created $dff cell `$procdff$1908' with positive edge clock.
+Creating register for signal `\i4004_control.\ram_bank' using process `\i4004_control.$proc$rtl/control/i4004_control.v:190$68'.
+  created $dff cell `$procdff$1909' with positive edge clock.
+Creating register for signal `\i4004_control.\test_s' using process `\i4004_control.$proc$rtl/control/i4004_control.v:190$68'.
+  created $dff cell `$procdff$1910' with positive edge clock.
+
+8.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+8.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Found and cleaned up 3 empty switches in `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+Removing empty process `i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+Found and cleaned up 2 empty switches in `\i4004_alu.$proc$rtl/datapath/i4004_alu.v:55$184'.
+Removing empty process `i4004_alu.$proc$rtl/datapath/i4004_alu.v:55$184'.
+Found and cleaned up 5 empty switches in `\i4004_alu.$proc$rtl/datapath/i4004_alu.v:15$168'.
+Removing empty process `i4004_alu.$proc$rtl/datapath/i4004_alu.v:15$168'.
+Found and cleaned up 7 empty switches in `\i4004_addr.$proc$rtl/datapath/i4004_addr.v:19$88'.
+Removing empty process `i4004_addr.$proc$rtl/datapath/i4004_addr.v:19$88'.
+Found and cleaned up 1 empty switch in `\i4004_timing.$proc$rtl/control/i4004_timing.v:11$72'.
+Removing empty process `i4004_timing.$proc$rtl/control/i4004_timing.v:11$72'.
+Found and cleaned up 5 empty switches in `\i4004_control.$proc$rtl/control/i4004_control.v:190$68'.
+Removing empty process `i4004_control.$proc$rtl/control/i4004_control.v:190$68'.
+Found and cleaned up 10 empty switches in `\i4004_control.$proc$rtl/control/i4004_control.v:123$60'.
+Removing empty process `i4004_control.$proc$rtl/control/i4004_control.v:123$60'.
+Found and cleaned up 4 empty switches in `\i4004_control.$proc$rtl/control/i4004_control.v:93$34'.
+Removing empty process `i4004_control.$proc$rtl/control/i4004_control.v:93$34'.
+Found and cleaned up 1 empty switch in `\i4004_control.$proc$rtl/control/i4004_control.v:71$24'.
+Removing empty process `i4004_control.$proc$rtl/control/i4004_control.v:71$24'.
+Cleaned up 38 empty switches.
+
+8.12. Executing OPT_EXPR pass (perform const folding).
+Optimizing module i4004_regs.
+Optimizing module i4004_alu.
+<suppressed ~3 debug messages>
+Optimizing module i4004_addr.
+Optimizing module i4004_timing.
+Optimizing module i4004_control.
+<suppressed ~110 debug messages>
+Optimizing module i4004.
+
+9. Executing FLATTEN pass (flatten design).
+Deleting now unused module i4004_regs.
+Deleting now unused module i4004_alu.
+Deleting now unused module i4004_addr.
+Deleting now unused module i4004_timing.
+Deleting now unused module i4004_control.
+<suppressed ~5 debug messages>
+
+10. Executing OPT pass (performing simple optimizations).
+
+10.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module i4004.
+
+10.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\i4004'.
+<suppressed ~369 debug messages>
+Removed a total of 123 cells.
+
+10.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \i4004..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+    dead port 2/2 on $mux $flatten\u_addr.$procmux$944.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$947.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$953.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$959.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$965.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$971.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$977.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$983.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$989.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$995.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$1001.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$1007.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$1013.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$1019.
+    dead port 1/2 on $mux $flatten\u_regs.$procmux$280.
+    dead port 1/2 on $mux $flatten\u_regs.$procmux$283.
+    dead port 1/2 on $mux $flatten\u_regs.$procmux$289.
+    dead port 1/2 on $mux $flatten\u_regs.$procmux$292.
+    dead port 1/2 on $mux $flatten\u_regs.$procmux$298.
+    dead port 1/2 on $mux $flatten\u_regs.$procmux$301.
+    dead port 1/2 on $mux $flatten\u_regs.$procmux$307.
+    dead port 1/2 on $mux $flatten\u_regs.$procmux$310.
+    dead port 1/2 on $mux $flatten\u_regs.$procmux$316.
+    dead port 1/2 on $mux $flatten\u_regs.$procmux$319.
+    dead port 1/2 on $mux $flatten\u_regs.$procmux$325.
+    dead port 1/2 on $mux $flatten\u_regs.$procmux$328.
+    dead port 1/2 on $mux $flatten\u_regs.$procmux$334.
+    dead port 1/2 on $mux $flatten\u_regs.$procmux$340.
+    dead port 1/2 on $mux $flatten\u_regs.$procmux$346.
+    dead port 1/2 on $mux $flatten\u_regs.$procmux$352.
+    dead port 1/2 on $mux $flatten\u_regs.$procmux$358.
+    dead port 1/2 on $mux $flatten\u_regs.$procmux$364.
+    dead port 1/2 on $mux $flatten\u_regs.$procmux$370.
+    dead port 1/2 on $mux $flatten\u_regs.$procmux$376.
+    dead port 1/2 on $mux $flatten\u_regs.$procmux$382.
+    dead port 1/2 on $mux $flatten\u_alu.$procmux$478.
+    dead port 1/2 on $mux $flatten\u_alu.$procmux$486.
+    dead port 1/3 on $pmux $flatten\u_alu.$procmux$490.
+    dead port 2/3 on $pmux $flatten\u_alu.$procmux$490.
+    dead port 3/3 on $pmux $flatten\u_alu.$procmux$490.
+    dead port 1/2 on $mux $flatten\u_alu.$procmux$494.
+    dead port 2/2 on $mux $flatten\u_alu.$procmux$494.
+    dead port 2/2 on $mux $flatten\u_alu.$procmux$505.
+    dead port 2/2 on $mux $flatten\u_alu.$procmux$507.
+    dead port 2/2 on $mux $flatten\u_alu.$procmux$515.
+    dead port 2/2 on $mux $flatten\u_alu.$procmux$517.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$593.
+    dead port 2/2 on $mux $flatten\u_alu.$procmux$525.
+    dead port 2/2 on $mux $flatten\u_alu.$procmux$527.
+    dead port 1/2 on $mux $flatten\u_alu.$procmux$533.
+    dead port 2/2 on $mux $flatten\u_alu.$procmux$533.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$596.
+    dead port 1/2 on $mux $flatten\u_alu.$procmux$535.
+    dead port 2/2 on $mux $flatten\u_alu.$procmux$535.
+    dead port 1/2 on $mux $flatten\u_alu.$procmux$537.
+    dead port 2/2 on $mux $flatten\u_alu.$procmux$537.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$599.
+    dead port 2/2 on $mux $flatten\u_alu.$procmux$554.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$602.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$605.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$611.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$614.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$617.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$620.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$623.
+    dead port 2/2 on $mux $flatten\u_alu.$procmux$569.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$629.
+    dead port 1/4 on $pmux $flatten\u_alu.$procmux$574.
+    dead port 2/4 on $pmux $flatten\u_alu.$procmux$574.
+    dead port 3/4 on $pmux $flatten\u_alu.$procmux$574.
+    dead port 4/4 on $pmux $flatten\u_alu.$procmux$574.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$632.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$635.
+    dead port 1/2 on $mux $flatten\u_alu.$procmux$578.
+    dead port 2/2 on $mux $flatten\u_alu.$procmux$578.
+    dead port 1/2 on $mux $flatten\u_alu.$procmux$581.
+    dead port 2/2 on $mux $flatten\u_alu.$procmux$581.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$638.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$641.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$647.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$650.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$653.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$656.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$662.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$665.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$668.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$671.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$677.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$680.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$683.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$686.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1161.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1164.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1166.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1168.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1176.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1179.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1181.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1183.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$692.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1196.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1199.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1201.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1203.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$695.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1216.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1219.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1221.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1223.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$698.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$701.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$707.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1234.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1236.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1238.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$710.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$713.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1247.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1249.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1251.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$716.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1260.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1262.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1264.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$722.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1274.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1276.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1278.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$725.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$728.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1290.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1292.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1294.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$731.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1302.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1304.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1306.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$737.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1318.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1320.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1322.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$740.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1330.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1332.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1334.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$743.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1346.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1348.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1350.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1352.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$749.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$752.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$755.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$761.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$764.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$767.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$773.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$776.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1364.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1366.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1368.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1370.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$779.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$785.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$788.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$791.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$797.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$800.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$803.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1382.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1384.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1386.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1388.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$809.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1399.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1401.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1403.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1405.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$812.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1416.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1418.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1420.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1422.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1436.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1438.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1440.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$815.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1454.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1456.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1458.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$821.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1468.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1470.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1472.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1484.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1486.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1488.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$824.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1498.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1500.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1502.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$827.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$833.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1517.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1519.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1521.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$836.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$839.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$845.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$848.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$854.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$857.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1536.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1538.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1540.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$863.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$866.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$872.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$875.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$881.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1555.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1557.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1559.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1566.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1568.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1575.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1577.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1584.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1586.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1593.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1595.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1602.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1604.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1611.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1613.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1620.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1622.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1629.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1631.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1638.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1640.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1647.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1649.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1656.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1658.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1665.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1667.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1673.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1679.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1685.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1691.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1697.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1703.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1709.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1715.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1721.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1727.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1733.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1739.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1745.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1748.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1763.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1766.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$884.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1790.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1796.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1804.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$890.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1806.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1814.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$893.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1816.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1823.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$899.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1830.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$902.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$908.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$911.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$917.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$920.
+    dead port 2/2 on $mux $flatten\u_addr.$procmux$926.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$929.
+    dead port 2/2 on $mux $flatten\u_addr.$procmux$935.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$938.
+Removed 284 multiplexer ports.
+<suppressed ~75 debug messages>
+
+10.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \i4004.
+    Consolidated identical input bits for $mux cell $flatten\u_addr.$procmux$644:
+      Old ports: A=12'000000000000, B=12'000011111111, Y=$flatten\u_addr.$procmux$644_Y
+      New ports: A=1'0, B=1'1, Y=$flatten\u_addr.$procmux$644_Y [0]
+      New connections: $flatten\u_addr.$procmux$644_Y [11:1] = { 4'0000 $flatten\u_addr.$procmux$644_Y [0] $flatten\u_addr.$procmux$644_Y [0] $flatten\u_addr.$procmux$644_Y [0] $flatten\u_addr.$procmux$644_Y [0] $flatten\u_addr.$procmux$644_Y [0] $flatten\u_addr.$procmux$644_Y [0] $flatten\u_addr.$procmux$644_Y [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_regs.$procmux$277:
+      Old ports: A=4'0000, B=4'1111, Y=$flatten\u_regs.$procmux$277_Y
+      New ports: A=1'0, B=1'1, Y=$flatten\u_regs.$procmux$277_Y [0]
+      New connections: $flatten\u_regs.$procmux$277_Y [3:1] = { $flatten\u_regs.$procmux$277_Y [0] $flatten\u_regs.$procmux$277_Y [0] $flatten\u_regs.$procmux$277_Y [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_regs.$procmux$304:
+      Old ports: A=4'0000, B=4'1111, Y=$flatten\u_regs.$procmux$304_Y
+      New ports: A=1'0, B=1'1, Y=$flatten\u_regs.$procmux$304_Y [0]
+      New connections: $flatten\u_regs.$procmux$304_Y [3:1] = { $flatten\u_regs.$procmux$304_Y [0] $flatten\u_regs.$procmux$304_Y [0] $flatten\u_regs.$procmux$304_Y [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_regs.$procmux$331:
+      Old ports: A=4'0000, B=4'1111, Y=$flatten\u_regs.$procmux$331_Y
+      New ports: A=1'0, B=1'1, Y=$flatten\u_regs.$procmux$331_Y [0]
+      New connections: $flatten\u_regs.$procmux$331_Y [3:1] = { $flatten\u_regs.$procmux$331_Y [0] $flatten\u_regs.$procmux$331_Y [0] $flatten\u_regs.$procmux$331_Y [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_addr.$procmux$1025:
+      Old ports: A=12'000000000000, B=12'111111111111, Y=$flatten\u_addr.$procmux$1025_Y
+      New ports: A=1'0, B=1'1, Y=$flatten\u_addr.$procmux$1025_Y [0]
+      New connections: $flatten\u_addr.$procmux$1025_Y [11:1] = { $flatten\u_addr.$procmux$1025_Y [0] $flatten\u_addr.$procmux$1025_Y [0] $flatten\u_addr.$procmux$1025_Y [0] $flatten\u_addr.$procmux$1025_Y [0] $flatten\u_addr.$procmux$1025_Y [0] $flatten\u_addr.$procmux$1025_Y [0] $flatten\u_addr.$procmux$1025_Y [0] $flatten\u_addr.$procmux$1025_Y [0] $flatten\u_addr.$procmux$1025_Y [0] $flatten\u_addr.$procmux$1025_Y [0] $flatten\u_addr.$procmux$1025_Y [0] }
+    New ctrl vector for $pmux cell $flatten\u_control.$procmux$1228: { $flatten\u_control.$eq$rtl/control/i4004_control.v:62$6_Y $auto$opt_reduce.cc:134:opt_pmux$1939 $flatten\u_control.$eq$rtl/control/i4004_control.v:62$11_Y }
+    Consolidated identical input bits for $mux cell $flatten\u_addr.$procmux$1028:
+      Old ports: A=12'000000000000, B=12'111111111111, Y=$flatten\u_addr.$procmux$1028_Y
+      New ports: A=1'0, B=1'1, Y=$flatten\u_addr.$procmux$1028_Y [0]
+      New connections: $flatten\u_addr.$procmux$1028_Y [11:1] = { $flatten\u_addr.$procmux$1028_Y [0] $flatten\u_addr.$procmux$1028_Y [0] $flatten\u_addr.$procmux$1028_Y [0] $flatten\u_addr.$procmux$1028_Y [0] $flatten\u_addr.$procmux$1028_Y [0] $flatten\u_addr.$procmux$1028_Y [0] $flatten\u_addr.$procmux$1028_Y [0] $flatten\u_addr.$procmux$1028_Y [0] $flatten\u_addr.$procmux$1028_Y [0] $flatten\u_addr.$procmux$1028_Y [0] $flatten\u_addr.$procmux$1028_Y [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_addr.$procmux$1031:
+      Old ports: A=12'000000000000, B=12'111111111111, Y=$flatten\u_addr.$procmux$1031_Y
+      New ports: A=1'0, B=1'1, Y=$flatten\u_addr.$procmux$1031_Y [0]
+      New connections: $flatten\u_addr.$procmux$1031_Y [11:1] = { $flatten\u_addr.$procmux$1031_Y [0] $flatten\u_addr.$procmux$1031_Y [0] $flatten\u_addr.$procmux$1031_Y [0] $flatten\u_addr.$procmux$1031_Y [0] $flatten\u_addr.$procmux$1031_Y [0] $flatten\u_addr.$procmux$1031_Y [0] $flatten\u_addr.$procmux$1031_Y [0] $flatten\u_addr.$procmux$1031_Y [0] $flatten\u_addr.$procmux$1031_Y [0] $flatten\u_addr.$procmux$1031_Y [0] $flatten\u_addr.$procmux$1031_Y [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_addr.$procmux$1034:
+      Old ports: A=12'000000000000, B=12'111111111111, Y=$flatten\u_addr.$procmux$1034_Y
+      New ports: A=1'0, B=1'1, Y=$flatten\u_addr.$procmux$1034_Y [0]
+      New connections: $flatten\u_addr.$procmux$1034_Y [11:1] = { $flatten\u_addr.$procmux$1034_Y [0] $flatten\u_addr.$procmux$1034_Y [0] $flatten\u_addr.$procmux$1034_Y [0] $flatten\u_addr.$procmux$1034_Y [0] $flatten\u_addr.$procmux$1034_Y [0] $flatten\u_addr.$procmux$1034_Y [0] $flatten\u_addr.$procmux$1034_Y [0] $flatten\u_addr.$procmux$1034_Y [0] $flatten\u_addr.$procmux$1034_Y [0] $flatten\u_addr.$procmux$1034_Y [0] $flatten\u_addr.$procmux$1034_Y [0] }
+    New ctrl vector for $pmux cell $flatten\u_control.$procmux$1270: $auto$opt_reduce.cc:134:opt_pmux$1941
+    Consolidated identical input bits for $mux cell $flatten\u_regs.$procmux$388:
+      Old ports: A=4'0000, B=4'1111, Y=$flatten\u_regs.$procmux$388_Y
+      New ports: A=1'0, B=1'1, Y=$flatten\u_regs.$procmux$388_Y [0]
+      New connections: $flatten\u_regs.$procmux$388_Y [3:1] = { $flatten\u_regs.$procmux$388_Y [0] $flatten\u_regs.$procmux$388_Y [0] $flatten\u_regs.$procmux$388_Y [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_regs.$procmux$391:
+      Old ports: A=4'0000, B=4'1111, Y=$flatten\u_regs.$procmux$391_Y
+      New ports: A=1'0, B=1'1, Y=$flatten\u_regs.$procmux$391_Y [0]
+      New connections: $flatten\u_regs.$procmux$391_Y [3:1] = { $flatten\u_regs.$procmux$391_Y [0] $flatten\u_regs.$procmux$391_Y [0] $flatten\u_regs.$procmux$391_Y [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_regs.$procmux$394:
+      Old ports: A=4'0000, B=4'1111, Y=$flatten\u_regs.$procmux$394_Y
+      New ports: A=1'0, B=1'1, Y=$flatten\u_regs.$procmux$394_Y [0]
+      New connections: $flatten\u_regs.$procmux$394_Y [3:1] = { $flatten\u_regs.$procmux$394_Y [0] $flatten\u_regs.$procmux$394_Y [0] $flatten\u_regs.$procmux$394_Y [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_regs.$procmux$397:
+      Old ports: A=4'0000, B=4'1111, Y=$flatten\u_regs.$procmux$397_Y
+      New ports: A=1'0, B=1'1, Y=$flatten\u_regs.$procmux$397_Y [0]
+      New connections: $flatten\u_regs.$procmux$397_Y [3:1] = { $flatten\u_regs.$procmux$397_Y [0] $flatten\u_regs.$procmux$397_Y [0] $flatten\u_regs.$procmux$397_Y [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_regs.$procmux$400:
+      Old ports: A=4'0000, B=4'1111, Y=$flatten\u_regs.$procmux$400_Y
+      New ports: A=1'0, B=1'1, Y=$flatten\u_regs.$procmux$400_Y [0]
+      New connections: $flatten\u_regs.$procmux$400_Y [3:1] = { $flatten\u_regs.$procmux$400_Y [0] $flatten\u_regs.$procmux$400_Y [0] $flatten\u_regs.$procmux$400_Y [0] }
+    New ctrl vector for $pmux cell $flatten\u_control.$procmux$1286: $auto$opt_reduce.cc:134:opt_pmux$1943
+    Consolidated identical input bits for $mux cell $flatten\u_regs.$procmux$403:
+      Old ports: A=4'0000, B=4'1111, Y=$flatten\u_regs.$procmux$403_Y
+      New ports: A=1'0, B=1'1, Y=$flatten\u_regs.$procmux$403_Y [0]
+      New connections: $flatten\u_regs.$procmux$403_Y [3:1] = { $flatten\u_regs.$procmux$403_Y [0] $flatten\u_regs.$procmux$403_Y [0] $flatten\u_regs.$procmux$403_Y [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_regs.$procmux$406:
+      Old ports: A=4'0000, B=4'1111, Y=$flatten\u_regs.$procmux$406_Y
+      New ports: A=1'0, B=1'1, Y=$flatten\u_regs.$procmux$406_Y [0]
+      New connections: $flatten\u_regs.$procmux$406_Y [3:1] = { $flatten\u_regs.$procmux$406_Y [0] $flatten\u_regs.$procmux$406_Y [0] $flatten\u_regs.$procmux$406_Y [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_regs.$procmux$409:
+      Old ports: A=4'0000, B=4'1111, Y=$flatten\u_regs.$procmux$409_Y
+      New ports: A=1'0, B=1'1, Y=$flatten\u_regs.$procmux$409_Y [0]
+      New connections: $flatten\u_regs.$procmux$409_Y [3:1] = { $flatten\u_regs.$procmux$409_Y [0] $flatten\u_regs.$procmux$409_Y [0] $flatten\u_regs.$procmux$409_Y [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_regs.$procmux$412:
+      Old ports: A=4'0000, B=4'1111, Y=$flatten\u_regs.$procmux$412_Y
+      New ports: A=1'0, B=1'1, Y=$flatten\u_regs.$procmux$412_Y [0]
+      New connections: $flatten\u_regs.$procmux$412_Y [3:1] = { $flatten\u_regs.$procmux$412_Y [0] $flatten\u_regs.$procmux$412_Y [0] $flatten\u_regs.$procmux$412_Y [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_regs.$procmux$415:
+      Old ports: A=4'0000, B=4'1111, Y=$flatten\u_regs.$procmux$415_Y
+      New ports: A=1'0, B=1'1, Y=$flatten\u_regs.$procmux$415_Y [0]
+      New connections: $flatten\u_regs.$procmux$415_Y [3:1] = { $flatten\u_regs.$procmux$415_Y [0] $flatten\u_regs.$procmux$415_Y [0] $flatten\u_regs.$procmux$415_Y [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_regs.$procmux$418:
+      Old ports: A=4'0000, B=4'1111, Y=$flatten\u_regs.$procmux$418_Y
+      New ports: A=1'0, B=1'1, Y=$flatten\u_regs.$procmux$418_Y [0]
+      New connections: $flatten\u_regs.$procmux$418_Y [3:1] = { $flatten\u_regs.$procmux$418_Y [0] $flatten\u_regs.$procmux$418_Y [0] $flatten\u_regs.$procmux$418_Y [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_regs.$procmux$421:
+      Old ports: A=4'0000, B=4'1111, Y=$flatten\u_regs.$procmux$421_Y
+      New ports: A=1'0, B=1'1, Y=$flatten\u_regs.$procmux$421_Y [0]
+      New connections: $flatten\u_regs.$procmux$421_Y [3:1] = { $flatten\u_regs.$procmux$421_Y [0] $flatten\u_regs.$procmux$421_Y [0] $flatten\u_regs.$procmux$421_Y [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_regs.$procmux$424:
+      Old ports: A=4'0000, B=4'1111, Y=$flatten\u_regs.$procmux$424_Y
+      New ports: A=1'0, B=1'1, Y=$flatten\u_regs.$procmux$424_Y [0]
+      New connections: $flatten\u_regs.$procmux$424_Y [3:1] = { $flatten\u_regs.$procmux$424_Y [0] $flatten\u_regs.$procmux$424_Y [0] $flatten\u_regs.$procmux$424_Y [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_addr.$procmux$734:
+      Old ports: A=12'000000000000, B=12'111111111111, Y=$flatten\u_addr.$procmux$734_Y
+      New ports: A=1'0, B=1'1, Y=$flatten\u_addr.$procmux$734_Y [0]
+      New connections: $flatten\u_addr.$procmux$734_Y [11:1] = { $flatten\u_addr.$procmux$734_Y [0] $flatten\u_addr.$procmux$734_Y [0] $flatten\u_addr.$procmux$734_Y [0] $flatten\u_addr.$procmux$734_Y [0] $flatten\u_addr.$procmux$734_Y [0] $flatten\u_addr.$procmux$734_Y [0] $flatten\u_addr.$procmux$734_Y [0] $flatten\u_addr.$procmux$734_Y [0] $flatten\u_addr.$procmux$734_Y [0] $flatten\u_addr.$procmux$734_Y [0] $flatten\u_addr.$procmux$734_Y [0] }
+    New ctrl vector for $pmux cell $flatten\u_control.$procmux$1314: $auto$opt_reduce.cc:134:opt_pmux$1945
+    Consolidated identical input bits for $mux cell $flatten\u_regs.$procmux$427:
+      Old ports: A=4'0000, B=4'1111, Y=$flatten\u_regs.$procmux$427_Y
+      New ports: A=1'0, B=1'1, Y=$flatten\u_regs.$procmux$427_Y [0]
+      New connections: $flatten\u_regs.$procmux$427_Y [3:1] = { $flatten\u_regs.$procmux$427_Y [0] $flatten\u_regs.$procmux$427_Y [0] $flatten\u_regs.$procmux$427_Y [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_regs.$procmux$430:
+      Old ports: A=4'0000, B=4'1111, Y=$flatten\u_regs.$procmux$430_Y
+      New ports: A=1'0, B=1'1, Y=$flatten\u_regs.$procmux$430_Y [0]
+      New connections: $flatten\u_regs.$procmux$430_Y [3:1] = { $flatten\u_regs.$procmux$430_Y [0] $flatten\u_regs.$procmux$430_Y [0] $flatten\u_regs.$procmux$430_Y [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_regs.$procmux$433:
+      Old ports: A=4'0000, B=4'1111, Y=$flatten\u_regs.$procmux$433_Y
+      New ports: A=1'0, B=1'1, Y=$flatten\u_regs.$procmux$433_Y [0]
+      New connections: $flatten\u_regs.$procmux$433_Y [3:1] = { $flatten\u_regs.$procmux$433_Y [0] $flatten\u_regs.$procmux$433_Y [0] $flatten\u_regs.$procmux$433_Y [0] }
+    New ctrl vector for $pmux cell $flatten\u_control.$procmux$1342: $auto$opt_reduce.cc:134:opt_pmux$1947
+    New ctrl vector for $pmux cell $flatten\u_control.$procmux$1378: $auto$opt_reduce.cc:134:opt_pmux$1949
+    New ctrl vector for $pmux cell $flatten\u_control.$procmux$1451: $auto$opt_reduce.cc:134:opt_pmux$1951
+    New ctrl vector for $pmux cell $flatten\u_control.$procmux$1509: { $auto$opt_reduce.cc:134:opt_pmux$1955 $auto$opt_reduce.cc:134:opt_pmux$1953 $flatten\u_control.$eq$rtl/control/i4004_control.v:65$20_Y }
+    New ctrl vector for $pmux cell $flatten\u_control.$procmux$1527: { $flatten\u_control.$procmux$1516_CMP $flatten\u_control.$procmux$1515_CMP $auto$opt_reduce.cc:134:opt_pmux$1957 $flatten\u_control.$eq$rtl/control/i4004_control.v:65$20_Y $flatten\u_control.$eq$rtl/control/i4004_control.v:214$69_Y }
+    New ctrl vector for $pmux cell $flatten\u_control.$procmux$1546: { $flatten\u_control.$eq$rtl/control/i4004_control.v:65$20_Y $auto$opt_reduce.cc:134:opt_pmux$1959 }
+    Consolidated identical input bits for $mux cell $flatten\u_addr.$procmux$590:
+      Old ports: A=12'000000000000, B=12'111111111111, Y=$flatten\u_addr.$procmux$590_Y
+      New ports: A=1'0, B=1'1, Y=$flatten\u_addr.$procmux$590_Y [0]
+      New connections: $flatten\u_addr.$procmux$590_Y [11:1] = { $flatten\u_addr.$procmux$590_Y [0] $flatten\u_addr.$procmux$590_Y [0] $flatten\u_addr.$procmux$590_Y [0] $flatten\u_addr.$procmux$590_Y [0] $flatten\u_addr.$procmux$590_Y [0] $flatten\u_addr.$procmux$590_Y [0] $flatten\u_addr.$procmux$590_Y [0] $flatten\u_addr.$procmux$590_Y [0] $flatten\u_addr.$procmux$590_Y [0] $flatten\u_addr.$procmux$590_Y [0] $flatten\u_addr.$procmux$590_Y [0] }
+    New ctrl vector for $pmux cell $flatten\u_alu.$procmux$542: { $flatten\u_alu.$procmux$551_CMP $flatten\u_alu.$procmux$550_CMP $flatten\u_alu.$procmux$549_CMP $flatten\u_alu.$procmux$548_CMP $flatten\u_alu.$procmux$546_CMP $auto$opt_reduce.cc:134:opt_pmux$1961 $flatten\u_alu.$procmux$544_CMP $flatten\u_alu.$procmux$516_CMP }
+    New ctrl vector for $pmux cell $flatten\u_control.$procmux$1840: { $auto$opt_reduce.cc:134:opt_pmux$1963 $flatten\u_control.$eq$rtl/control/i4004_control.v:111$42_Y $flatten\u_control.$eq$rtl/control/i4004_control.v:133$66_Y }
+    Consolidated identical input bits for $mux cell $flatten\u_addr.$procmux$924:
+      Old ports: A=12'000000000000, B=12'111111111111, Y=$flatten\u_addr.$procmux$924_Y
+      New ports: A=1'0, B=1'1, Y=$flatten\u_addr.$procmux$924_Y [0]
+      New connections: $flatten\u_addr.$procmux$924_Y [11:1] = { $flatten\u_addr.$procmux$924_Y [0] $flatten\u_addr.$procmux$924_Y [0] $flatten\u_addr.$procmux$924_Y [0] $flatten\u_addr.$procmux$924_Y [0] $flatten\u_addr.$procmux$924_Y [0] $flatten\u_addr.$procmux$924_Y [0] $flatten\u_addr.$procmux$924_Y [0] $flatten\u_addr.$procmux$924_Y [0] $flatten\u_addr.$procmux$924_Y [0] $flatten\u_addr.$procmux$924_Y [0] $flatten\u_addr.$procmux$924_Y [0] }
+    New input vector for $reduce_or cell $auto$opt_reduce.cc:128:opt_pmux$1946: { $flatten\u_control.$eq$rtl/control/i4004_control.v:214$70_Y $flatten\u_control.$procmux$1343_CMP $flatten\u_control.$procmux$1344_CMP [5:4] $flatten\u_control.$procmux$1344_CMP [2:0] $flatten\u_control.$procmux$1345_CMP }
+    New input vector for $reduce_or cell $auto$opt_reduce.cc:128:opt_pmux$1948: { $flatten\u_control.$eq$rtl/control/i4004_control.v:214$70_Y $flatten\u_control.$procmux$1343_CMP $flatten\u_control.$procmux$1344_CMP [5:4] $flatten\u_control.$procmux$1344_CMP [2:0] $flatten\u_control.$procmux$1345_CMP }
+  Optimizing cells in module \i4004.
+    Consolidated identical input bits for $mux cell $flatten\u_addr.$procmux$950:
+      Old ports: A=12'000000000000, B=$flatten\u_addr.$3$memwr$\slot$rtl/datapath/i4004_addr.v:26$83_EN[11:0]$136, Y=$flatten\u_addr.$procmux$950_Y
+      New ports: A=1'0, B=$flatten\u_addr.$procmux$924_Y [0], Y=$flatten\u_addr.$procmux$950_Y [0]
+      New connections: $flatten\u_addr.$procmux$950_Y [11:1] = { $flatten\u_addr.$procmux$950_Y [0] $flatten\u_addr.$procmux$950_Y [0] $flatten\u_addr.$procmux$950_Y [0] $flatten\u_addr.$procmux$950_Y [0] $flatten\u_addr.$procmux$950_Y [0] $flatten\u_addr.$procmux$950_Y [0] $flatten\u_addr.$procmux$950_Y [0] $flatten\u_addr.$procmux$950_Y [0] $flatten\u_addr.$procmux$950_Y [0] $flatten\u_addr.$procmux$950_Y [0] $flatten\u_addr.$procmux$950_Y [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_addr.$procmux$689:
+      Old ports: A=$flatten\u_addr.$6$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_EN[11:0]$165, B=12'000000000000, Y=$flatten\u_addr.$procmux$689_Y
+      New ports: A=$flatten\u_addr.$procmux$590_Y [0], B=1'0, Y=$flatten\u_addr.$procmux$689_Y [0]
+      New connections: $flatten\u_addr.$procmux$689_Y [11:1] = { $flatten\u_addr.$procmux$689_Y [0] $flatten\u_addr.$procmux$689_Y [0] $flatten\u_addr.$procmux$689_Y [0] $flatten\u_addr.$procmux$689_Y [0] $flatten\u_addr.$procmux$689_Y [0] $flatten\u_addr.$procmux$689_Y [0] $flatten\u_addr.$procmux$689_Y [0] $flatten\u_addr.$procmux$689_Y [0] $flatten\u_addr.$procmux$689_Y [0] $flatten\u_addr.$procmux$689_Y [0] $flatten\u_addr.$procmux$689_Y [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_regs.$procmux$349:
+      Old ports: A=$flatten\u_regs.$3$memwr$\r$rtl/datapath/i4004_regs.v:28$204_EN[3:0]$275, B=4'0000, Y=$flatten\u_regs.$procmux$349_Y
+      New ports: A=$flatten\u_regs.$procmux$277_Y [0], B=1'0, Y=$flatten\u_regs.$procmux$349_Y [0]
+      New connections: $flatten\u_regs.$procmux$349_Y [3:1] = { $flatten\u_regs.$procmux$349_Y [0] $flatten\u_regs.$procmux$349_Y [0] $flatten\u_regs.$procmux$349_Y [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_regs.$procmux$367:
+      Old ports: A=$flatten\u_regs.$3$memwr$\r$rtl/datapath/i4004_regs.v:27$203_EN[3:0]$272, B=4'0000, Y=$flatten\u_regs.$procmux$367_Y
+      New ports: A=$flatten\u_regs.$procmux$304_Y [0], B=1'0, Y=$flatten\u_regs.$procmux$367_Y [0]
+      New connections: $flatten\u_regs.$procmux$367_Y [3:1] = { $flatten\u_regs.$procmux$367_Y [0] $flatten\u_regs.$procmux$367_Y [0] $flatten\u_regs.$procmux$367_Y [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_regs.$procmux$454:
+      Old ports: A=$flatten\u_regs.$2$memwr$\r$rtl/datapath/i4004_regs.v:25$202_EN[3:0]$263, B=4'0000, Y=$flatten\u_regs.$procmux$454_Y
+      New ports: A=$flatten\u_regs.$procmux$331_Y [0], B=1'0, Y=$flatten\u_regs.$procmux$454_Y [0]
+      New connections: $flatten\u_regs.$procmux$454_Y [3:1] = { $flatten\u_regs.$procmux$454_Y [0] $flatten\u_regs.$procmux$454_Y [0] $flatten\u_regs.$procmux$454_Y [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_addr.$procmux$806:
+      Old ports: A=$flatten\u_addr.$5$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_EN[11:0]$159, B=12'000000000000, Y=$flatten\u_addr.$procmux$806_Y
+      New ports: A=$flatten\u_addr.$procmux$644_Y [0], B=1'0, Y=$flatten\u_addr.$procmux$806_Y [0]
+      New connections: $flatten\u_addr.$procmux$806_Y [11:1] = { 4'0000 $flatten\u_addr.$procmux$806_Y [0] $flatten\u_addr.$procmux$806_Y [0] $flatten\u_addr.$procmux$806_Y [0] $flatten\u_addr.$procmux$806_Y [0] $flatten\u_addr.$procmux$806_Y [0] $flatten\u_addr.$procmux$806_Y [0] $flatten\u_addr.$procmux$806_Y [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_addr.$procmux$896:
+      Old ports: A=$flatten\u_addr.$4$memwr$\slot$rtl/datapath/i4004_addr.v:30$84_EN[11:0]$150, B=12'000000000000, Y=$flatten\u_addr.$procmux$896_Y
+      New ports: A=$flatten\u_addr.$procmux$734_Y [0], B=1'0, Y=$flatten\u_addr.$procmux$896_Y [0]
+      New connections: $flatten\u_addr.$procmux$896_Y [11:1] = { $flatten\u_addr.$procmux$896_Y [0] $flatten\u_addr.$procmux$896_Y [0] $flatten\u_addr.$procmux$896_Y [0] $flatten\u_addr.$procmux$896_Y [0] $flatten\u_addr.$procmux$896_Y [0] $flatten\u_addr.$procmux$896_Y [0] $flatten\u_addr.$procmux$896_Y [0] $flatten\u_addr.$procmux$896_Y [0] $flatten\u_addr.$procmux$896_Y [0] $flatten\u_addr.$procmux$896_Y [0] $flatten\u_addr.$procmux$896_Y [0] }
+  Optimizing cells in module \i4004.
+    Consolidated identical input bits for $mux cell $flatten\u_addr.$procmux$1004:
+      Old ports: A=$flatten\u_addr.$3$memwr$\slot$rtl/datapath/i4004_addr.v:30$84_EN[11:0]$140, B=12'000000000000, Y=$flatten\u_addr.$procmux$1004_Y
+      New ports: A=$flatten\u_addr.$procmux$896_Y [0], B=1'0, Y=$flatten\u_addr.$procmux$1004_Y [0]
+      New connections: $flatten\u_addr.$procmux$1004_Y [11:1] = { $flatten\u_addr.$procmux$1004_Y [0] $flatten\u_addr.$procmux$1004_Y [0] $flatten\u_addr.$procmux$1004_Y [0] $flatten\u_addr.$procmux$1004_Y [0] $flatten\u_addr.$procmux$1004_Y [0] $flatten\u_addr.$procmux$1004_Y [0] $flatten\u_addr.$procmux$1004_Y [0] $flatten\u_addr.$procmux$1004_Y [0] $flatten\u_addr.$procmux$1004_Y [0] $flatten\u_addr.$procmux$1004_Y [0] $flatten\u_addr.$procmux$1004_Y [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_regs.$procmux$436:
+      Old ports: A=$flatten\u_regs.$2$memwr$\r$rtl/datapath/i4004_regs.v:28$204_EN[3:0]$269, B=4'0000, Y=$flatten\u_regs.$procmux$436_Y
+      New ports: A=$flatten\u_regs.$procmux$349_Y [0], B=1'0, Y=$flatten\u_regs.$procmux$436_Y [0]
+      New connections: $flatten\u_regs.$procmux$436_Y [3:1] = { $flatten\u_regs.$procmux$436_Y [0] $flatten\u_regs.$procmux$436_Y [0] $flatten\u_regs.$procmux$436_Y [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_regs.$procmux$445:
+      Old ports: A=$flatten\u_regs.$2$memwr$\r$rtl/datapath/i4004_regs.v:27$203_EN[3:0]$266, B=4'0000, Y=$flatten\u_regs.$procmux$445_Y
+      New ports: A=$flatten\u_regs.$procmux$367_Y [0], B=1'0, Y=$flatten\u_regs.$procmux$445_Y [0]
+      New connections: $flatten\u_regs.$procmux$445_Y [3:1] = { $flatten\u_regs.$procmux$445_Y [0] $flatten\u_regs.$procmux$445_Y [0] $flatten\u_regs.$procmux$445_Y [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_addr.$procmux$770:
+      Old ports: A=$flatten\u_addr.$5$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_EN[11:0]$162, B=12'000000000000, Y=$flatten\u_addr.$procmux$770_Y
+      New ports: A=$flatten\u_addr.$procmux$689_Y [0], B=1'0, Y=$flatten\u_addr.$procmux$770_Y [0]
+      New connections: $flatten\u_addr.$procmux$770_Y [11:1] = { $flatten\u_addr.$procmux$770_Y [0] $flatten\u_addr.$procmux$770_Y [0] $flatten\u_addr.$procmux$770_Y [0] $flatten\u_addr.$procmux$770_Y [0] $flatten\u_addr.$procmux$770_Y [0] $flatten\u_addr.$procmux$770_Y [0] $flatten\u_addr.$procmux$770_Y [0] $flatten\u_addr.$procmux$770_Y [0] $flatten\u_addr.$procmux$770_Y [0] $flatten\u_addr.$procmux$770_Y [0] $flatten\u_addr.$procmux$770_Y [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_addr.$procmux$869:
+      Old ports: A=$flatten\u_addr.$4$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_EN[11:0]$153, B=12'000000000000, Y=$flatten\u_addr.$procmux$869_Y
+      New ports: A=$flatten\u_addr.$procmux$806_Y [0], B=1'0, Y=$flatten\u_addr.$procmux$869_Y [0]
+      New connections: $flatten\u_addr.$procmux$869_Y [11:1] = { 4'0000 $flatten\u_addr.$procmux$869_Y [0] $flatten\u_addr.$procmux$869_Y [0] $flatten\u_addr.$procmux$869_Y [0] $flatten\u_addr.$procmux$869_Y [0] $flatten\u_addr.$procmux$869_Y [0] $flatten\u_addr.$procmux$869_Y [0] $flatten\u_addr.$procmux$869_Y [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_addr.$procmux$1064:
+      Old ports: A=$flatten\u_addr.$2$memwr$\slot$rtl/datapath/i4004_addr.v:26$83_EN[11:0]$123, B=12'000000000000, Y=$flatten\u_addr.$procmux$1064_Y
+      New ports: A=$flatten\u_addr.$procmux$950_Y [0], B=1'0, Y=$flatten\u_addr.$procmux$1064_Y [0]
+      New connections: $flatten\u_addr.$procmux$1064_Y [11:1] = { $flatten\u_addr.$procmux$1064_Y [0] $flatten\u_addr.$procmux$1064_Y [0] $flatten\u_addr.$procmux$1064_Y [0] $flatten\u_addr.$procmux$1064_Y [0] $flatten\u_addr.$procmux$1064_Y [0] $flatten\u_addr.$procmux$1064_Y [0] $flatten\u_addr.$procmux$1064_Y [0] $flatten\u_addr.$procmux$1064_Y [0] $flatten\u_addr.$procmux$1064_Y [0] $flatten\u_addr.$procmux$1064_Y [0] $flatten\u_addr.$procmux$1064_Y [0] }
+  Optimizing cells in module \i4004.
+    Consolidated identical input bits for $mux cell $flatten\u_addr.$procmux$986:
+      Old ports: A=$flatten\u_addr.$3$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_EN[11:0]$143, B=12'000000000000, Y=$flatten\u_addr.$procmux$986_Y
+      New ports: A=$flatten\u_addr.$procmux$869_Y [0], B=1'0, Y=$flatten\u_addr.$procmux$986_Y [0]
+      New connections: $flatten\u_addr.$procmux$986_Y [11:1] = { 4'0000 $flatten\u_addr.$procmux$986_Y [0] $flatten\u_addr.$procmux$986_Y [0] $flatten\u_addr.$procmux$986_Y [0] $flatten\u_addr.$procmux$986_Y [0] $flatten\u_addr.$procmux$986_Y [0] $flatten\u_addr.$procmux$986_Y [0] $flatten\u_addr.$procmux$986_Y [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_addr.$procmux$842:
+      Old ports: A=$flatten\u_addr.$4$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_EN[11:0]$156, B=12'000000000000, Y=$flatten\u_addr.$procmux$842_Y
+      New ports: A=$flatten\u_addr.$procmux$770_Y [0], B=1'0, Y=$flatten\u_addr.$procmux$842_Y [0]
+      New connections: $flatten\u_addr.$procmux$842_Y [11:1] = { $flatten\u_addr.$procmux$842_Y [0] $flatten\u_addr.$procmux$842_Y [0] $flatten\u_addr.$procmux$842_Y [0] $flatten\u_addr.$procmux$842_Y [0] $flatten\u_addr.$procmux$842_Y [0] $flatten\u_addr.$procmux$842_Y [0] $flatten\u_addr.$procmux$842_Y [0] $flatten\u_addr.$procmux$842_Y [0] $flatten\u_addr.$procmux$842_Y [0] $flatten\u_addr.$procmux$842_Y [0] $flatten\u_addr.$procmux$842_Y [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_addr.$procmux$1055:
+      Old ports: A=$flatten\u_addr.$2$memwr$\slot$rtl/datapath/i4004_addr.v:30$84_EN[11:0]$126, B=12'000000000000, Y=$flatten\u_addr.$procmux$1055_Y
+      New ports: A=$flatten\u_addr.$procmux$1004_Y [0], B=1'0, Y=$flatten\u_addr.$procmux$1055_Y [0]
+      New connections: $flatten\u_addr.$procmux$1055_Y [11:1] = { $flatten\u_addr.$procmux$1055_Y [0] $flatten\u_addr.$procmux$1055_Y [0] $flatten\u_addr.$procmux$1055_Y [0] $flatten\u_addr.$procmux$1055_Y [0] $flatten\u_addr.$procmux$1055_Y [0] $flatten\u_addr.$procmux$1055_Y [0] $flatten\u_addr.$procmux$1055_Y [0] $flatten\u_addr.$procmux$1055_Y [0] $flatten\u_addr.$procmux$1055_Y [0] $flatten\u_addr.$procmux$1055_Y [0] $flatten\u_addr.$procmux$1055_Y [0] }
+  Optimizing cells in module \i4004.
+    Consolidated identical input bits for $mux cell $flatten\u_addr.$procmux$968:
+      Old ports: A=$flatten\u_addr.$3$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_EN[11:0]$146, B=12'000000000000, Y=$flatten\u_addr.$procmux$968_Y
+      New ports: A=$flatten\u_addr.$procmux$842_Y [0], B=1'0, Y=$flatten\u_addr.$procmux$968_Y [0]
+      New connections: $flatten\u_addr.$procmux$968_Y [11:1] = { $flatten\u_addr.$procmux$968_Y [0] $flatten\u_addr.$procmux$968_Y [0] $flatten\u_addr.$procmux$968_Y [0] $flatten\u_addr.$procmux$968_Y [0] $flatten\u_addr.$procmux$968_Y [0] $flatten\u_addr.$procmux$968_Y [0] $flatten\u_addr.$procmux$968_Y [0] $flatten\u_addr.$procmux$968_Y [0] $flatten\u_addr.$procmux$968_Y [0] $flatten\u_addr.$procmux$968_Y [0] $flatten\u_addr.$procmux$968_Y [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_addr.$procmux$1046:
+      Old ports: A=$flatten\u_addr.$2$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_EN[11:0]$129, B=12'000000000000, Y=$flatten\u_addr.$procmux$1046_Y
+      New ports: A=$flatten\u_addr.$procmux$986_Y [0], B=1'0, Y=$flatten\u_addr.$procmux$1046_Y [0]
+      New connections: $flatten\u_addr.$procmux$1046_Y [11:1] = { 4'0000 $flatten\u_addr.$procmux$1046_Y [0] $flatten\u_addr.$procmux$1046_Y [0] $flatten\u_addr.$procmux$1046_Y [0] $flatten\u_addr.$procmux$1046_Y [0] $flatten\u_addr.$procmux$1046_Y [0] $flatten\u_addr.$procmux$1046_Y [0] $flatten\u_addr.$procmux$1046_Y [0] }
+  Optimizing cells in module \i4004.
+    Consolidated identical input bits for $mux cell $flatten\u_addr.$procmux$1037:
+      Old ports: A=$flatten\u_addr.$2$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_EN[11:0]$132, B=12'000000000000, Y=$flatten\u_addr.$procmux$1037_Y
+      New ports: A=$flatten\u_addr.$procmux$968_Y [0], B=1'0, Y=$flatten\u_addr.$procmux$1037_Y [0]
+      New connections: $flatten\u_addr.$procmux$1037_Y [11:1] = { $flatten\u_addr.$procmux$1037_Y [0] $flatten\u_addr.$procmux$1037_Y [0] $flatten\u_addr.$procmux$1037_Y [0] $flatten\u_addr.$procmux$1037_Y [0] $flatten\u_addr.$procmux$1037_Y [0] $flatten\u_addr.$procmux$1037_Y [0] $flatten\u_addr.$procmux$1037_Y [0] $flatten\u_addr.$procmux$1037_Y [0] $flatten\u_addr.$procmux$1037_Y [0] $flatten\u_addr.$procmux$1037_Y [0] $flatten\u_addr.$procmux$1037_Y [0] }
+  Optimizing cells in module \i4004.
+Performed a total of 60 changes.
+
+10.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\i4004'.
+<suppressed ~138 debug messages>
+Removed a total of 46 cells.
+
+10.6. Executing OPT_DFF pass (perform DFF optimizations).
+Adding SRST signal on $flatten\u_timing.$procdff$1901 ($dff) from module i4004 (D = $flatten\u_timing.$add$rtl/control/i4004_timing.v:13$73_Y, Q = \u_timing.cnt, rval = 3'000).
+Adding SRST signal on $flatten\u_control.$procdff$1910 ($dff) from module i4004 (D = $flatten\u_control.$procmux$1113_Y, Q = \u_control.test_s, rval = 1'0).
+Adding EN signal on $auto$ff.cc:266:slice$1965 ($sdff) from module i4004 (D = \u_control.test, Q = \u_control.test_s).
+Adding SRST signal on $flatten\u_control.$procdff$1909 ($dff) from module i4004 (D = $flatten\u_control.$procmux$1097_Y, Q = \u_control.ram_bank, rval = 3'000).
+Adding EN signal on $auto$ff.cc:266:slice$1971 ($sdff) from module i4004 (D = \u_control.acc [2:0], Q = \u_control.ram_bank).
+Adding SRST signal on $flatten\u_control.$procdff$1908 ($dff) from module i4004 (D = $flatten\u_control.$procmux$1087_Y, Q = \u_control.src_hi, rval = 4'0000).
+Adding EN signal on $auto$ff.cc:266:slice$1977 ($sdff) from module i4004 (D = \u_control.p_data [7:4], Q = \u_control.src_hi).
+Adding SRST signal on $flatten\u_control.$procdff$1907 ($dff) from module i4004 (D = $flatten\u_control.$procmux$1105_Y, Q = \u_control.src_addr, rval = 4'0000).
+Adding EN signal on $auto$ff.cc:266:slice$1981 ($sdff) from module i4004 (D = \u_control.p_data [3:0], Q = \u_control.src_addr).
+Adding SRST signal on $flatten\u_control.$procdff$1906 ($dff) from module i4004 (D = $flatten\u_control.$procmux$1119_Y, Q = \u_control.rd_data, rval = 4'0000).
+Adding EN signal on $auto$ff.cc:266:slice$1985 ($sdff) from module i4004 (D = \u_control.d_in, Q = \u_control.rd_data).
+Adding SRST signal on $flatten\u_control.$procdff$1905 ($dff) from module i4004 (D = $flatten\u_control.$procmux$1126_Y, Q = \u_control.fetch_lo, rval = 4'0000).
+Adding EN signal on $auto$ff.cc:266:slice$1987 ($sdff) from module i4004 (D = \u_control.d_in, Q = \u_control.fetch_lo).
+Adding SRST signal on $flatten\u_control.$procdff$1904 ($dff) from module i4004 (D = $flatten\u_control.$procmux$1134_Y, Q = \u_control.fetch_hi, rval = 4'0000).
+Adding EN signal on $auto$ff.cc:266:slice$1989 ($sdff) from module i4004 (D = \u_control.d_in, Q = \u_control.fetch_hi).
+Adding SRST signal on $flatten\u_control.$procdff$1903 ($dff) from module i4004 (D = $flatten\u_control.$procmux$1142_Y, Q = \u_control.second, rval = 1'0).
+Adding EN signal on $auto$ff.cc:266:slice$1991 ($sdff) from module i4004 (D = $flatten\u_control.$procmux$1140_Y, Q = \u_control.second).
+Adding SRST signal on $flatten\u_control.$procdff$1902 ($dff) from module i4004 (D = $flatten\u_control.$procmux$1150_Y, Q = \u_control.ir, rval = 8'00000000).
+Adding EN signal on $auto$ff.cc:266:slice$1993 ($sdff) from module i4004 (D = { \u_control.fetch_hi \u_control.fetch_lo }, Q = \u_control.ir).
+Adding SRST signal on $flatten\u_alu.$procdff$1882 ($dff) from module i4004 (D = $flatten\u_alu.$procmux$462_Y, Q = \u_alu.cy, rval = 1'0).
+Adding EN signal on $auto$ff.cc:266:slice$1999 ($sdff) from module i4004 (D = \u_alu.n_cy, Q = \u_alu.cy).
+Adding SRST signal on $flatten\u_alu.$procdff$1881 ($dff) from module i4004 (D = $flatten\u_alu.$procmux$467_Y, Q = \u_alu.acc, rval = 4'0000).
+Adding EN signal on $auto$ff.cc:266:slice$2001 ($sdff) from module i4004 (D = \u_alu.n_acc, Q = \u_alu.acc).
+Adding EN signal on $flatten\u_addr.$procdff$1884 ($dff) from module i4004 (D = 4, Q = \u_addr.i).
+Adding SRST signal on $flatten\u_addr.$procdff$1883 ($dff) from module i4004 (D = $flatten\u_addr.$procmux$1076_Y, Q = \u_addr.sp, rval = 2'00).
+Adding EN signal on $auto$ff.cc:266:slice$2004 ($sdff) from module i4004 (D = $flatten\u_addr.$procmux$1076_Y, Q = \u_addr.sp).
+Adding EN signal on $flatten\u_regs.$procdff$1855 ($dff) from module i4004 (D = 16, Q = \u_regs.i).
+Setting constant 0-bit at position 0 on $auto$ff.cc:266:slice$2008 ($dffe) from module i4004.
+Setting constant 0-bit at position 1 on $auto$ff.cc:266:slice$2008 ($dffe) from module i4004.
+Setting constant 0-bit at position 2 on $auto$ff.cc:266:slice$2008 ($dffe) from module i4004.
+Setting constant 0-bit at position 3 on $auto$ff.cc:266:slice$2008 ($dffe) from module i4004.
+Setting constant 1-bit at position 4 on $auto$ff.cc:266:slice$2008 ($dffe) from module i4004.
+Setting constant 0-bit at position 5 on $auto$ff.cc:266:slice$2008 ($dffe) from module i4004.
+Setting constant 0-bit at position 6 on $auto$ff.cc:266:slice$2008 ($dffe) from module i4004.
+Setting constant 0-bit at position 7 on $auto$ff.cc:266:slice$2008 ($dffe) from module i4004.
+Setting constant 0-bit at position 8 on $auto$ff.cc:266:slice$2008 ($dffe) from module i4004.
+Setting constant 0-bit at position 9 on $auto$ff.cc:266:slice$2008 ($dffe) from module i4004.
+Setting constant 0-bit at position 10 on $auto$ff.cc:266:slice$2008 ($dffe) from module i4004.
+Setting constant 0-bit at position 11 on $auto$ff.cc:266:slice$2008 ($dffe) from module i4004.
+Setting constant 0-bit at position 12 on $auto$ff.cc:266:slice$2008 ($dffe) from module i4004.
+Setting constant 0-bit at position 13 on $auto$ff.cc:266:slice$2008 ($dffe) from module i4004.
+Setting constant 0-bit at position 14 on $auto$ff.cc:266:slice$2008 ($dffe) from module i4004.
+Setting constant 0-bit at position 15 on $auto$ff.cc:266:slice$2008 ($dffe) from module i4004.
+Setting constant 0-bit at position 16 on $auto$ff.cc:266:slice$2008 ($dffe) from module i4004.
+Setting constant 0-bit at position 17 on $auto$ff.cc:266:slice$2008 ($dffe) from module i4004.
+Setting constant 0-bit at position 18 on $auto$ff.cc:266:slice$2008 ($dffe) from module i4004.
+Setting constant 0-bit at position 19 on $auto$ff.cc:266:slice$2008 ($dffe) from module i4004.
+Setting constant 0-bit at position 20 on $auto$ff.cc:266:slice$2008 ($dffe) from module i4004.
+Setting constant 0-bit at position 21 on $auto$ff.cc:266:slice$2008 ($dffe) from module i4004.
+Setting constant 0-bit at position 22 on $auto$ff.cc:266:slice$2008 ($dffe) from module i4004.
+Setting constant 0-bit at position 23 on $auto$ff.cc:266:slice$2008 ($dffe) from module i4004.
+Setting constant 0-bit at position 24 on $auto$ff.cc:266:slice$2008 ($dffe) from module i4004.
+Setting constant 0-bit at position 25 on $auto$ff.cc:266:slice$2008 ($dffe) from module i4004.
+Setting constant 0-bit at position 26 on $auto$ff.cc:266:slice$2008 ($dffe) from module i4004.
+Setting constant 0-bit at position 27 on $auto$ff.cc:266:slice$2008 ($dffe) from module i4004.
+Setting constant 0-bit at position 28 on $auto$ff.cc:266:slice$2008 ($dffe) from module i4004.
+Setting constant 0-bit at position 29 on $auto$ff.cc:266:slice$2008 ($dffe) from module i4004.
+Setting constant 0-bit at position 30 on $auto$ff.cc:266:slice$2008 ($dffe) from module i4004.
+Setting constant 0-bit at position 31 on $auto$ff.cc:266:slice$2008 ($dffe) from module i4004.
+Setting constant 0-bit at position 0 on $auto$ff.cc:266:slice$2003 ($dffe) from module i4004.
+Setting constant 0-bit at position 1 on $auto$ff.cc:266:slice$2003 ($dffe) from module i4004.
+Setting constant 1-bit at position 2 on $auto$ff.cc:266:slice$2003 ($dffe) from module i4004.
+Setting constant 0-bit at position 3 on $auto$ff.cc:266:slice$2003 ($dffe) from module i4004.
+Setting constant 0-bit at position 4 on $auto$ff.cc:266:slice$2003 ($dffe) from module i4004.
+Setting constant 0-bit at position 5 on $auto$ff.cc:266:slice$2003 ($dffe) from module i4004.
+Setting constant 0-bit at position 6 on $auto$ff.cc:266:slice$2003 ($dffe) from module i4004.
+Setting constant 0-bit at position 7 on $auto$ff.cc:266:slice$2003 ($dffe) from module i4004.
+Setting constant 0-bit at position 8 on $auto$ff.cc:266:slice$2003 ($dffe) from module i4004.
+Setting constant 0-bit at position 9 on $auto$ff.cc:266:slice$2003 ($dffe) from module i4004.
+Setting constant 0-bit at position 10 on $auto$ff.cc:266:slice$2003 ($dffe) from module i4004.
+Setting constant 0-bit at position 11 on $auto$ff.cc:266:slice$2003 ($dffe) from module i4004.
+Setting constant 0-bit at position 12 on $auto$ff.cc:266:slice$2003 ($dffe) from module i4004.
+Setting constant 0-bit at position 13 on $auto$ff.cc:266:slice$2003 ($dffe) from module i4004.
+Setting constant 0-bit at position 14 on $auto$ff.cc:266:slice$2003 ($dffe) from module i4004.
+Setting constant 0-bit at position 15 on $auto$ff.cc:266:slice$2003 ($dffe) from module i4004.
+Setting constant 0-bit at position 16 on $auto$ff.cc:266:slice$2003 ($dffe) from module i4004.
+Setting constant 0-bit at position 17 on $auto$ff.cc:266:slice$2003 ($dffe) from module i4004.
+Setting constant 0-bit at position 18 on $auto$ff.cc:266:slice$2003 ($dffe) from module i4004.
+Setting constant 0-bit at position 19 on $auto$ff.cc:266:slice$2003 ($dffe) from module i4004.
+Setting constant 0-bit at position 20 on $auto$ff.cc:266:slice$2003 ($dffe) from module i4004.
+Setting constant 0-bit at position 21 on $auto$ff.cc:266:slice$2003 ($dffe) from module i4004.
+Setting constant 0-bit at position 22 on $auto$ff.cc:266:slice$2003 ($dffe) from module i4004.
+Setting constant 0-bit at position 23 on $auto$ff.cc:266:slice$2003 ($dffe) from module i4004.
+Setting constant 0-bit at position 24 on $auto$ff.cc:266:slice$2003 ($dffe) from module i4004.
+Setting constant 0-bit at position 25 on $auto$ff.cc:266:slice$2003 ($dffe) from module i4004.
+Setting constant 0-bit at position 26 on $auto$ff.cc:266:slice$2003 ($dffe) from module i4004.
+Setting constant 0-bit at position 27 on $auto$ff.cc:266:slice$2003 ($dffe) from module i4004.
+Setting constant 0-bit at position 28 on $auto$ff.cc:266:slice$2003 ($dffe) from module i4004.
+Setting constant 0-bit at position 29 on $auto$ff.cc:266:slice$2003 ($dffe) from module i4004.
+Setting constant 0-bit at position 30 on $auto$ff.cc:266:slice$2003 ($dffe) from module i4004.
+Setting constant 0-bit at position 31 on $auto$ff.cc:266:slice$2003 ($dffe) from module i4004.
+
+10.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \i4004..
+Removed 57 unused cells and 1221 unused wires.
+<suppressed ~60 debug messages>
+
+10.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module i4004.
+<suppressed ~1 debug messages>
+
+10.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+10.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \i4004..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~46 debug messages>
+
+10.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \i4004.
+Performed a total of 0 changes.
+
+10.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\i4004'.
+<suppressed ~12 debug messages>
+Removed a total of 4 cells.
+
+10.13. Executing OPT_DFF pass (perform DFF optimizations).
+Adding EN signal on $auto$ff.cc:266:slice$2002 ($sdffe) from module i4004 (D = \u_alu.n_acc, Q = \u_alu.acc).
+Adding EN signal on $auto$ff.cc:266:slice$2000 ($sdffe) from module i4004 (D = \u_alu.n_cy, Q = \u_alu.cy).
+
+10.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \i4004..
+Removed 0 unused cells and 4 unused wires.
+<suppressed ~1 debug messages>
+
+10.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module i4004.
+<suppressed ~2 debug messages>
+
+10.16. Rerunning OPT passes. (Maybe there is more to do..)
+
+10.17. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \i4004..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~46 debug messages>
+
+10.18. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \i4004.
+Performed a total of 0 changes.
+
+10.19. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\i4004'.
+<suppressed ~3 debug messages>
+Removed a total of 1 cells.
+
+10.20. Executing OPT_DFF pass (perform DFF optimizations).
+
+10.21. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \i4004..
+Removed 0 unused cells and 1 unused wires.
+<suppressed ~1 debug messages>
+
+10.22. Executing OPT_EXPR pass (perform const folding).
+Optimizing module i4004.
+
+10.23. Rerunning OPT passes. (Maybe there is more to do..)
+
+10.24. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \i4004..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~46 debug messages>
+
+10.25. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \i4004.
+Performed a total of 0 changes.
+
+10.26. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\i4004'.
+Removed a total of 0 cells.
+
+10.27. Executing OPT_DFF pass (perform DFF optimizations).
+
+10.28. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \i4004..
+
+10.29. Executing OPT_EXPR pass (perform const folding).
+Optimizing module i4004.
+
+10.30. Finished OPT passes. (There is nothing left to do.)
+
+11. Executing MEMORY pass.
+
+11.1. Executing OPT_MEM pass (optimize memories).
+Performed a total of 4 transformations.
+
+11.2. Executing OPT_MEM_PRIORITY pass (removing unnecessary memory write priority relations).
+Performed a total of 127 transformations.
+
+11.3. Executing OPT_MEM_FEEDBACK pass (finding memory read-to-write feedback paths).
+  Analyzing i4004.u_addr.slot write port 0.
+  Analyzing i4004.u_addr.slot write port 1.
+  Analyzing i4004.u_addr.slot write port 2.
+  Analyzing i4004.u_addr.slot write port 3.
+  Analyzing i4004.u_addr.slot write port 4.
+  Analyzing i4004.u_addr.slot write port 5.
+  Analyzing i4004.u_addr.slot write port 6.
+  Analyzing i4004.u_addr.slot write port 7.
+  Analyzing i4004.u_regs.r write port 0.
+  Analyzing i4004.u_regs.r write port 1.
+  Analyzing i4004.u_regs.r write port 2.
+  Analyzing i4004.u_regs.r write port 3.
+  Analyzing i4004.u_regs.r write port 4.
+  Analyzing i4004.u_regs.r write port 5.
+  Analyzing i4004.u_regs.r write port 6.
+  Analyzing i4004.u_regs.r write port 7.
+  Analyzing i4004.u_regs.r write port 8.
+  Analyzing i4004.u_regs.r write port 9.
+  Analyzing i4004.u_regs.r write port 10.
+  Analyzing i4004.u_regs.r write port 11.
+  Analyzing i4004.u_regs.r write port 12.
+  Analyzing i4004.u_regs.r write port 13.
+  Analyzing i4004.u_regs.r write port 14.
+  Analyzing i4004.u_regs.r write port 15.
+  Analyzing i4004.u_regs.r write port 16.
+  Analyzing i4004.u_regs.r write port 17.
+  Analyzing i4004.u_regs.r write port 18.
+
+11.4. Executing MEMORY_BMUX2ROM pass (converting muxes to ROMs).
+
+11.5. Executing MEMORY_DFF pass (merging $dff cells to $memrd).
+Checking read port `\u_addr.slot'[0] in module `\i4004': no output FF found.
+Checking read port `\u_regs.r'[0] in module `\i4004': no output FF found.
+Checking read port `\u_regs.r'[1] in module `\i4004': no output FF found.
+Checking read port `\u_regs.r'[2] in module `\i4004': no output FF found.
+Checking read port address `\u_addr.slot'[0] in module `\i4004': merged address FF to cell.
+Checking read port address `\u_regs.r'[0] in module `\i4004': no address FF found.
+Checking read port address `\u_regs.r'[1] in module `\i4004': no address FF found.
+Checking read port address `\u_regs.r'[2] in module `\i4004': no address FF found.
+
+11.6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \i4004..
+
+11.7. Executing MEMORY_SHARE pass (consolidating $memrd/$memwr cells).
+Consolidating write ports of memory i4004.u_addr.slot by address:
+  Merging ports 0, 1 (address 0).
+  Merging ports 0, 2 (address 0).
+  Merging ports 0, 3 (address 0).
+  Merging ports 5, 6 (address { 30'000000000000000000000000000000 \u_addr.sp }).
+  Merging ports 5, 7 (address { 30'000000000000000000000000000000 \u_addr.sp }).
+Consolidating write ports of memory i4004.u_addr.slot by address:
+Consolidating read ports of memory i4004.u_regs.r by address:
+  Merging ports 0, 1 (address { \u_regs.sel [3:1] 1'0 }).
+Consolidating read ports of memory i4004.u_regs.r by address:
+Consolidating write ports of memory i4004.u_regs.r by address:
+  Merging ports 0, 1 (address 0).
+  Merging ports 0, 2 (address 0).
+  Merging ports 0, 3 (address 0).
+  Merging ports 0, 4 (address 0).
+  Merging ports 0, 5 (address 0).
+  Merging ports 0, 6 (address 0).
+  Merging ports 0, 7 (address 0).
+  Merging ports 0, 8 (address 0).
+  Merging ports 0, 9 (address 0).
+  Merging ports 0, 10 (address 0).
+  Merging ports 0, 11 (address 0).
+  Merging ports 0, 12 (address 0).
+  Merging ports 0, 13 (address 0).
+  Merging ports 0, 14 (address 0).
+  Merging ports 0, 15 (address 0).
+  Merging ports 17, 18 (address { 28'0000000000000000000000000000 \u_regs.sel [3:1] 1'0 }).
+Consolidating write ports of memory i4004.u_regs.r by address:
+Consolidating write ports of memory i4004.u_addr.slot using sat-based resource sharing:
+  Checking group clocked with posedge \clk, width 12: ports 1, 2.
+  Common input cone for all EN signals: 69 cells.
+  Size of unconstrained SAT problem: 544 variables, 1393 clauses
+  Merging port 2 into port 1.
+Consolidating write ports of memory i4004.u_regs.r using sat-based resource sharing:
+
+11.8. Executing OPT_MEM_WIDEN pass (optimize memories where all ports are wide).
+Performed a total of 0 transformations.
+
+11.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \i4004..
+Removed 21 unused cells and 22 unused wires.
+<suppressed ~22 debug messages>
+
+11.10. Executing MEMORY_COLLECT pass (generating $mem cells).
+
+12. Executing MEMORY_MAP pass (converting memories to logic and flip-flops).
+Mapping memory \u_addr.slot in module \i4004:
+  created 4 $dff cells and 0 static cells of width 12.
+Extracted addr FF from read port 0 of i4004.u_addr.slot: $\u_addr.slot$rdreg[0]
+  read interface: 1 $dff and 3 $mux cells.
+  write interface: 12 write mux blocks.
+Mapping memory \u_regs.r in module \i4004:
+  created 16 $dff cells and 0 static cells of width 4.
+  read interface: 0 $dff and 22 $mux cells.
+  write interface: 48 write mux blocks.
+
+13. Executing OPT pass (performing simple optimizations).
+
+13.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module i4004.
+<suppressed ~151 debug messages>
+
+13.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\i4004'.
+<suppressed ~24 debug messages>
+Removed a total of 8 cells.
+
+13.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \i4004..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~73 debug messages>
+
+13.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \i4004.
+    New input vector for $reduce_or cell $auto$memory_share.cc:426:consolidate_wr_using_sat$2052: { $auto$rtlil.cc:2432:Or$2046 $auto$rtlil.cc:2432:Or$2050 }
+  Optimizing cells in module \i4004.
+Performed a total of 1 changes.
+
+13.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\i4004'.
+Removed a total of 0 cells.
+
+13.6. Executing OPT_DFF pass (perform DFF optimizations).
+Adding SRST signal on $\u_addr.slot$rdreg[0] ($dff) from module i4004 (D = $auto$rtlil.cc:2498:Mux$2033, Q = $\u_addr.slot$rdreg[0]$q, rval = 2'00).
+
+13.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \i4004..
+Removed 1 unused cells and 164 unused wires.
+<suppressed ~2 debug messages>
+
+13.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module i4004.
+
+13.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+13.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \i4004..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~74 debug messages>
+
+13.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \i4004.
+Performed a total of 0 changes.
+
+13.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\i4004'.
+Removed a total of 0 cells.
+
+13.13. Executing OPT_DFF pass (perform DFF optimizations).
+Adding EN signal on $memory\u_regs.r[9]$2319 ($dff) from module i4004 (D = $memory\u_regs.r$wrmux[9][2][0]$y$2692, Q = \u_regs.r[9]).
+Adding EN signal on $memory\u_regs.r[8]$2317 ($dff) from module i4004 (D = $memory\u_regs.r$wrmux[8][2][0]$y$2672, Q = \u_regs.r[8]).
+Adding EN signal on $memory\u_regs.r[7]$2315 ($dff) from module i4004 (D = $memory\u_regs.r$wrmux[7][2][0]$y$2636, Q = \u_regs.r[7]).
+Adding EN signal on $memory\u_regs.r[6]$2313 ($dff) from module i4004 (D = $memory\u_regs.r$wrmux[6][2][0]$y$2616, Q = \u_regs.r[6]).
+Adding EN signal on $memory\u_regs.r[5]$2311 ($dff) from module i4004 (D = $memory\u_regs.r$wrmux[5][2][0]$y$2588, Q = \u_regs.r[5]).
+Adding EN signal on $memory\u_regs.r[4]$2309 ($dff) from module i4004 (D = $memory\u_regs.r$wrmux[4][2][0]$y$2568, Q = \u_regs.r[4]).
+Adding EN signal on $memory\u_regs.r[3]$2307 ($dff) from module i4004 (D = $memory\u_regs.r$wrmux[3][2][0]$y$2532, Q = \u_regs.r[3]).
+Adding EN signal on $memory\u_regs.r[2]$2305 ($dff) from module i4004 (D = $memory\u_regs.r$wrmux[2][2][0]$y$2510, Q = \u_regs.r[2]).
+Adding EN signal on $memory\u_regs.r[1]$2303 ($dff) from module i4004 (D = $memory\u_regs.r$wrmux[1][2][0]$y$2476, Q = \u_regs.r[1]).
+Adding EN signal on $memory\u_regs.r[15]$2331 ($dff) from module i4004 (D = $memory\u_regs.r$wrmux[15][2][0]$y$2840, Q = \u_regs.r[15]).
+Adding EN signal on $memory\u_regs.r[14]$2329 ($dff) from module i4004 (D = $memory\u_regs.r$wrmux[14][2][0]$y$2820, Q = \u_regs.r[14]).
+Adding EN signal on $memory\u_regs.r[13]$2327 ($dff) from module i4004 (D = $memory\u_regs.r$wrmux[13][2][0]$y$2792, Q = \u_regs.r[13]).
+Adding EN signal on $memory\u_regs.r[12]$2325 ($dff) from module i4004 (D = $memory\u_regs.r$wrmux[12][2][0]$y$2772, Q = \u_regs.r[12]).
+Adding EN signal on $memory\u_regs.r[11]$2323 ($dff) from module i4004 (D = $memory\u_regs.r$wrmux[11][2][0]$y$2740, Q = \u_regs.r[11]).
+Adding EN signal on $memory\u_regs.r[10]$2321 ($dff) from module i4004 (D = $memory\u_regs.r$wrmux[10][2][0]$y$2720, Q = \u_regs.r[10]).
+Adding EN signal on $memory\u_regs.r[0]$2301 ($dff) from module i4004 (D = $memory\u_regs.r$wrmux[0][2][0]$y$2452, Q = \u_regs.r[0]).
+Adding EN signal on $memory\u_addr.slot[3]$2066 ($dff) from module i4004 (D = $memory\u_addr.slot$wrmux[3][1][8]$y$2300, Q = \u_addr.slot[3] [11:8]).
+Adding EN signal on $memory\u_addr.slot[3]$2066 ($dff) from module i4004 (D = $memory\u_addr.slot$wrmux[3][1][0]$y$2296, Q = \u_addr.slot[3] [7:0]).
+Adding EN signal on $memory\u_addr.slot[2]$2064 ($dff) from module i4004 (D = $memory\u_addr.slot$wrmux[2][1][8]$y$2278, Q = \u_addr.slot[2] [11:8]).
+Adding EN signal on $memory\u_addr.slot[2]$2064 ($dff) from module i4004 (D = $memory\u_addr.slot$wrmux[2][1][0]$y$2274, Q = \u_addr.slot[2] [7:0]).
+Adding EN signal on $memory\u_addr.slot[1]$2062 ($dff) from module i4004 (D = $memory\u_addr.slot$wrmux[1][1][8]$y$2254, Q = \u_addr.slot[1] [11:8]).
+Adding EN signal on $memory\u_addr.slot[1]$2062 ($dff) from module i4004 (D = $memory\u_addr.slot$wrmux[1][1][0]$y$2250, Q = \u_addr.slot[1] [7:0]).
+Adding EN signal on $memory\u_addr.slot[0]$2060 ($dff) from module i4004 (D = $memory\u_addr.slot$wrmux[0][1][8]$y$2230, Q = \u_addr.slot[0] [11:8]).
+Adding EN signal on $memory\u_addr.slot[0]$2060 ($dff) from module i4004 (D = $memory\u_addr.slot$wrmux[0][1][0]$y$2226, Q = \u_addr.slot[0] [7:0]).
+
+13.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \i4004..
+
+13.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module i4004.
+<suppressed ~24 debug messages>
+
+13.16. Rerunning OPT passes. (Maybe there is more to do..)
+
+13.17. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \i4004..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~74 debug messages>
+
+13.18. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \i4004.
+Performed a total of 0 changes.
+
+13.19. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\i4004'.
+<suppressed ~54 debug messages>
+Removed a total of 18 cells.
+
+13.20. Executing OPT_DFF pass (perform DFF optimizations).
+
+13.21. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \i4004..
+Removed 0 unused cells and 18 unused wires.
+<suppressed ~1 debug messages>
+
+13.22. Executing OPT_EXPR pass (perform const folding).
+Optimizing module i4004.
+
+13.23. Rerunning OPT passes. (Maybe there is more to do..)
+
+13.24. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \i4004..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~72 debug messages>
+
+13.25. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \i4004.
+Performed a total of 0 changes.
+
+13.26. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\i4004'.
+Removed a total of 0 cells.
+
+13.27. Executing OPT_DFF pass (perform DFF optimizations).
+
+13.28. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \i4004..
+
+13.29. Executing OPT_EXPR pass (perform const folding).
+Optimizing module i4004.
+
+13.30. Finished OPT passes. (There is nothing left to do.)
+
+14. Executing TECHMAP pass (map to technology primitives).
+
+14.1. Executing Verilog-2005 frontend: /usr/bin/../share/yosys/techmap.v
+Parsing Verilog input from `/usr/bin/../share/yosys/techmap.v' to AST representation.
+Generating RTLIL representation for module `\_90_simplemap_bool_ops'.
+Generating RTLIL representation for module `\_90_simplemap_reduce_ops'.
+Generating RTLIL representation for module `\_90_simplemap_logic_ops'.
+Generating RTLIL representation for module `\_90_simplemap_compare_ops'.
+Generating RTLIL representation for module `\_90_simplemap_various'.
+Generating RTLIL representation for module `\_90_simplemap_registers'.
+Generating RTLIL representation for module `\_90_shift_ops_shr_shl_sshl_sshr'.
+Generating RTLIL representation for module `\_90_shift_shiftx'.
+Generating RTLIL representation for module `\_90_fa'.
+Generating RTLIL representation for module `\_90_lcu'.
+Generating RTLIL representation for module `\_90_alu'.
+Generating RTLIL representation for module `\_90_macc'.
+Generating RTLIL representation for module `\_90_alumacc'.
+Generating RTLIL representation for module `\$__div_mod_u'.
+Generating RTLIL representation for module `\$__div_mod_trunc'.
+Generating RTLIL representation for module `\_90_div'.
+Generating RTLIL representation for module `\_90_mod'.
+Generating RTLIL representation for module `\$__div_mod_floor'.
+Generating RTLIL representation for module `\_90_divfloor'.
+Generating RTLIL representation for module `\_90_modfloor'.
+Generating RTLIL representation for module `\_90_pow'.
+Generating RTLIL representation for module `\_90_pmux'.
+Generating RTLIL representation for module `\_90_demux'.
+Generating RTLIL representation for module `\_90_lut'.
+Successfully finished Verilog frontend.
+
+14.2. Continuing TECHMAP pass.
+Using extmapper simplemap for cells of type $and.
+Using extmapper simplemap for cells of type $mux.
+Running "alumacc" on wrapper $extern:wrap:$add:A_SIGNED=0:A_WIDTH=3:B_SIGNED=0:B_WIDTH=3:Y_WIDTH=3:394426c56d1a028ba8fdd5469b163e04011def47.
+Using template $extern:wrap:$add:A_SIGNED=0:A_WIDTH=3:B_SIGNED=0:B_WIDTH=3:Y_WIDTH=3:394426c56d1a028ba8fdd5469b163e04011def47 for cells of type $extern:wrap:$add:A_SIGNED=0:A_WIDTH=3:B_SIGNED=0:B_WIDTH=3:Y_WIDTH=3:394426c56d1a028ba8fdd5469b163e04011def47.
+Using extmapper simplemap for cells of type $dffe.
+Using extmapper simplemap for cells of type $reduce_bool.
+Using extmapper simplemap for cells of type $sdff.
+Using extmapper simplemap for cells of type $sdffe.
+Using extmapper simplemap for cells of type $logic_not.
+Using extmapper simplemap for cells of type $eq.
+Using template $paramod$33afdd83bf3811dac2de7a968d39eea5718691bc\_90_pmux for cells of type $pmux.
+Using template $paramod$d629d85c8826a74239b9178d1930215a43b0ceb0\_90_pmux for cells of type $pmux.
+Using template $paramod$95ab7b964273918a033d1324366ecc612d202989\_90_pmux for cells of type $pmux.
+Using extmapper simplemap for cells of type $reduce_or.
+Using template $paramod$c5c783b17ab1d780abfad8cfe6563a0a7b47a3b0\_90_pmux for cells of type $pmux.
+Using template $paramod$fedb90247e1daaa8b0af86a595f377181f141d27\_90_pmux for cells of type $pmux.
+Using template $paramod$77db613179eb70c5e4e5c5aca72d602a7c6017b6\_90_pmux for cells of type $pmux.
+Using template $paramod$c2e415ef15bc3ccd2723772353a6b450d3d76206\_90_pmux for cells of type $pmux.
+Using template $paramod$bf2533632d512eac76dd186c0da49367e29b8e98\_90_pmux for cells of type $pmux.
+Using template $paramod$c654a831025ee805eb993d5880de10a3d616cd3b\_90_pmux for cells of type $pmux.
+Using extmapper simplemap for cells of type $logic_and.
+Using extmapper simplemap for cells of type $xor.
+Using extmapper simplemap for cells of type $or.
+Using extmapper simplemap for cells of type $not.
+Using template $paramod$274c8d34472ef950383656115be6e1c8ace5024c\_90_pmux for cells of type $pmux.
+Using template $paramod$aa21a8cfcdb2d038c61c16c25c37cdf209d597be\_90_pmux for cells of type $pmux.
+Running "alumacc" on wrapper $extern:wrap:$add:A_SIGNED=0:A_WIDTH=5:B_SIGNED=0:B_WIDTH=5:Y_WIDTH=5:394426c56d1a028ba8fdd5469b163e04011def47.
+Using template $extern:wrap:$add:A_SIGNED=0:A_WIDTH=5:B_SIGNED=0:B_WIDTH=5:Y_WIDTH=5:394426c56d1a028ba8fdd5469b163e04011def47 for cells of type $extern:wrap:$add:A_SIGNED=0:A_WIDTH=5:B_SIGNED=0:B_WIDTH=5:Y_WIDTH=5:394426c56d1a028ba8fdd5469b163e04011def47.
+Using extmapper simplemap for cells of type $logic_or.
+Running "alumacc" on wrapper $extern:wrap:$gt:A_SIGNED=0:A_WIDTH=4:B_SIGNED=0:B_WIDTH=4:Y_WIDTH=1:394426c56d1a028ba8fdd5469b163e04011def47.
+Using template $extern:wrap:$gt:A_SIGNED=0:A_WIDTH=4:B_SIGNED=0:B_WIDTH=4:Y_WIDTH=1:394426c56d1a028ba8fdd5469b163e04011def47 for cells of type $extern:wrap:$gt:A_SIGNED=0:A_WIDTH=4:B_SIGNED=0:B_WIDTH=4:Y_WIDTH=1:394426c56d1a028ba8fdd5469b163e04011def47.
+Using extmapper simplemap for cells of type $reduce_and.
+Using extmapper simplemap for cells of type $ne.
+Running "alumacc" on wrapper $extern:wrap:$add:A_SIGNED=0:A_WIDTH=4:B_SIGNED=0:B_WIDTH=4:Y_WIDTH=4:394426c56d1a028ba8fdd5469b163e04011def47.
+Using template $extern:wrap:$add:A_SIGNED=0:A_WIDTH=4:B_SIGNED=0:B_WIDTH=4:Y_WIDTH=4:394426c56d1a028ba8fdd5469b163e04011def47 for cells of type $extern:wrap:$add:A_SIGNED=0:A_WIDTH=4:B_SIGNED=0:B_WIDTH=4:Y_WIDTH=4:394426c56d1a028ba8fdd5469b163e04011def47.
+Running "alumacc" on wrapper $extern:wrap:$add:A_SIGNED=0:A_WIDTH=12:B_SIGNED=0:B_WIDTH=12:Y_WIDTH=12:394426c56d1a028ba8fdd5469b163e04011def47.
+Using template $extern:wrap:$add:A_SIGNED=0:A_WIDTH=12:B_SIGNED=0:B_WIDTH=12:Y_WIDTH=12:394426c56d1a028ba8fdd5469b163e04011def47 for cells of type $extern:wrap:$add:A_SIGNED=0:A_WIDTH=12:B_SIGNED=0:B_WIDTH=12:Y_WIDTH=12:394426c56d1a028ba8fdd5469b163e04011def47.
+Running "alumacc" on wrapper $extern:wrap:$sub:A_SIGNED=0:A_WIDTH=2:B_SIGNED=0:B_WIDTH=2:Y_WIDTH=2:394426c56d1a028ba8fdd5469b163e04011def47.
+Using template $extern:wrap:$sub:A_SIGNED=0:A_WIDTH=2:B_SIGNED=0:B_WIDTH=2:Y_WIDTH=2:394426c56d1a028ba8fdd5469b163e04011def47 for cells of type $extern:wrap:$sub:A_SIGNED=0:A_WIDTH=2:B_SIGNED=0:B_WIDTH=2:Y_WIDTH=2:394426c56d1a028ba8fdd5469b163e04011def47.
+Running "alumacc" on wrapper $extern:wrap:$add:A_SIGNED=0:A_WIDTH=2:B_SIGNED=0:B_WIDTH=2:Y_WIDTH=2:394426c56d1a028ba8fdd5469b163e04011def47.
+Using template $extern:wrap:$add:A_SIGNED=0:A_WIDTH=2:B_SIGNED=0:B_WIDTH=2:Y_WIDTH=2:394426c56d1a028ba8fdd5469b163e04011def47 for cells of type $extern:wrap:$add:A_SIGNED=0:A_WIDTH=2:B_SIGNED=0:B_WIDTH=2:Y_WIDTH=2:394426c56d1a028ba8fdd5469b163e04011def47.
+Using template $paramod$b18e16801adf491a64caa0542270798e5d4ac6b6\_90_alu for cells of type $alu.
+Using template $paramod$740b056ede97228d3eae64ea2fdc81f0a33e0fe7\_90_alu for cells of type $alu.
+Using template $paramod$7e708ae28ab761f11d0fb59d3ffc72f6a4baf5d9\_90_alu for cells of type $alu.
+Using template $paramod$ee3d784672cdb1cb32d9a801a3af776716f16b74\_90_alu for cells of type $alu.
+Using template $paramod$78e969f2586efcf3a5b0b0440bcca0db83d5cca2\_90_alu for cells of type $alu.
+Using extmapper simplemap for cells of type $pos.
+Using template $paramod\_90_lcu\WIDTH=32'00000000000000000000000000000101 for cells of type $lcu.
+Using template $paramod\_90_lcu\WIDTH=32'00000000000000000000000000000100 for cells of type $lcu.
+Using template $paramod\_90_lcu\WIDTH=32'00000000000000000000000000000011 for cells of type $lcu.
+Using template $paramod\_90_lcu\WIDTH=32'00000000000000000000000000001100 for cells of type $lcu.
+Using template $paramod\_90_lcu\WIDTH=32'00000000000000000000000000000010 for cells of type $lcu.
+No more expansions possible.
+<suppressed ~1975 debug messages>
+
+15. Executing OPT pass (performing simple optimizations).
+
+15.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module i4004.
+<suppressed ~916 debug messages>
+
+15.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\i4004'.
+<suppressed ~726 debug messages>
+Removed a total of 242 cells.
+
+15.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \i4004..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+
+15.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \i4004.
+Performed a total of 0 changes.
+
+15.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\i4004'.
+Removed a total of 0 cells.
+
+15.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+15.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \i4004..
+Removed 46 unused cells and 1243 unused wires.
+<suppressed ~47 debug messages>
+
+15.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module i4004.
+
+15.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+15.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \i4004..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+
+15.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \i4004.
+Performed a total of 0 changes.
+
+15.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\i4004'.
+Removed a total of 0 cells.
+
+15.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+15.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \i4004..
+
+15.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module i4004.
+
+15.16. Finished OPT passes. (There is nothing left to do.)
+
+16. Executing ABC pass (technology mapping using ABC).
+
+16.1. Extracting gate netlist of module `\i4004' to `<abc-temp-dir>/input.blif'..
+Extracted 1675 gates and 1832 wires to a netlist network with 154 inputs and 174 outputs.
+
+16.1.1. Executing ABC.
+Running ABC command: "<yosys-exe-dir>/yosys-abc" -s -f <abc-temp-dir>/abc.script 2>&1
+ABC: ABC command line: "source <abc-temp-dir>/abc.script".
+ABC: 
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_library <abc-temp-dir>/stdcells.genlib 
+ABC: Entered genlib library with 13 gates from file "<abc-temp-dir>/stdcells.genlib".
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &fraig -x 
+ABC: + &put 
+ABC: + scorr 
+ABC: Warning: The network is combinational (run "fraig" or "fraig_sweep").
+ABC: + dc2 
+ABC: + dretime 
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &dch -f 
+ABC: + &nf 
+ABC: + &put 
+ABC: + write_blif <abc-temp-dir>/output.blif 
+
+16.1.2. Re-integrating ABC results.
+ABC RESULTS:             ORNOT cells:       32
+ABC RESULTS:               NOT cells:       11
+ABC RESULTS:            ANDNOT cells:       54
+ABC RESULTS:               MUX cells:      140
+ABC RESULTS:                OR cells:       66
+ABC RESULTS:               AND cells:      279
+ABC RESULTS:               NOR cells:       30
+ABC RESULTS:              NAND cells:      487
+ABC RESULTS:               XOR cells:       11
+ABC RESULTS:              XNOR cells:       15
+ABC RESULTS:        internal signals:     1504
+ABC RESULTS:           input signals:      154
+ABC RESULTS:          output signals:      174
+Removing temp directory.
+
+17. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \i4004..
+Removed 0 unused cells and 912 unused wires.
+<suppressed ~101 debug messages>
+
+18. Executing CHECK pass (checking for obvious problems).
+Checking module i4004...
+Found and reported 0 problems.
+
+19. Printing statistics.
+
+=== i4004 ===
+
+   Number of wires:               1148
+   Number of wire bits:           1292
+   Number of public wires:          43
+   Number of public wire bits:     182
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:               1278
+     $_ANDNOT_                      54
+     $_AND_                        279
+     $_DFFE_PP_                    112
+     $_MUX_                        140
+     $_NAND_                       487
+     $_NOR_                         30
+     $_NOT_                         11
+     $_ORNOT_                       32
+     $_OR_                          66
+     $_SDFFE_PP0N_                  13
+     $_SDFFE_PP0P_                  23
+     $_SDFF_PP0_                     5
+     $_XNOR_                        15
+     $_XOR_                         11
+
+20. Executing LTP pass (find longest path).
+
+Longest topological path in i4004 (length=25):
+    0: \u_control.second
+    1: $abc$6985$new_n337_ (via $abc$6985$auto$blifparse.cc:386:parse_blif$6994)
+    2: $abc$6985$new_n358_ (via $abc$6985$auto$blifparse.cc:386:parse_blif$7015)
+    3: $abc$6985$new_n359_ (via $abc$6985$auto$blifparse.cc:386:parse_blif$7016)
+    4: $abc$6985$new_n361_ (via $abc$6985$auto$blifparse.cc:386:parse_blif$7018)
+    5: $abc$6985$new_n363_ (via $abc$6985$auto$blifparse.cc:386:parse_blif$7020)
+    6: $abc$6985$new_n374_ (via $abc$6985$auto$blifparse.cc:386:parse_blif$7031)
+    7: $abc$6985$new_n422_ (via $abc$6985$auto$blifparse.cc:386:parse_blif$7079)
+    8: $abc$6985$new_n492_ (via $abc$6985$auto$blifparse.cc:386:parse_blif$7149)
+    9: $abc$6985$new_n497_ (via $abc$6985$auto$blifparse.cc:386:parse_blif$7154)
+   10: $abc$6985$new_n507_ (via $abc$6985$auto$blifparse.cc:386:parse_blif$7164)
+   11: $abc$6985$new_n897_ (via $abc$6985$auto$blifparse.cc:386:parse_blif$7554)
+   12: $abc$6985$new_n902_ (via $abc$6985$auto$blifparse.cc:386:parse_blif$7559)
+   13: $abc$6985$new_n903_ (via $abc$6985$auto$blifparse.cc:386:parse_blif$7560)
+   14: $abc$6985$new_n905_ (via $abc$6985$auto$blifparse.cc:386:parse_blif$7562)
+   15: $abc$6985$new_n913_ (via $abc$6985$auto$blifparse.cc:386:parse_blif$7570)
+   16: $abc$6985$new_n977_ (via $abc$6985$auto$blifparse.cc:386:parse_blif$7634)
+   17: $abc$6985$new_n978_ (via $abc$6985$auto$blifparse.cc:386:parse_blif$7635)
+   18: $abc$6985$new_n1024_ (via $abc$6985$auto$blifparse.cc:386:parse_blif$7681)
+   19: $abc$6985$new_n1057_ (via $abc$6985$auto$blifparse.cc:386:parse_blif$7714)
+   20: $abc$6985$new_n1058_ (via $abc$6985$auto$blifparse.cc:386:parse_blif$7715)
+   21: $abc$6985$new_n1059_ (via $abc$6985$auto$blifparse.cc:386:parse_blif$7716)
+   22: $abc$6985$new_n1060_ (via $abc$6985$auto$blifparse.cc:386:parse_blif$7717)
+   23: $abc$6985$new_n1061_ (via $abc$6985$auto$blifparse.cc:386:parse_blif$7718)
+   24: $abc$6985$new_n1062_ (via $abc$6985$auto$blifparse.cc:386:parse_blif$7719)
+   25: \u_alu.n_cy (via $abc$6985$auto$blifparse.cc:386:parse_blif$7720)
+   ff: \u_alu.cy (via $auto$ff.cc:266:slice$4114)
+
+End of script. Logfile hash: a0f1aeefd2, CPU: user 1.52s system 0.01s, MEM: 24.75 MB peak
+Yosys 0.33 (git sha1 2584903a060)
+Time spent: 27% 1x abc (0 sec), 24% 24x opt_expr (0 sec), ...

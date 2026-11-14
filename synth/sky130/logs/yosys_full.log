@@ -1,0 +1,2444 @@
+
+ /----------------------------------------------------------------------------\
+ |                                                                            |
+ |  yosys -- Yosys Open SYnthesis Suite                                       |
+ |                                                                            |
+ |  Copyright (C) 2012 - 2020  Claire Xenia Wolf <claire@yosyshq.com>         |
+ |                                                                            |
+ |  Permission to use, copy, modify, and/or distribute this software for any  |
+ |  purpose with or without fee is hereby granted, provided that the above    |
+ |  copyright notice and this permission notice appear in all copies.         |
+ |                                                                            |
+ |  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES  |
+ |  WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF          |
+ |  MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR   |
+ |  ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES    |
+ |  WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN     |
+ |  ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF   |
+ |  OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.            |
+ |                                                                            |
+ \----------------------------------------------------------------------------/
+
+ Yosys 0.33 (git sha1 2584903a060)
+
+
+-- Running command `read_liberty -lib /tmp/tmp.T1MxF5sZur/f.lib; read_verilog rtl/top.v rtl/control/i4004_control.v rtl/control/i4004_timing.v rtl/datapath/i4004_addr.v rtl/datapath/i4004_alu.v rtl/datapath/i4004_regs.v ;
+ hierarchy -check -top i4004; synth -flatten -top i4004;
+ dfflegalize -cell $_DFF_P_ 01 -cell $_DLATCH_P_ x;
+ dfflibmap -liberty /tmp/tmp.T1MxF5sZur/f.lib; abc -D 10000 -liberty /tmp/tmp.T1MxF5sZur/f.lib; opt_clean -purge; check -assert;
+ tee -o synth/sky130/logs/stat.txt stat -liberty /tmp/tmp.T1MxF5sZur/f.lib; write_verilog -noattr -noexpr synth/sky130/i4004_sky130.v' --
+
+1. Executing Liberty frontend: /tmp/tmp.T1MxF5sZur/f.lib
+Imported 364 cell types from liberty file.
+
+2. Executing Verilog-2005 frontend: rtl/top.v
+Parsing Verilog input from `rtl/top.v' to AST representation.
+Generating RTLIL representation for module `\i4004'.
+Successfully finished Verilog frontend.
+
+3. Executing Verilog-2005 frontend: rtl/control/i4004_control.v
+Parsing Verilog input from `rtl/control/i4004_control.v' to AST representation.
+Generating RTLIL representation for module `\i4004_control'.
+Successfully finished Verilog frontend.
+
+4. Executing Verilog-2005 frontend: rtl/control/i4004_timing.v
+Parsing Verilog input from `rtl/control/i4004_timing.v' to AST representation.
+Generating RTLIL representation for module `\i4004_timing'.
+Successfully finished Verilog frontend.
+
+5. Executing Verilog-2005 frontend: rtl/datapath/i4004_addr.v
+Parsing Verilog input from `rtl/datapath/i4004_addr.v' to AST representation.
+Generating RTLIL representation for module `\i4004_addr'.
+Successfully finished Verilog frontend.
+
+6. Executing Verilog-2005 frontend: rtl/datapath/i4004_alu.v
+Parsing Verilog input from `rtl/datapath/i4004_alu.v' to AST representation.
+Generating RTLIL representation for module `\i4004_alu'.
+Successfully finished Verilog frontend.
+
+7. Executing Verilog-2005 frontend: rtl/datapath/i4004_regs.v
+Parsing Verilog input from `rtl/datapath/i4004_regs.v' to AST representation.
+Generating RTLIL representation for module `\i4004_regs'.
+Successfully finished Verilog frontend.
+
+8. Executing HIERARCHY pass (managing design hierarchy).
+
+8.1. Analyzing design hierarchy..
+Top module:  \i4004
+Used module:     \i4004_addr
+Used module:     \i4004_regs
+Used module:     \i4004_alu
+Used module:     \i4004_control
+Used module:     \i4004_timing
+
+8.2. Analyzing design hierarchy..
+Top module:  \i4004
+Used module:     \i4004_addr
+Used module:     \i4004_regs
+Used module:     \i4004_alu
+Used module:     \i4004_control
+Used module:     \i4004_timing
+Removed 0 unused modules.
+
+9. Executing SYNTH pass.
+
+9.1. Executing HIERARCHY pass (managing design hierarchy).
+
+9.1.1. Analyzing design hierarchy..
+Top module:  \i4004
+Used module:     \i4004_addr
+Used module:     \i4004_regs
+Used module:     \i4004_alu
+Used module:     \i4004_control
+Used module:     \i4004_timing
+
+9.1.2. Analyzing design hierarchy..
+Top module:  \i4004
+Used module:     \i4004_addr
+Used module:     \i4004_regs
+Used module:     \i4004_alu
+Used module:     \i4004_control
+Used module:     \i4004_timing
+Removed 0 unused modules.
+
+9.2. Executing PROC pass (convert processes to netlists).
+
+9.2.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+9.2.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Marked 3 switch rules as full_case in process $proc$rtl/datapath/i4004_regs.v:21$210 in module i4004_regs.
+Marked 1 switch rules as full_case in process $proc$rtl/datapath/i4004_alu.v:55$184 in module i4004_alu.
+Marked 5 switch rules as full_case in process $proc$rtl/datapath/i4004_alu.v:15$168 in module i4004_alu.
+Marked 7 switch rules as full_case in process $proc$rtl/datapath/i4004_addr.v:19$88 in module i4004_addr.
+Marked 1 switch rules as full_case in process $proc$rtl/control/i4004_timing.v:11$72 in module i4004_timing.
+Marked 2 switch rules as full_case in process $proc$rtl/control/i4004_control.v:190$68 in module i4004_control.
+Marked 10 switch rules as full_case in process $proc$rtl/control/i4004_control.v:123$60 in module i4004_control.
+Marked 4 switch rules as full_case in process $proc$rtl/control/i4004_control.v:93$34 in module i4004_control.
+Marked 1 switch rules as full_case in process $proc$rtl/control/i4004_control.v:71$24 in module i4004_control.
+Removed a total of 0 dead cases.
+
+9.2.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 1 redundant assignment.
+Promoted 62 assignments to connections.
+
+9.2.4. Executing PROC_INIT pass (extract init attributes).
+
+9.2.5. Executing PROC_ARST pass (detect async resets in processes).
+
+9.2.6. Executing PROC_ROM pass (convert switches to ROMs).
+Converted 0 switches.
+<suppressed ~38 debug messages>
+
+9.2.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
+Creating decoders for process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+     1/41: $3$memwr$\r$rtl/datapath/i4004_regs.v:28$204_EN[3:0]$275
+     2/41: $3$memwr$\r$rtl/datapath/i4004_regs.v:28$204_DATA[3:0]$274
+     3/41: $3$memwr$\r$rtl/datapath/i4004_regs.v:28$204_ADDR[3:0]$273
+     4/41: $3$memwr$\r$rtl/datapath/i4004_regs.v:27$203_EN[3:0]$272
+     5/41: $3$memwr$\r$rtl/datapath/i4004_regs.v:27$203_DATA[3:0]$271
+     6/41: $3$memwr$\r$rtl/datapath/i4004_regs.v:27$203_ADDR[3:0]$270
+     7/41: $2$memwr$\r$rtl/datapath/i4004_regs.v:25$202_EN[3:0]$263
+     8/41: $2$memwr$\r$rtl/datapath/i4004_regs.v:25$202_DATA[3:0]$262
+     9/41: $2$memwr$\r$rtl/datapath/i4004_regs.v:25$202_ADDR[3:0]$261
+    10/41: $2$memwr$\r$rtl/datapath/i4004_regs.v:28$204_EN[3:0]$269
+    11/41: $2$memwr$\r$rtl/datapath/i4004_regs.v:28$204_DATA[3:0]$268
+    12/41: $2$memwr$\r$rtl/datapath/i4004_regs.v:28$204_ADDR[3:0]$267
+    13/41: $2$memwr$\r$rtl/datapath/i4004_regs.v:27$203_EN[3:0]$266
+    14/41: $2$memwr$\r$rtl/datapath/i4004_regs.v:27$203_DATA[3:0]$265
+    15/41: $2$memwr$\r$rtl/datapath/i4004_regs.v:27$203_ADDR[3:0]$264
+    16/41: $1\i[31:0]
+    17/41: $1$memwr$\r$rtl/datapath/i4004_regs.v:23$201_EN[3:0]$251
+    18/41: $1$memwr$\r$rtl/datapath/i4004_regs.v:23$200_EN[3:0]$250
+    19/41: $1$memwr$\r$rtl/datapath/i4004_regs.v:23$199_EN[3:0]$249
+    20/41: $1$memwr$\r$rtl/datapath/i4004_regs.v:23$198_EN[3:0]$248
+    21/41: $1$memwr$\r$rtl/datapath/i4004_regs.v:23$197_EN[3:0]$247
+    22/41: $1$memwr$\r$rtl/datapath/i4004_regs.v:23$196_EN[3:0]$246
+    23/41: $1$memwr$\r$rtl/datapath/i4004_regs.v:23$195_EN[3:0]$245
+    24/41: $1$memwr$\r$rtl/datapath/i4004_regs.v:23$194_EN[3:0]$244
+    25/41: $1$memwr$\r$rtl/datapath/i4004_regs.v:23$193_EN[3:0]$243
+    26/41: $1$memwr$\r$rtl/datapath/i4004_regs.v:23$192_EN[3:0]$242
+    27/41: $1$memwr$\r$rtl/datapath/i4004_regs.v:23$191_EN[3:0]$241
+    28/41: $1$memwr$\r$rtl/datapath/i4004_regs.v:23$190_EN[3:0]$240
+    29/41: $1$memwr$\r$rtl/datapath/i4004_regs.v:23$189_EN[3:0]$239
+    30/41: $1$memwr$\r$rtl/datapath/i4004_regs.v:23$188_EN[3:0]$238
+    31/41: $1$memwr$\r$rtl/datapath/i4004_regs.v:23$187_EN[3:0]$237
+    32/41: $1$memwr$\r$rtl/datapath/i4004_regs.v:23$186_EN[3:0]$236
+    33/41: $1$memwr$\r$rtl/datapath/i4004_regs.v:28$204_EN[3:0]$260
+    34/41: $1$memwr$\r$rtl/datapath/i4004_regs.v:28$204_DATA[3:0]$259
+    35/41: $1$memwr$\r$rtl/datapath/i4004_regs.v:28$204_ADDR[3:0]$258
+    36/41: $1$memwr$\r$rtl/datapath/i4004_regs.v:27$203_EN[3:0]$257
+    37/41: $1$memwr$\r$rtl/datapath/i4004_regs.v:27$203_DATA[3:0]$256
+    38/41: $1$memwr$\r$rtl/datapath/i4004_regs.v:27$203_ADDR[3:0]$255
+    39/41: $1$memwr$\r$rtl/datapath/i4004_regs.v:25$202_EN[3:0]$254
+    40/41: $1$memwr$\r$rtl/datapath/i4004_regs.v:25$202_DATA[3:0]$253
+    41/41: $1$memwr$\r$rtl/datapath/i4004_regs.v:25$202_ADDR[3:0]$252
+Creating decoders for process `\i4004_alu.$proc$rtl/datapath/i4004_alu.v:55$184'.
+     1/2: $0\cy[0:0]
+     2/2: $0\acc[3:0]
+Creating decoders for process `\i4004_alu.$proc$rtl/datapath/i4004_alu.v:15$168'.
+     1/13: $4\n_cy[0:0]
+     2/13: $5\n_acc[3:0]
+     3/13: $4\t[4:0]
+     4/13: $4\n_acc[3:0]
+     5/13: $3\n_cy[0:0]
+     6/13: $3\n_acc[3:0]
+     7/13: $3\t[4:0]
+     8/13: $2\n_cy[0:0]
+     9/13: $2\n_acc[3:0]
+    10/13: $2\t[4:0]
+    11/13: $1\t[4:0]
+    12/13: $1\n_cy[0:0]
+    13/13: $1\n_acc[3:0]
+Creating decoders for process `\i4004_addr.$proc$rtl/datapath/i4004_addr.v:19$88'.
+     1/60: $6$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_EN[11:0]$165
+     2/60: $6$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_DATA[11:0]$164
+     3/60: $6$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_ADDR[1:0]$163
+     4/60: $5$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_EN[11:0]$159
+     5/60: $5$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_DATA[11:0]$158
+     6/60: $5$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_ADDR[1:0]$157
+     7/60: $5$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_EN[11:0]$162
+     8/60: $5$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_DATA[11:0]$161
+     9/60: $5$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_ADDR[1:0]$160
+    10/60: $4$memwr$\slot$rtl/datapath/i4004_addr.v:30$84_EN[11:0]$150
+    11/60: $4$memwr$\slot$rtl/datapath/i4004_addr.v:30$84_DATA[11:0]$149
+    12/60: $4$memwr$\slot$rtl/datapath/i4004_addr.v:30$84_ADDR[1:0]$148
+    13/60: $4$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_EN[11:0]$156
+    14/60: $4$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_DATA[11:0]$155
+    15/60: $4$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_ADDR[1:0]$154
+    16/60: $4$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_EN[11:0]$153
+    17/60: $4$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_DATA[11:0]$152
+    18/60: $4$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_ADDR[1:0]$151
+    19/60: $3$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_EN[11:0]$146
+    20/60: $3$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_DATA[11:0]$145
+    21/60: $3$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_ADDR[1:0]$144
+    22/60: $3$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_EN[11:0]$143
+    23/60: $3$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_DATA[11:0]$142
+    24/60: $3$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_ADDR[1:0]$141
+    25/60: $3$memwr$\slot$rtl/datapath/i4004_addr.v:30$84_EN[11:0]$140
+    26/60: $3$memwr$\slot$rtl/datapath/i4004_addr.v:30$84_DATA[11:0]$139
+    27/60: $3$memwr$\slot$rtl/datapath/i4004_addr.v:30$84_ADDR[1:0]$138
+    28/60: $3$memwr$\slot$rtl/datapath/i4004_addr.v:26$83_EN[11:0]$136
+    29/60: $3$memwr$\slot$rtl/datapath/i4004_addr.v:26$83_DATA[11:0]$135
+    30/60: $3$memwr$\slot$rtl/datapath/i4004_addr.v:26$83_ADDR[1:0]$134
+    31/60: $2$memwr$\slot$rtl/datapath/i4004_addr.v:26$83_EN[11:0]$123
+    32/60: $2$memwr$\slot$rtl/datapath/i4004_addr.v:26$83_DATA[11:0]$122
+    33/60: $2$memwr$\slot$rtl/datapath/i4004_addr.v:26$83_ADDR[1:0]$121
+    34/60: $2$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_EN[11:0]$132
+    35/60: $2$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_DATA[11:0]$131
+    36/60: $2$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_ADDR[1:0]$130
+    37/60: $2$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_EN[11:0]$129
+    38/60: $2$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_DATA[11:0]$128
+    39/60: $2$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_ADDR[1:0]$127
+    40/60: $2$memwr$\slot$rtl/datapath/i4004_addr.v:30$84_EN[11:0]$126
+    41/60: $2$memwr$\slot$rtl/datapath/i4004_addr.v:30$84_DATA[11:0]$125
+    42/60: $2$memwr$\slot$rtl/datapath/i4004_addr.v:30$84_ADDR[1:0]$124
+    43/60: $1\i[31:0]
+    44/60: $1$memwr$\slot$rtl/datapath/i4004_addr.v:21$82_EN[11:0]$108
+    45/60: $1$memwr$\slot$rtl/datapath/i4004_addr.v:21$81_EN[11:0]$107
+    46/60: $1$memwr$\slot$rtl/datapath/i4004_addr.v:21$80_EN[11:0]$106
+    47/60: $1$memwr$\slot$rtl/datapath/i4004_addr.v:21$79_EN[11:0]$105
+    48/60: $1$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_EN[11:0]$120
+    49/60: $1$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_DATA[11:0]$119
+    50/60: $1$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_ADDR[1:0]$118
+    51/60: $1$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_EN[11:0]$117
+    52/60: $1$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_DATA[11:0]$116
+    53/60: $1$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_ADDR[1:0]$115
+    54/60: $1$memwr$\slot$rtl/datapath/i4004_addr.v:30$84_EN[11:0]$114
+    55/60: $1$memwr$\slot$rtl/datapath/i4004_addr.v:30$84_DATA[11:0]$113
+    56/60: $1$memwr$\slot$rtl/datapath/i4004_addr.v:30$84_ADDR[1:0]$112
+    57/60: $1$memwr$\slot$rtl/datapath/i4004_addr.v:26$83_EN[11:0]$111
+    58/60: $1$memwr$\slot$rtl/datapath/i4004_addr.v:26$83_DATA[11:0]$110
+    59/60: $1$memwr$\slot$rtl/datapath/i4004_addr.v:26$83_ADDR[1:0]$109
+    60/60: $0\sp[1:0]
+Creating decoders for process `\i4004_timing.$proc$rtl/control/i4004_timing.v:11$72'.
+     1/1: $0\cnt[2:0]
+Creating decoders for process `\i4004_control.$proc$rtl/control/i4004_control.v:190$68'.
+     1/9: $0\src_hi[3:0]
+     2/9: $0\ram_bank[2:0]
+     3/9: $0\src_addr[3:0]
+     4/9: $0\test_s[0:0]
+     5/9: $0\rd_data[3:0]
+     6/9: $0\fetch_lo[3:0]
+     7/9: $0\fetch_hi[3:0]
+     8/9: $0\second[0:0]
+     9/9: $0\ir[7:0]
+Creating decoders for process `\i4004_control.$proc$rtl/control/i4004_control.v:123$60'.
+     1/63: $8\pc_load_val[11:0]
+     2/63: $8\pc_load_low[0:0]
+     3/63: $7\pc_load_val[11:0]
+     4/63: $7\pc_load_low[0:0]
+     5/63: $6\pc_load_val[11:0]
+     6/63: $6\pc_load_low[0:0]
+     7/63: $4\pc_push[0:0]
+     8/63: $4\pc_load_full[0:0]
+     9/63: $4\p_wdata[7:0]
+    10/63: $5\r_wdata[3:0]
+    11/63: $4\p_we[0:0]
+    12/63: $5\r_we[0:0]
+    13/63: $5\alu_b[3:0]
+    14/63: $5\alu_op[4:0]
+    15/63: $5\alu_we[0:0]
+    16/63: $5\pc_load_val[11:0]
+    17/63: $5\pc_load_low[0:0]
+    18/63: $4\r_wdata[3:0]
+    19/63: $4\r_we[0:0]
+    20/63: $4\pc_load_val[11:0]
+    21/63: $4\pc_pop[0:0]
+    22/63: $4\pc_load_low[0:0]
+    23/63: $4\alu_b[3:0]
+    24/63: $4\alu_op[4:0]
+    25/63: $4\alu_we[0:0]
+    26/63: $3\pc_load_val[11:0]
+    27/63: $3\pc_pop[0:0]
+    28/63: $3\pc_load_low[0:0]
+    29/63: $3\r_wdata[3:0]
+    30/63: $3\alu_b[3:0]
+    31/63: $3\alu_op[4:0]
+    32/63: $3\r_we[0:0]
+    33/63: $3\alu_we[0:0]
+    34/63: $3\pc_push[0:0]
+    35/63: $3\pc_load_full[0:0]
+    36/63: $3\p_wdata[7:0]
+    37/63: $3\p_we[0:0]
+    38/63: $2\pc_load_val[11:0]
+    39/63: $2\pc_pop[0:0]
+    40/63: $2\pc_push[0:0]
+    41/63: $2\pc_load_full[0:0]
+    42/63: $2\pc_load_low[0:0]
+    43/63: $2\p_wdata[7:0]
+    44/63: $2\r_wdata[3:0]
+    45/63: $2\alu_b[3:0]
+    46/63: $2\alu_op[4:0]
+    47/63: $2\p_we[0:0]
+    48/63: $2\r_we[0:0]
+    49/63: $2\alu_we[0:0]
+    50/63: $2\pc_inc[0:0]
+    51/63: $1\pc_load_val[11:0]
+    52/63: $1\pc_pop[0:0]
+    53/63: $1\pc_push[0:0]
+    54/63: $1\pc_load_full[0:0]
+    55/63: $1\pc_load_low[0:0]
+    56/63: $1\p_wdata[7:0]
+    57/63: $1\r_wdata[3:0]
+    58/63: $1\alu_b[3:0]
+    59/63: $1\alu_op[4:0]
+    60/63: $1\p_we[0:0]
+    61/63: $1\r_we[0:0]
+    62/63: $1\alu_we[0:0]
+    63/63: $1\pc_inc[0:0]
+Creating decoders for process `\i4004_control.$proc$rtl/control/i4004_control.v:93$34'.
+     1/8: $4\dout_r[3:0]
+     2/8: $4\doe_r[0:0]
+     3/8: $3\dout_r[3:0]
+     4/8: $3\doe_r[0:0]
+     5/8: $2\dout_r[3:0]
+     6/8: $2\doe_r[0:0]
+     7/8: $1\dout_r[3:0]
+     8/8: $1\doe_r[0:0]
+Creating decoders for process `\i4004_control.$proc$rtl/control/i4004_control.v:71$24'.
+     1/1: $1\lines[3:0]
+
+9.2.8. Executing PROC_DLATCH pass (convert process syncs to latches).
+No latch inferred for signal `\i4004_alu.\n_acc' from process `\i4004_alu.$proc$rtl/datapath/i4004_alu.v:15$168'.
+No latch inferred for signal `\i4004_alu.\n_cy' from process `\i4004_alu.$proc$rtl/datapath/i4004_alu.v:15$168'.
+No latch inferred for signal `\i4004_alu.\t' from process `\i4004_alu.$proc$rtl/datapath/i4004_alu.v:15$168'.
+No latch inferred for signal `\i4004_control.\alu_we' from process `\i4004_control.$proc$rtl/control/i4004_control.v:123$60'.
+No latch inferred for signal `\i4004_control.\r_we' from process `\i4004_control.$proc$rtl/control/i4004_control.v:123$60'.
+No latch inferred for signal `\i4004_control.\p_we' from process `\i4004_control.$proc$rtl/control/i4004_control.v:123$60'.
+No latch inferred for signal `\i4004_control.\alu_op' from process `\i4004_control.$proc$rtl/control/i4004_control.v:123$60'.
+No latch inferred for signal `\i4004_control.\alu_b' from process `\i4004_control.$proc$rtl/control/i4004_control.v:123$60'.
+No latch inferred for signal `\i4004_control.\r_wdata' from process `\i4004_control.$proc$rtl/control/i4004_control.v:123$60'.
+No latch inferred for signal `\i4004_control.\p_wdata' from process `\i4004_control.$proc$rtl/control/i4004_control.v:123$60'.
+No latch inferred for signal `\i4004_control.\pc_inc' from process `\i4004_control.$proc$rtl/control/i4004_control.v:123$60'.
+No latch inferred for signal `\i4004_control.\pc_load_low' from process `\i4004_control.$proc$rtl/control/i4004_control.v:123$60'.
+No latch inferred for signal `\i4004_control.\pc_load_full' from process `\i4004_control.$proc$rtl/control/i4004_control.v:123$60'.
+No latch inferred for signal `\i4004_control.\pc_push' from process `\i4004_control.$proc$rtl/control/i4004_control.v:123$60'.
+No latch inferred for signal `\i4004_control.\pc_pop' from process `\i4004_control.$proc$rtl/control/i4004_control.v:123$60'.
+No latch inferred for signal `\i4004_control.\pc_load_val' from process `\i4004_control.$proc$rtl/control/i4004_control.v:123$60'.
+No latch inferred for signal `\i4004_control.\dout_r' from process `\i4004_control.$proc$rtl/control/i4004_control.v:93$34'.
+No latch inferred for signal `\i4004_control.\doe_r' from process `\i4004_control.$proc$rtl/control/i4004_control.v:93$34'.
+No latch inferred for signal `\i4004_control.\lines' from process `\i4004_control.$proc$rtl/control/i4004_control.v:71$24'.
+
+9.2.9. Executing PROC_DFF pass (convert process syncs to FFs).
+Creating register for signal `\i4004_regs.\i' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1855' with positive edge clock.
+Creating register for signal `\i4004_regs.$memwr$\r$rtl/datapath/i4004_regs.v:23$186_EN' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1856' with positive edge clock.
+Creating register for signal `\i4004_regs.$memwr$\r$rtl/datapath/i4004_regs.v:23$187_EN' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1857' with positive edge clock.
+Creating register for signal `\i4004_regs.$memwr$\r$rtl/datapath/i4004_regs.v:23$188_EN' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1858' with positive edge clock.
+Creating register for signal `\i4004_regs.$memwr$\r$rtl/datapath/i4004_regs.v:23$189_EN' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1859' with positive edge clock.
+Creating register for signal `\i4004_regs.$memwr$\r$rtl/datapath/i4004_regs.v:23$190_EN' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1860' with positive edge clock.
+Creating register for signal `\i4004_regs.$memwr$\r$rtl/datapath/i4004_regs.v:23$191_EN' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1861' with positive edge clock.
+Creating register for signal `\i4004_regs.$memwr$\r$rtl/datapath/i4004_regs.v:23$192_EN' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1862' with positive edge clock.
+Creating register for signal `\i4004_regs.$memwr$\r$rtl/datapath/i4004_regs.v:23$193_EN' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1863' with positive edge clock.
+Creating register for signal `\i4004_regs.$memwr$\r$rtl/datapath/i4004_regs.v:23$194_EN' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1864' with positive edge clock.
+Creating register for signal `\i4004_regs.$memwr$\r$rtl/datapath/i4004_regs.v:23$195_EN' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1865' with positive edge clock.
+Creating register for signal `\i4004_regs.$memwr$\r$rtl/datapath/i4004_regs.v:23$196_EN' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1866' with positive edge clock.
+Creating register for signal `\i4004_regs.$memwr$\r$rtl/datapath/i4004_regs.v:23$197_EN' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1867' with positive edge clock.
+Creating register for signal `\i4004_regs.$memwr$\r$rtl/datapath/i4004_regs.v:23$198_EN' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1868' with positive edge clock.
+Creating register for signal `\i4004_regs.$memwr$\r$rtl/datapath/i4004_regs.v:23$199_EN' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1869' with positive edge clock.
+Creating register for signal `\i4004_regs.$memwr$\r$rtl/datapath/i4004_regs.v:23$200_EN' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1870' with positive edge clock.
+Creating register for signal `\i4004_regs.$memwr$\r$rtl/datapath/i4004_regs.v:23$201_EN' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1871' with positive edge clock.
+Creating register for signal `\i4004_regs.$memwr$\r$rtl/datapath/i4004_regs.v:25$202_ADDR' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1872' with positive edge clock.
+Creating register for signal `\i4004_regs.$memwr$\r$rtl/datapath/i4004_regs.v:25$202_DATA' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1873' with positive edge clock.
+Creating register for signal `\i4004_regs.$memwr$\r$rtl/datapath/i4004_regs.v:25$202_EN' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1874' with positive edge clock.
+Creating register for signal `\i4004_regs.$memwr$\r$rtl/datapath/i4004_regs.v:27$203_ADDR' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1875' with positive edge clock.
+Creating register for signal `\i4004_regs.$memwr$\r$rtl/datapath/i4004_regs.v:27$203_DATA' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1876' with positive edge clock.
+Creating register for signal `\i4004_regs.$memwr$\r$rtl/datapath/i4004_regs.v:27$203_EN' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1877' with positive edge clock.
+Creating register for signal `\i4004_regs.$memwr$\r$rtl/datapath/i4004_regs.v:28$204_ADDR' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1878' with positive edge clock.
+Creating register for signal `\i4004_regs.$memwr$\r$rtl/datapath/i4004_regs.v:28$204_DATA' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1879' with positive edge clock.
+Creating register for signal `\i4004_regs.$memwr$\r$rtl/datapath/i4004_regs.v:28$204_EN' using process `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+  created $dff cell `$procdff$1880' with positive edge clock.
+Creating register for signal `\i4004_alu.\acc' using process `\i4004_alu.$proc$rtl/datapath/i4004_alu.v:55$184'.
+  created $dff cell `$procdff$1881' with positive edge clock.
+Creating register for signal `\i4004_alu.\cy' using process `\i4004_alu.$proc$rtl/datapath/i4004_alu.v:55$184'.
+  created $dff cell `$procdff$1882' with positive edge clock.
+Creating register for signal `\i4004_addr.\sp' using process `\i4004_addr.$proc$rtl/datapath/i4004_addr.v:19$88'.
+  created $dff cell `$procdff$1883' with positive edge clock.
+Creating register for signal `\i4004_addr.\i' using process `\i4004_addr.$proc$rtl/datapath/i4004_addr.v:19$88'.
+  created $dff cell `$procdff$1884' with positive edge clock.
+Creating register for signal `\i4004_addr.$memwr$\slot$rtl/datapath/i4004_addr.v:21$79_EN' using process `\i4004_addr.$proc$rtl/datapath/i4004_addr.v:19$88'.
+  created $dff cell `$procdff$1885' with positive edge clock.
+Creating register for signal `\i4004_addr.$memwr$\slot$rtl/datapath/i4004_addr.v:21$80_EN' using process `\i4004_addr.$proc$rtl/datapath/i4004_addr.v:19$88'.
+  created $dff cell `$procdff$1886' with positive edge clock.
+Creating register for signal `\i4004_addr.$memwr$\slot$rtl/datapath/i4004_addr.v:21$81_EN' using process `\i4004_addr.$proc$rtl/datapath/i4004_addr.v:19$88'.
+  created $dff cell `$procdff$1887' with positive edge clock.
+Creating register for signal `\i4004_addr.$memwr$\slot$rtl/datapath/i4004_addr.v:21$82_EN' using process `\i4004_addr.$proc$rtl/datapath/i4004_addr.v:19$88'.
+  created $dff cell `$procdff$1888' with positive edge clock.
+Creating register for signal `\i4004_addr.$memwr$\slot$rtl/datapath/i4004_addr.v:26$83_ADDR' using process `\i4004_addr.$proc$rtl/datapath/i4004_addr.v:19$88'.
+  created $dff cell `$procdff$1889' with positive edge clock.
+Creating register for signal `\i4004_addr.$memwr$\slot$rtl/datapath/i4004_addr.v:26$83_DATA' using process `\i4004_addr.$proc$rtl/datapath/i4004_addr.v:19$88'.
+  created $dff cell `$procdff$1890' with positive edge clock.
+Creating register for signal `\i4004_addr.$memwr$\slot$rtl/datapath/i4004_addr.v:26$83_EN' using process `\i4004_addr.$proc$rtl/datapath/i4004_addr.v:19$88'.
+  created $dff cell `$procdff$1891' with positive edge clock.
+Creating register for signal `\i4004_addr.$memwr$\slot$rtl/datapath/i4004_addr.v:30$84_ADDR' using process `\i4004_addr.$proc$rtl/datapath/i4004_addr.v:19$88'.
+  created $dff cell `$procdff$1892' with positive edge clock.
+Creating register for signal `\i4004_addr.$memwr$\slot$rtl/datapath/i4004_addr.v:30$84_DATA' using process `\i4004_addr.$proc$rtl/datapath/i4004_addr.v:19$88'.
+  created $dff cell `$procdff$1893' with positive edge clock.
+Creating register for signal `\i4004_addr.$memwr$\slot$rtl/datapath/i4004_addr.v:30$84_EN' using process `\i4004_addr.$proc$rtl/datapath/i4004_addr.v:19$88'.
+  created $dff cell `$procdff$1894' with positive edge clock.
+Creating register for signal `\i4004_addr.$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_ADDR' using process `\i4004_addr.$proc$rtl/datapath/i4004_addr.v:19$88'.
+  created $dff cell `$procdff$1895' with positive edge clock.
+Creating register for signal `\i4004_addr.$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_DATA' using process `\i4004_addr.$proc$rtl/datapath/i4004_addr.v:19$88'.
+  created $dff cell `$procdff$1896' with positive edge clock.
+Creating register for signal `\i4004_addr.$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_EN' using process `\i4004_addr.$proc$rtl/datapath/i4004_addr.v:19$88'.
+  created $dff cell `$procdff$1897' with positive edge clock.
+Creating register for signal `\i4004_addr.$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_ADDR' using process `\i4004_addr.$proc$rtl/datapath/i4004_addr.v:19$88'.
+  created $dff cell `$procdff$1898' with positive edge clock.
+Creating register for signal `\i4004_addr.$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_DATA' using process `\i4004_addr.$proc$rtl/datapath/i4004_addr.v:19$88'.
+  created $dff cell `$procdff$1899' with positive edge clock.
+Creating register for signal `\i4004_addr.$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_EN' using process `\i4004_addr.$proc$rtl/datapath/i4004_addr.v:19$88'.
+  created $dff cell `$procdff$1900' with positive edge clock.
+Creating register for signal `\i4004_timing.\cnt' using process `\i4004_timing.$proc$rtl/control/i4004_timing.v:11$72'.
+  created $dff cell `$procdff$1901' with positive edge clock.
+Creating register for signal `\i4004_control.\ir' using process `\i4004_control.$proc$rtl/control/i4004_control.v:190$68'.
+  created $dff cell `$procdff$1902' with positive edge clock.
+Creating register for signal `\i4004_control.\second' using process `\i4004_control.$proc$rtl/control/i4004_control.v:190$68'.
+  created $dff cell `$procdff$1903' with positive edge clock.
+Creating register for signal `\i4004_control.\fetch_hi' using process `\i4004_control.$proc$rtl/control/i4004_control.v:190$68'.
+  created $dff cell `$procdff$1904' with positive edge clock.
+Creating register for signal `\i4004_control.\fetch_lo' using process `\i4004_control.$proc$rtl/control/i4004_control.v:190$68'.
+  created $dff cell `$procdff$1905' with positive edge clock.
+Creating register for signal `\i4004_control.\rd_data' using process `\i4004_control.$proc$rtl/control/i4004_control.v:190$68'.
+  created $dff cell `$procdff$1906' with positive edge clock.
+Creating register for signal `\i4004_control.\src_addr' using process `\i4004_control.$proc$rtl/control/i4004_control.v:190$68'.
+  created $dff cell `$procdff$1907' with positive edge clock.
+Creating register for signal `\i4004_control.\src_hi' using process `\i4004_control.$proc$rtl/control/i4004_control.v:190$68'.
+  created $dff cell `$procdff$1908' with positive edge clock.
+Creating register for signal `\i4004_control.\ram_bank' using process `\i4004_control.$proc$rtl/control/i4004_control.v:190$68'.
+  created $dff cell `$procdff$1909' with positive edge clock.
+Creating register for signal `\i4004_control.\test_s' using process `\i4004_control.$proc$rtl/control/i4004_control.v:190$68'.
+  created $dff cell `$procdff$1910' with positive edge clock.
+
+9.2.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+9.2.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Found and cleaned up 3 empty switches in `\i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+Removing empty process `i4004_regs.$proc$rtl/datapath/i4004_regs.v:21$210'.
+Found and cleaned up 2 empty switches in `\i4004_alu.$proc$rtl/datapath/i4004_alu.v:55$184'.
+Removing empty process `i4004_alu.$proc$rtl/datapath/i4004_alu.v:55$184'.
+Found and cleaned up 5 empty switches in `\i4004_alu.$proc$rtl/datapath/i4004_alu.v:15$168'.
+Removing empty process `i4004_alu.$proc$rtl/datapath/i4004_alu.v:15$168'.
+Found and cleaned up 7 empty switches in `\i4004_addr.$proc$rtl/datapath/i4004_addr.v:19$88'.
+Removing empty process `i4004_addr.$proc$rtl/datapath/i4004_addr.v:19$88'.
+Found and cleaned up 1 empty switch in `\i4004_timing.$proc$rtl/control/i4004_timing.v:11$72'.
+Removing empty process `i4004_timing.$proc$rtl/control/i4004_timing.v:11$72'.
+Found and cleaned up 5 empty switches in `\i4004_control.$proc$rtl/control/i4004_control.v:190$68'.
+Removing empty process `i4004_control.$proc$rtl/control/i4004_control.v:190$68'.
+Found and cleaned up 10 empty switches in `\i4004_control.$proc$rtl/control/i4004_control.v:123$60'.
+Removing empty process `i4004_control.$proc$rtl/control/i4004_control.v:123$60'.
+Found and cleaned up 4 empty switches in `\i4004_control.$proc$rtl/control/i4004_control.v:93$34'.
+Removing empty process `i4004_control.$proc$rtl/control/i4004_control.v:93$34'.
+Found and cleaned up 1 empty switch in `\i4004_control.$proc$rtl/control/i4004_control.v:71$24'.
+Removing empty process `i4004_control.$proc$rtl/control/i4004_control.v:71$24'.
+Cleaned up 38 empty switches.
+
+9.2.12. Executing OPT_EXPR pass (perform const folding).
+Optimizing module i4004_regs.
+Optimizing module i4004_alu.
+<suppressed ~3 debug messages>
+Optimizing module i4004_addr.
+Optimizing module i4004_timing.
+Optimizing module i4004_control.
+<suppressed ~110 debug messages>
+Optimizing module i4004.
+
+9.3. Executing FLATTEN pass (flatten design).
+Deleting now unused module i4004_regs.
+Deleting now unused module i4004_alu.
+Deleting now unused module i4004_addr.
+Deleting now unused module i4004_timing.
+Deleting now unused module i4004_control.
+<suppressed ~5 debug messages>
+
+9.4. Executing OPT_EXPR pass (perform const folding).
+Optimizing module i4004.
+
+9.5. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \i4004..
+Removed 65 unused cells and 798 unused wires.
+<suppressed ~70 debug messages>
+
+9.6. Executing CHECK pass (checking for obvious problems).
+Checking module i4004...
+Found and reported 0 problems.
+
+9.7. Executing OPT pass (performing simple optimizations).
+
+9.7.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module i4004.
+
+9.7.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\i4004'.
+<suppressed ~348 debug messages>
+Removed a total of 116 cells.
+
+9.7.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \i4004..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$821.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$824.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$827.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$833.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$836.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$839.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$845.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$848.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$854.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$857.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$863.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$866.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$872.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$875.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$881.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$884.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$890.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$893.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$899.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$902.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$908.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$911.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$917.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$920.
+    dead port 2/2 on $mux $flatten\u_addr.$procmux$926.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$929.
+    dead port 2/2 on $mux $flatten\u_addr.$procmux$935.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$938.
+    dead port 2/2 on $mux $flatten\u_addr.$procmux$944.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$947.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$953.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$959.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$965.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$971.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$977.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$983.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$989.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$995.
+    dead port 1/2 on $mux $flatten\u_alu.$procmux$478.
+    dead port 1/2 on $mux $flatten\u_alu.$procmux$486.
+    dead port 2/2 on $mux $flatten\u_alu.$procmux$505.
+    dead port 2/2 on $mux $flatten\u_alu.$procmux$507.
+    dead port 2/2 on $mux $flatten\u_alu.$procmux$515.
+    dead port 2/2 on $mux $flatten\u_alu.$procmux$517.
+    dead port 2/2 on $mux $flatten\u_alu.$procmux$525.
+    dead port 2/2 on $mux $flatten\u_alu.$procmux$527.
+    dead port 2/2 on $mux $flatten\u_alu.$procmux$554.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$1001.
+    dead port 2/2 on $mux $flatten\u_alu.$procmux$569.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$809.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$1007.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$1013.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$1019.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1161.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1164.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1166.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1168.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1176.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1179.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1181.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1183.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1196.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1199.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1201.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1203.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1216.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1219.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1221.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1223.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1234.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1236.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1238.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1247.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1249.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1251.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1260.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1262.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1264.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$593.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$596.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1274.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1276.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1278.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$599.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$602.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1290.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1292.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1294.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$605.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1302.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1304.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1306.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$611.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1318.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1320.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1322.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$614.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1330.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1332.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1334.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$617.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1346.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$620.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1348.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1350.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1352.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$623.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$812.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$629.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$632.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$635.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$638.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$641.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1364.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$647.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1366.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1368.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1370.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$650.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$815.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$653.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$656.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$662.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$665.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$668.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$671.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1382.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1384.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1386.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1388.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1399.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$677.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1401.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1403.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1405.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1416.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$680.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1418.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1420.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1422.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1436.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1438.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1440.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$683.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$686.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1454.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1456.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1458.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1468.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1470.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1472.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1484.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1486.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1488.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$692.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1498.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1500.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1502.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$695.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$698.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$701.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1517.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1519.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1521.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$707.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$710.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$713.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$716.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$722.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$725.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1536.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1538.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1540.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$728.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$731.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$737.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$740.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$743.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$749.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1555.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1557.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1559.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1566.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1568.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1575.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1577.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1584.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1586.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1593.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1595.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1602.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1604.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1611.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1613.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1620.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1622.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1629.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1631.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1638.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1640.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1647.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1649.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1656.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1658.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1665.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1667.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1673.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1679.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1685.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1691.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1697.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1703.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1709.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1715.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1721.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1727.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1733.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1739.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1745.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1748.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1763.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1766.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1790.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$752.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1796.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$755.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1804.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1806.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1814.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1816.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$761.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1823.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$764.
+    dead port 2/2 on $mux $flatten\u_control.$procmux$1830.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$767.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$773.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$776.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$779.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$785.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$788.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$791.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$797.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$800.
+    dead port 1/2 on $mux $flatten\u_regs.$procmux$280.
+    dead port 1/2 on $mux $flatten\u_regs.$procmux$283.
+    dead port 1/2 on $mux $flatten\u_regs.$procmux$289.
+    dead port 1/2 on $mux $flatten\u_regs.$procmux$292.
+    dead port 1/2 on $mux $flatten\u_regs.$procmux$298.
+    dead port 1/2 on $mux $flatten\u_regs.$procmux$301.
+    dead port 1/2 on $mux $flatten\u_regs.$procmux$307.
+    dead port 1/2 on $mux $flatten\u_regs.$procmux$310.
+    dead port 1/2 on $mux $flatten\u_regs.$procmux$316.
+    dead port 1/2 on $mux $flatten\u_regs.$procmux$319.
+    dead port 1/2 on $mux $flatten\u_regs.$procmux$325.
+    dead port 1/2 on $mux $flatten\u_regs.$procmux$328.
+    dead port 1/2 on $mux $flatten\u_regs.$procmux$334.
+    dead port 1/2 on $mux $flatten\u_regs.$procmux$340.
+    dead port 1/2 on $mux $flatten\u_regs.$procmux$346.
+    dead port 1/2 on $mux $flatten\u_regs.$procmux$352.
+    dead port 1/2 on $mux $flatten\u_regs.$procmux$358.
+    dead port 1/2 on $mux $flatten\u_regs.$procmux$364.
+    dead port 1/2 on $mux $flatten\u_regs.$procmux$370.
+    dead port 1/2 on $mux $flatten\u_regs.$procmux$376.
+    dead port 1/2 on $mux $flatten\u_regs.$procmux$382.
+    dead port 1/2 on $mux $flatten\u_addr.$procmux$803.
+Removed 265 multiplexer ports.
+<suppressed ~72 debug messages>
+
+9.7.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \i4004.
+    Consolidated identical input bits for $mux cell $flatten\u_addr.$procmux$590:
+      Old ports: A=12'000000000000, B=12'111111111111, Y=$flatten\u_addr.$procmux$590_Y
+      New ports: A=1'0, B=1'1, Y=$flatten\u_addr.$procmux$590_Y [0]
+      New connections: $flatten\u_addr.$procmux$590_Y [11:1] = { $flatten\u_addr.$procmux$590_Y [0] $flatten\u_addr.$procmux$590_Y [0] $flatten\u_addr.$procmux$590_Y [0] $flatten\u_addr.$procmux$590_Y [0] $flatten\u_addr.$procmux$590_Y [0] $flatten\u_addr.$procmux$590_Y [0] $flatten\u_addr.$procmux$590_Y [0] $flatten\u_addr.$procmux$590_Y [0] $flatten\u_addr.$procmux$590_Y [0] $flatten\u_addr.$procmux$590_Y [0] $flatten\u_addr.$procmux$590_Y [0] }
+    New ctrl vector for $pmux cell $flatten\u_control.$procmux$1270: $auto$opt_reduce.cc:134:opt_pmux$1939
+    New ctrl vector for $pmux cell $flatten\u_control.$procmux$1286: $auto$opt_reduce.cc:134:opt_pmux$1941
+    New ctrl vector for $pmux cell $flatten\u_control.$procmux$1314: $auto$opt_reduce.cc:134:opt_pmux$1943
+    New ctrl vector for $pmux cell $flatten\u_control.$procmux$1342: $auto$opt_reduce.cc:134:opt_pmux$1945
+    New ctrl vector for $pmux cell $flatten\u_alu.$procmux$542: { $flatten\u_alu.$procmux$551_CMP $flatten\u_alu.$procmux$550_CMP $flatten\u_alu.$procmux$549_CMP $flatten\u_alu.$procmux$548_CMP $flatten\u_alu.$procmux$546_CMP $auto$opt_reduce.cc:134:opt_pmux$1947 $flatten\u_alu.$procmux$544_CMP $flatten\u_alu.$procmux$516_CMP }
+    Consolidated identical input bits for $mux cell $flatten\u_addr.$procmux$644:
+      Old ports: A=12'000000000000, B=12'000011111111, Y=$flatten\u_addr.$procmux$644_Y
+      New ports: A=1'0, B=1'1, Y=$flatten\u_addr.$procmux$644_Y [0]
+      New connections: $flatten\u_addr.$procmux$644_Y [11:1] = { 4'0000 $flatten\u_addr.$procmux$644_Y [0] $flatten\u_addr.$procmux$644_Y [0] $flatten\u_addr.$procmux$644_Y [0] $flatten\u_addr.$procmux$644_Y [0] $flatten\u_addr.$procmux$644_Y [0] $flatten\u_addr.$procmux$644_Y [0] $flatten\u_addr.$procmux$644_Y [0] }
+    New ctrl vector for $pmux cell $flatten\u_control.$procmux$1378: $auto$opt_reduce.cc:134:opt_pmux$1949
+    New ctrl vector for $pmux cell $flatten\u_control.$procmux$1451: $auto$opt_reduce.cc:134:opt_pmux$1951
+    New ctrl vector for $pmux cell $flatten\u_control.$procmux$1509: { $auto$opt_reduce.cc:134:opt_pmux$1955 $auto$opt_reduce.cc:134:opt_pmux$1953 \u_control.is_io }
+    New ctrl vector for $pmux cell $flatten\u_control.$procmux$1527: { $flatten\u_control.$procmux$1516_CMP $flatten\u_control.$procmux$1515_CMP $auto$opt_reduce.cc:134:opt_pmux$1957 \u_control.is_io $flatten\u_control.$eq$rtl/control/i4004_control.v:214$69_Y }
+    New ctrl vector for $pmux cell $flatten\u_control.$procmux$1546: { \u_control.is_io $auto$opt_reduce.cc:134:opt_pmux$1959 }
+    Consolidated identical input bits for $mux cell $flatten\u_addr.$procmux$734:
+      Old ports: A=12'000000000000, B=12'111111111111, Y=$flatten\u_addr.$procmux$734_Y
+      New ports: A=1'0, B=1'1, Y=$flatten\u_addr.$procmux$734_Y [0]
+      New connections: $flatten\u_addr.$procmux$734_Y [11:1] = { $flatten\u_addr.$procmux$734_Y [0] $flatten\u_addr.$procmux$734_Y [0] $flatten\u_addr.$procmux$734_Y [0] $flatten\u_addr.$procmux$734_Y [0] $flatten\u_addr.$procmux$734_Y [0] $flatten\u_addr.$procmux$734_Y [0] $flatten\u_addr.$procmux$734_Y [0] $flatten\u_addr.$procmux$734_Y [0] $flatten\u_addr.$procmux$734_Y [0] $flatten\u_addr.$procmux$734_Y [0] $flatten\u_addr.$procmux$734_Y [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_addr.$procmux$1025:
+      Old ports: A=12'000000000000, B=12'111111111111, Y=$flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$82_EN[11:0]$92
+      New ports: A=1'0, B=1'1, Y=$flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$82_EN[11:0]$92 [0]
+      New connections: $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$82_EN[11:0]$92 [11:1] = { $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$82_EN[11:0]$92 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$82_EN[11:0]$92 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$82_EN[11:0]$92 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$82_EN[11:0]$92 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$82_EN[11:0]$92 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$82_EN[11:0]$92 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$82_EN[11:0]$92 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$82_EN[11:0]$92 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$82_EN[11:0]$92 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$82_EN[11:0]$92 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$82_EN[11:0]$92 [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_addr.$procmux$1028:
+      Old ports: A=12'000000000000, B=12'111111111111, Y=$flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$81_EN[11:0]$91
+      New ports: A=1'0, B=1'1, Y=$flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$81_EN[11:0]$91 [0]
+      New connections: $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$81_EN[11:0]$91 [11:1] = { $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$81_EN[11:0]$91 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$81_EN[11:0]$91 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$81_EN[11:0]$91 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$81_EN[11:0]$91 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$81_EN[11:0]$91 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$81_EN[11:0]$91 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$81_EN[11:0]$91 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$81_EN[11:0]$91 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$81_EN[11:0]$91 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$81_EN[11:0]$91 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$81_EN[11:0]$91 [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_addr.$procmux$1031:
+      Old ports: A=12'000000000000, B=12'111111111111, Y=$flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$80_EN[11:0]$90
+      New ports: A=1'0, B=1'1, Y=$flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$80_EN[11:0]$90 [0]
+      New connections: $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$80_EN[11:0]$90 [11:1] = { $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$80_EN[11:0]$90 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$80_EN[11:0]$90 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$80_EN[11:0]$90 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$80_EN[11:0]$90 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$80_EN[11:0]$90 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$80_EN[11:0]$90 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$80_EN[11:0]$90 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$80_EN[11:0]$90 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$80_EN[11:0]$90 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$80_EN[11:0]$90 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$80_EN[11:0]$90 [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_addr.$procmux$1034:
+      Old ports: A=12'000000000000, B=12'111111111111, Y=$flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$79_EN[11:0]$89
+      New ports: A=1'0, B=1'1, Y=$flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$79_EN[11:0]$89 [0]
+      New connections: $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$79_EN[11:0]$89 [11:1] = { $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$79_EN[11:0]$89 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$79_EN[11:0]$89 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$79_EN[11:0]$89 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$79_EN[11:0]$89 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$79_EN[11:0]$89 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$79_EN[11:0]$89 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$79_EN[11:0]$89 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$79_EN[11:0]$89 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$79_EN[11:0]$89 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$79_EN[11:0]$89 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:21$79_EN[11:0]$89 [0] }
+    New ctrl vector for $pmux cell $flatten\u_control.$procmux$1840: { $auto$opt_reduce.cc:134:opt_pmux$1961 $flatten\u_control.$eq$rtl/control/i4004_control.v:111$42_Y $flatten\u_control.$eq$rtl/control/i4004_control.v:133$66_Y }
+    Consolidated identical input bits for $mux cell $flatten\u_addr.$procmux$924:
+      Old ports: A=12'000000000000, B=12'111111111111, Y=$flatten\u_addr.$procmux$924_Y
+      New ports: A=1'0, B=1'1, Y=$flatten\u_addr.$procmux$924_Y [0]
+      New connections: $flatten\u_addr.$procmux$924_Y [11:1] = { $flatten\u_addr.$procmux$924_Y [0] $flatten\u_addr.$procmux$924_Y [0] $flatten\u_addr.$procmux$924_Y [0] $flatten\u_addr.$procmux$924_Y [0] $flatten\u_addr.$procmux$924_Y [0] $flatten\u_addr.$procmux$924_Y [0] $flatten\u_addr.$procmux$924_Y [0] $flatten\u_addr.$procmux$924_Y [0] $flatten\u_addr.$procmux$924_Y [0] $flatten\u_addr.$procmux$924_Y [0] $flatten\u_addr.$procmux$924_Y [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_regs.$procmux$277:
+      Old ports: A=4'0000, B=4'1111, Y=$flatten\u_regs.$procmux$277_Y
+      New ports: A=1'0, B=1'1, Y=$flatten\u_regs.$procmux$277_Y [0]
+      New connections: $flatten\u_regs.$procmux$277_Y [3:1] = { $flatten\u_regs.$procmux$277_Y [0] $flatten\u_regs.$procmux$277_Y [0] $flatten\u_regs.$procmux$277_Y [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_regs.$procmux$304:
+      Old ports: A=4'0000, B=4'1111, Y=$flatten\u_regs.$procmux$304_Y
+      New ports: A=1'0, B=1'1, Y=$flatten\u_regs.$procmux$304_Y [0]
+      New connections: $flatten\u_regs.$procmux$304_Y [3:1] = { $flatten\u_regs.$procmux$304_Y [0] $flatten\u_regs.$procmux$304_Y [0] $flatten\u_regs.$procmux$304_Y [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_regs.$procmux$331:
+      Old ports: A=4'0000, B=4'1111, Y=$flatten\u_regs.$procmux$331_Y
+      New ports: A=1'0, B=1'1, Y=$flatten\u_regs.$procmux$331_Y [0]
+      New connections: $flatten\u_regs.$procmux$331_Y [3:1] = { $flatten\u_regs.$procmux$331_Y [0] $flatten\u_regs.$procmux$331_Y [0] $flatten\u_regs.$procmux$331_Y [0] }
+    New ctrl vector for $pmux cell $flatten\u_control.$procmux$1228: { $flatten\u_control.$eq$rtl/control/i4004_control.v:62$6_Y $auto$opt_reduce.cc:134:opt_pmux$1963 $flatten\u_control.$eq$rtl/control/i4004_control.v:62$11_Y }
+    Consolidated identical input bits for $mux cell $flatten\u_regs.$procmux$388:
+      Old ports: A=4'0000, B=4'1111, Y=$flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$201_EN[3:0]$226
+      New ports: A=1'0, B=1'1, Y=$flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$201_EN[3:0]$226 [0]
+      New connections: $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$201_EN[3:0]$226 [3:1] = { $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$201_EN[3:0]$226 [0] $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$201_EN[3:0]$226 [0] $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$201_EN[3:0]$226 [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_regs.$procmux$391:
+      Old ports: A=4'0000, B=4'1111, Y=$flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$200_EN[3:0]$225
+      New ports: A=1'0, B=1'1, Y=$flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$200_EN[3:0]$225 [0]
+      New connections: $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$200_EN[3:0]$225 [3:1] = { $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$200_EN[3:0]$225 [0] $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$200_EN[3:0]$225 [0] $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$200_EN[3:0]$225 [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_regs.$procmux$394:
+      Old ports: A=4'0000, B=4'1111, Y=$flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$199_EN[3:0]$224
+      New ports: A=1'0, B=1'1, Y=$flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$199_EN[3:0]$224 [0]
+      New connections: $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$199_EN[3:0]$224 [3:1] = { $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$199_EN[3:0]$224 [0] $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$199_EN[3:0]$224 [0] $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$199_EN[3:0]$224 [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_regs.$procmux$397:
+      Old ports: A=4'0000, B=4'1111, Y=$flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$198_EN[3:0]$223
+      New ports: A=1'0, B=1'1, Y=$flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$198_EN[3:0]$223 [0]
+      New connections: $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$198_EN[3:0]$223 [3:1] = { $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$198_EN[3:0]$223 [0] $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$198_EN[3:0]$223 [0] $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$198_EN[3:0]$223 [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_regs.$procmux$400:
+      Old ports: A=4'0000, B=4'1111, Y=$flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$197_EN[3:0]$222
+      New ports: A=1'0, B=1'1, Y=$flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$197_EN[3:0]$222 [0]
+      New connections: $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$197_EN[3:0]$222 [3:1] = { $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$197_EN[3:0]$222 [0] $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$197_EN[3:0]$222 [0] $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$197_EN[3:0]$222 [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_regs.$procmux$403:
+      Old ports: A=4'0000, B=4'1111, Y=$flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$196_EN[3:0]$221
+      New ports: A=1'0, B=1'1, Y=$flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$196_EN[3:0]$221 [0]
+      New connections: $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$196_EN[3:0]$221 [3:1] = { $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$196_EN[3:0]$221 [0] $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$196_EN[3:0]$221 [0] $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$196_EN[3:0]$221 [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_regs.$procmux$406:
+      Old ports: A=4'0000, B=4'1111, Y=$flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$195_EN[3:0]$220
+      New ports: A=1'0, B=1'1, Y=$flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$195_EN[3:0]$220 [0]
+      New connections: $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$195_EN[3:0]$220 [3:1] = { $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$195_EN[3:0]$220 [0] $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$195_EN[3:0]$220 [0] $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$195_EN[3:0]$220 [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_regs.$procmux$409:
+      Old ports: A=4'0000, B=4'1111, Y=$flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$194_EN[3:0]$219
+      New ports: A=1'0, B=1'1, Y=$flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$194_EN[3:0]$219 [0]
+      New connections: $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$194_EN[3:0]$219 [3:1] = { $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$194_EN[3:0]$219 [0] $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$194_EN[3:0]$219 [0] $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$194_EN[3:0]$219 [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_regs.$procmux$412:
+      Old ports: A=4'0000, B=4'1111, Y=$flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$193_EN[3:0]$218
+      New ports: A=1'0, B=1'1, Y=$flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$193_EN[3:0]$218 [0]
+      New connections: $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$193_EN[3:0]$218 [3:1] = { $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$193_EN[3:0]$218 [0] $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$193_EN[3:0]$218 [0] $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$193_EN[3:0]$218 [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_regs.$procmux$415:
+      Old ports: A=4'0000, B=4'1111, Y=$flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$192_EN[3:0]$217
+      New ports: A=1'0, B=1'1, Y=$flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$192_EN[3:0]$217 [0]
+      New connections: $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$192_EN[3:0]$217 [3:1] = { $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$192_EN[3:0]$217 [0] $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$192_EN[3:0]$217 [0] $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$192_EN[3:0]$217 [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_regs.$procmux$418:
+      Old ports: A=4'0000, B=4'1111, Y=$flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$191_EN[3:0]$216
+      New ports: A=1'0, B=1'1, Y=$flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$191_EN[3:0]$216 [0]
+      New connections: $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$191_EN[3:0]$216 [3:1] = { $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$191_EN[3:0]$216 [0] $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$191_EN[3:0]$216 [0] $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$191_EN[3:0]$216 [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_regs.$procmux$421:
+      Old ports: A=4'0000, B=4'1111, Y=$flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$190_EN[3:0]$215
+      New ports: A=1'0, B=1'1, Y=$flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$190_EN[3:0]$215 [0]
+      New connections: $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$190_EN[3:0]$215 [3:1] = { $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$190_EN[3:0]$215 [0] $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$190_EN[3:0]$215 [0] $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$190_EN[3:0]$215 [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_regs.$procmux$424:
+      Old ports: A=4'0000, B=4'1111, Y=$flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$189_EN[3:0]$214
+      New ports: A=1'0, B=1'1, Y=$flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$189_EN[3:0]$214 [0]
+      New connections: $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$189_EN[3:0]$214 [3:1] = { $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$189_EN[3:0]$214 [0] $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$189_EN[3:0]$214 [0] $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$189_EN[3:0]$214 [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_regs.$procmux$427:
+      Old ports: A=4'0000, B=4'1111, Y=$flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$188_EN[3:0]$213
+      New ports: A=1'0, B=1'1, Y=$flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$188_EN[3:0]$213 [0]
+      New connections: $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$188_EN[3:0]$213 [3:1] = { $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$188_EN[3:0]$213 [0] $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$188_EN[3:0]$213 [0] $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$188_EN[3:0]$213 [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_regs.$procmux$430:
+      Old ports: A=4'0000, B=4'1111, Y=$flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$187_EN[3:0]$212
+      New ports: A=1'0, B=1'1, Y=$flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$187_EN[3:0]$212 [0]
+      New connections: $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$187_EN[3:0]$212 [3:1] = { $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$187_EN[3:0]$212 [0] $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$187_EN[3:0]$212 [0] $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$187_EN[3:0]$212 [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_regs.$procmux$433:
+      Old ports: A=4'0000, B=4'1111, Y=$flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$186_EN[3:0]$211
+      New ports: A=1'0, B=1'1, Y=$flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$186_EN[3:0]$211 [0]
+      New connections: $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$186_EN[3:0]$211 [3:1] = { $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$186_EN[3:0]$211 [0] $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$186_EN[3:0]$211 [0] $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:23$186_EN[3:0]$211 [0] }
+    New input vector for $reduce_or cell $auto$opt_reduce.cc:128:opt_pmux$1944: { $flatten\u_control.$eq$rtl/control/i4004_control.v:214$70_Y $flatten\u_control.$procmux$1343_CMP $flatten\u_control.$procmux$1344_CMP [5:4] $flatten\u_control.$procmux$1344_CMP [2:0] $flatten\u_control.$procmux$1345_CMP }
+    New input vector for $reduce_or cell $auto$opt_reduce.cc:128:opt_pmux$1948: { $flatten\u_control.$eq$rtl/control/i4004_control.v:214$70_Y $flatten\u_control.$procmux$1343_CMP $flatten\u_control.$procmux$1344_CMP [5:4] $flatten\u_control.$procmux$1344_CMP [2:0] $flatten\u_control.$procmux$1345_CMP }
+  Optimizing cells in module \i4004.
+    Consolidated identical input bits for $mux cell $flatten\u_addr.$procmux$896:
+      Old ports: A=$flatten\u_addr.$4$memwr$\slot$rtl/datapath/i4004_addr.v:30$84_EN[11:0]$150, B=12'000000000000, Y=$flatten\u_addr.$procmux$896_Y
+      New ports: A=$flatten\u_addr.$procmux$734_Y [0], B=1'0, Y=$flatten\u_addr.$procmux$896_Y [0]
+      New connections: $flatten\u_addr.$procmux$896_Y [11:1] = { $flatten\u_addr.$procmux$896_Y [0] $flatten\u_addr.$procmux$896_Y [0] $flatten\u_addr.$procmux$896_Y [0] $flatten\u_addr.$procmux$896_Y [0] $flatten\u_addr.$procmux$896_Y [0] $flatten\u_addr.$procmux$896_Y [0] $flatten\u_addr.$procmux$896_Y [0] $flatten\u_addr.$procmux$896_Y [0] $flatten\u_addr.$procmux$896_Y [0] $flatten\u_addr.$procmux$896_Y [0] $flatten\u_addr.$procmux$896_Y [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_addr.$procmux$950:
+      Old ports: A=12'000000000000, B=$flatten\u_addr.$3$memwr$\slot$rtl/datapath/i4004_addr.v:26$83_EN[11:0]$136, Y=$flatten\u_addr.$procmux$950_Y
+      New ports: A=1'0, B=$flatten\u_addr.$procmux$924_Y [0], Y=$flatten\u_addr.$procmux$950_Y [0]
+      New connections: $flatten\u_addr.$procmux$950_Y [11:1] = { $flatten\u_addr.$procmux$950_Y [0] $flatten\u_addr.$procmux$950_Y [0] $flatten\u_addr.$procmux$950_Y [0] $flatten\u_addr.$procmux$950_Y [0] $flatten\u_addr.$procmux$950_Y [0] $flatten\u_addr.$procmux$950_Y [0] $flatten\u_addr.$procmux$950_Y [0] $flatten\u_addr.$procmux$950_Y [0] $flatten\u_addr.$procmux$950_Y [0] $flatten\u_addr.$procmux$950_Y [0] $flatten\u_addr.$procmux$950_Y [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_addr.$procmux$689:
+      Old ports: A=$flatten\u_addr.$6$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_EN[11:0]$165, B=12'000000000000, Y=$flatten\u_addr.$procmux$689_Y
+      New ports: A=$flatten\u_addr.$procmux$590_Y [0], B=1'0, Y=$flatten\u_addr.$procmux$689_Y [0]
+      New connections: $flatten\u_addr.$procmux$689_Y [11:1] = { $flatten\u_addr.$procmux$689_Y [0] $flatten\u_addr.$procmux$689_Y [0] $flatten\u_addr.$procmux$689_Y [0] $flatten\u_addr.$procmux$689_Y [0] $flatten\u_addr.$procmux$689_Y [0] $flatten\u_addr.$procmux$689_Y [0] $flatten\u_addr.$procmux$689_Y [0] $flatten\u_addr.$procmux$689_Y [0] $flatten\u_addr.$procmux$689_Y [0] $flatten\u_addr.$procmux$689_Y [0] $flatten\u_addr.$procmux$689_Y [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_regs.$procmux$349:
+      Old ports: A=$flatten\u_regs.$3$memwr$\r$rtl/datapath/i4004_regs.v:28$204_EN[3:0]$275, B=4'0000, Y=$flatten\u_regs.$procmux$349_Y
+      New ports: A=$flatten\u_regs.$procmux$277_Y [0], B=1'0, Y=$flatten\u_regs.$procmux$349_Y [0]
+      New connections: $flatten\u_regs.$procmux$349_Y [3:1] = { $flatten\u_regs.$procmux$349_Y [0] $flatten\u_regs.$procmux$349_Y [0] $flatten\u_regs.$procmux$349_Y [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_regs.$procmux$367:
+      Old ports: A=$flatten\u_regs.$3$memwr$\r$rtl/datapath/i4004_regs.v:27$203_EN[3:0]$272, B=4'0000, Y=$flatten\u_regs.$procmux$367_Y
+      New ports: A=$flatten\u_regs.$procmux$304_Y [0], B=1'0, Y=$flatten\u_regs.$procmux$367_Y [0]
+      New connections: $flatten\u_regs.$procmux$367_Y [3:1] = { $flatten\u_regs.$procmux$367_Y [0] $flatten\u_regs.$procmux$367_Y [0] $flatten\u_regs.$procmux$367_Y [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_regs.$procmux$454:
+      Old ports: A=$flatten\u_regs.$2$memwr$\r$rtl/datapath/i4004_regs.v:25$202_EN[3:0]$263, B=4'0000, Y=$flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:25$202_EN[3:0]$229
+      New ports: A=$flatten\u_regs.$procmux$331_Y [0], B=1'0, Y=$flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:25$202_EN[3:0]$229 [0]
+      New connections: $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:25$202_EN[3:0]$229 [3:1] = { $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:25$202_EN[3:0]$229 [0] $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:25$202_EN[3:0]$229 [0] $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:25$202_EN[3:0]$229 [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_addr.$procmux$806:
+      Old ports: A=$flatten\u_addr.$5$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_EN[11:0]$159, B=12'000000000000, Y=$flatten\u_addr.$procmux$806_Y
+      New ports: A=$flatten\u_addr.$procmux$644_Y [0], B=1'0, Y=$flatten\u_addr.$procmux$806_Y [0]
+      New connections: $flatten\u_addr.$procmux$806_Y [11:1] = { 4'0000 $flatten\u_addr.$procmux$806_Y [0] $flatten\u_addr.$procmux$806_Y [0] $flatten\u_addr.$procmux$806_Y [0] $flatten\u_addr.$procmux$806_Y [0] $flatten\u_addr.$procmux$806_Y [0] $flatten\u_addr.$procmux$806_Y [0] $flatten\u_addr.$procmux$806_Y [0] }
+  Optimizing cells in module \i4004.
+    Consolidated identical input bits for $mux cell $flatten\u_addr.$procmux$1004:
+      Old ports: A=$flatten\u_addr.$3$memwr$\slot$rtl/datapath/i4004_addr.v:30$84_EN[11:0]$140, B=12'000000000000, Y=$flatten\u_addr.$procmux$1004_Y
+      New ports: A=$flatten\u_addr.$procmux$896_Y [0], B=1'0, Y=$flatten\u_addr.$procmux$1004_Y [0]
+      New connections: $flatten\u_addr.$procmux$1004_Y [11:1] = { $flatten\u_addr.$procmux$1004_Y [0] $flatten\u_addr.$procmux$1004_Y [0] $flatten\u_addr.$procmux$1004_Y [0] $flatten\u_addr.$procmux$1004_Y [0] $flatten\u_addr.$procmux$1004_Y [0] $flatten\u_addr.$procmux$1004_Y [0] $flatten\u_addr.$procmux$1004_Y [0] $flatten\u_addr.$procmux$1004_Y [0] $flatten\u_addr.$procmux$1004_Y [0] $flatten\u_addr.$procmux$1004_Y [0] $flatten\u_addr.$procmux$1004_Y [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_addr.$procmux$770:
+      Old ports: A=$flatten\u_addr.$5$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_EN[11:0]$162, B=12'000000000000, Y=$flatten\u_addr.$procmux$770_Y
+      New ports: A=$flatten\u_addr.$procmux$689_Y [0], B=1'0, Y=$flatten\u_addr.$procmux$770_Y [0]
+      New connections: $flatten\u_addr.$procmux$770_Y [11:1] = { $flatten\u_addr.$procmux$770_Y [0] $flatten\u_addr.$procmux$770_Y [0] $flatten\u_addr.$procmux$770_Y [0] $flatten\u_addr.$procmux$770_Y [0] $flatten\u_addr.$procmux$770_Y [0] $flatten\u_addr.$procmux$770_Y [0] $flatten\u_addr.$procmux$770_Y [0] $flatten\u_addr.$procmux$770_Y [0] $flatten\u_addr.$procmux$770_Y [0] $flatten\u_addr.$procmux$770_Y [0] $flatten\u_addr.$procmux$770_Y [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_addr.$procmux$869:
+      Old ports: A=$flatten\u_addr.$4$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_EN[11:0]$153, B=12'000000000000, Y=$flatten\u_addr.$procmux$869_Y
+      New ports: A=$flatten\u_addr.$procmux$806_Y [0], B=1'0, Y=$flatten\u_addr.$procmux$869_Y [0]
+      New connections: $flatten\u_addr.$procmux$869_Y [11:1] = { 4'0000 $flatten\u_addr.$procmux$869_Y [0] $flatten\u_addr.$procmux$869_Y [0] $flatten\u_addr.$procmux$869_Y [0] $flatten\u_addr.$procmux$869_Y [0] $flatten\u_addr.$procmux$869_Y [0] $flatten\u_addr.$procmux$869_Y [0] $flatten\u_addr.$procmux$869_Y [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_addr.$procmux$1064:
+      Old ports: A=$flatten\u_addr.$2$memwr$\slot$rtl/datapath/i4004_addr.v:26$83_EN[11:0]$123, B=12'000000000000, Y=$flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:26$83_EN[11:0]$95
+      New ports: A=$flatten\u_addr.$procmux$950_Y [0], B=1'0, Y=$flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:26$83_EN[11:0]$95 [0]
+      New connections: $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:26$83_EN[11:0]$95 [11:1] = { $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:26$83_EN[11:0]$95 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:26$83_EN[11:0]$95 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:26$83_EN[11:0]$95 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:26$83_EN[11:0]$95 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:26$83_EN[11:0]$95 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:26$83_EN[11:0]$95 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:26$83_EN[11:0]$95 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:26$83_EN[11:0]$95 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:26$83_EN[11:0]$95 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:26$83_EN[11:0]$95 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:26$83_EN[11:0]$95 [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_regs.$procmux$436:
+      Old ports: A=$flatten\u_regs.$2$memwr$\r$rtl/datapath/i4004_regs.v:28$204_EN[3:0]$269, B=4'0000, Y=$flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:28$204_EN[3:0]$235
+      New ports: A=$flatten\u_regs.$procmux$349_Y [0], B=1'0, Y=$flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:28$204_EN[3:0]$235 [0]
+      New connections: $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:28$204_EN[3:0]$235 [3:1] = { $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:28$204_EN[3:0]$235 [0] $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:28$204_EN[3:0]$235 [0] $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:28$204_EN[3:0]$235 [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_regs.$procmux$445:
+      Old ports: A=$flatten\u_regs.$2$memwr$\r$rtl/datapath/i4004_regs.v:27$203_EN[3:0]$266, B=4'0000, Y=$flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:27$203_EN[3:0]$232
+      New ports: A=$flatten\u_regs.$procmux$367_Y [0], B=1'0, Y=$flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:27$203_EN[3:0]$232 [0]
+      New connections: $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:27$203_EN[3:0]$232 [3:1] = { $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:27$203_EN[3:0]$232 [0] $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:27$203_EN[3:0]$232 [0] $flatten\u_regs.$0$memwr$\r$rtl/datapath/i4004_regs.v:27$203_EN[3:0]$232 [0] }
+  Optimizing cells in module \i4004.
+    Consolidated identical input bits for $mux cell $flatten\u_addr.$procmux$842:
+      Old ports: A=$flatten\u_addr.$4$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_EN[11:0]$156, B=12'000000000000, Y=$flatten\u_addr.$procmux$842_Y
+      New ports: A=$flatten\u_addr.$procmux$770_Y [0], B=1'0, Y=$flatten\u_addr.$procmux$842_Y [0]
+      New connections: $flatten\u_addr.$procmux$842_Y [11:1] = { $flatten\u_addr.$procmux$842_Y [0] $flatten\u_addr.$procmux$842_Y [0] $flatten\u_addr.$procmux$842_Y [0] $flatten\u_addr.$procmux$842_Y [0] $flatten\u_addr.$procmux$842_Y [0] $flatten\u_addr.$procmux$842_Y [0] $flatten\u_addr.$procmux$842_Y [0] $flatten\u_addr.$procmux$842_Y [0] $flatten\u_addr.$procmux$842_Y [0] $flatten\u_addr.$procmux$842_Y [0] $flatten\u_addr.$procmux$842_Y [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_addr.$procmux$986:
+      Old ports: A=$flatten\u_addr.$3$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_EN[11:0]$143, B=12'000000000000, Y=$flatten\u_addr.$procmux$986_Y
+      New ports: A=$flatten\u_addr.$procmux$869_Y [0], B=1'0, Y=$flatten\u_addr.$procmux$986_Y [0]
+      New connections: $flatten\u_addr.$procmux$986_Y [11:1] = { 4'0000 $flatten\u_addr.$procmux$986_Y [0] $flatten\u_addr.$procmux$986_Y [0] $flatten\u_addr.$procmux$986_Y [0] $flatten\u_addr.$procmux$986_Y [0] $flatten\u_addr.$procmux$986_Y [0] $flatten\u_addr.$procmux$986_Y [0] $flatten\u_addr.$procmux$986_Y [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_addr.$procmux$1055:
+      Old ports: A=$flatten\u_addr.$2$memwr$\slot$rtl/datapath/i4004_addr.v:30$84_EN[11:0]$126, B=12'000000000000, Y=$flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:30$84_EN[11:0]$98
+      New ports: A=$flatten\u_addr.$procmux$1004_Y [0], B=1'0, Y=$flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:30$84_EN[11:0]$98 [0]
+      New connections: $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:30$84_EN[11:0]$98 [11:1] = { $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:30$84_EN[11:0]$98 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:30$84_EN[11:0]$98 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:30$84_EN[11:0]$98 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:30$84_EN[11:0]$98 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:30$84_EN[11:0]$98 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:30$84_EN[11:0]$98 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:30$84_EN[11:0]$98 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:30$84_EN[11:0]$98 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:30$84_EN[11:0]$98 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:30$84_EN[11:0]$98 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:30$84_EN[11:0]$98 [0] }
+  Optimizing cells in module \i4004.
+    Consolidated identical input bits for $mux cell $flatten\u_addr.$procmux$968:
+      Old ports: A=$flatten\u_addr.$3$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_EN[11:0]$146, B=12'000000000000, Y=$flatten\u_addr.$procmux$968_Y
+      New ports: A=$flatten\u_addr.$procmux$842_Y [0], B=1'0, Y=$flatten\u_addr.$procmux$968_Y [0]
+      New connections: $flatten\u_addr.$procmux$968_Y [11:1] = { $flatten\u_addr.$procmux$968_Y [0] $flatten\u_addr.$procmux$968_Y [0] $flatten\u_addr.$procmux$968_Y [0] $flatten\u_addr.$procmux$968_Y [0] $flatten\u_addr.$procmux$968_Y [0] $flatten\u_addr.$procmux$968_Y [0] $flatten\u_addr.$procmux$968_Y [0] $flatten\u_addr.$procmux$968_Y [0] $flatten\u_addr.$procmux$968_Y [0] $flatten\u_addr.$procmux$968_Y [0] $flatten\u_addr.$procmux$968_Y [0] }
+    Consolidated identical input bits for $mux cell $flatten\u_addr.$procmux$1046:
+      Old ports: A=$flatten\u_addr.$2$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_EN[11:0]$129, B=12'000000000000, Y=$flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_EN[11:0]$101
+      New ports: A=$flatten\u_addr.$procmux$986_Y [0], B=1'0, Y=$flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_EN[11:0]$101 [0]
+      New connections: $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_EN[11:0]$101 [11:1] = { 4'0000 $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_EN[11:0]$101 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_EN[11:0]$101 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_EN[11:0]$101 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_EN[11:0]$101 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_EN[11:0]$101 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_EN[11:0]$101 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_EN[11:0]$101 [0] }
+  Optimizing cells in module \i4004.
+    Consolidated identical input bits for $mux cell $flatten\u_addr.$procmux$1037:
+      Old ports: A=$flatten\u_addr.$2$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_EN[11:0]$132, B=12'000000000000, Y=$flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_EN[11:0]$104
+      New ports: A=$flatten\u_addr.$procmux$968_Y [0], B=1'0, Y=$flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_EN[11:0]$104 [0]
+      New connections: $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_EN[11:0]$104 [11:1] = { $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_EN[11:0]$104 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_EN[11:0]$104 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_EN[11:0]$104 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_EN[11:0]$104 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_EN[11:0]$104 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_EN[11:0]$104 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_EN[11:0]$104 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_EN[11:0]$104 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_EN[11:0]$104 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_EN[11:0]$104 [0] $flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_EN[11:0]$104 [0] }
+  Optimizing cells in module \i4004.
+Performed a total of 60 changes.
+
+9.7.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\i4004'.
+<suppressed ~81 debug messages>
+Removed a total of 27 cells.
+
+9.7.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+9.7.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \i4004..
+Removed 0 unused cells and 397 unused wires.
+<suppressed ~1 debug messages>
+
+9.7.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module i4004.
+
+9.7.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+9.7.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \i4004..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~54 debug messages>
+
+9.7.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \i4004.
+Performed a total of 0 changes.
+
+9.7.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\i4004'.
+Removed a total of 0 cells.
+
+9.7.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+9.7.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \i4004..
+
+9.7.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module i4004.
+
+9.7.16. Finished OPT passes. (There is nothing left to do.)
+
+9.8. Executing FSM pass (extract and optimize FSM).
+
+9.8.1. Executing FSM_DETECT pass (finding FSMs in design).
+
+9.8.2. Executing FSM_EXTRACT pass (extracting FSM from design).
+
+9.8.3. Executing FSM_OPT pass (simple optimizations of FSMs).
+
+9.8.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \i4004..
+
+9.8.5. Executing FSM_OPT pass (simple optimizations of FSMs).
+
+9.8.6. Executing FSM_RECODE pass (re-assigning FSM state encoding).
+
+9.8.7. Executing FSM_INFO pass (dumping all available information on FSM cells).
+
+9.8.8. Executing FSM_MAP pass (mapping FSMs to basic logic).
+
+9.9. Executing OPT pass (performing simple optimizations).
+
+9.9.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module i4004.
+
+9.9.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\i4004'.
+Removed a total of 0 cells.
+
+9.9.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \i4004..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~54 debug messages>
+
+9.9.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \i4004.
+Performed a total of 0 changes.
+
+9.9.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\i4004'.
+Removed a total of 0 cells.
+
+9.9.6. Executing OPT_DFF pass (perform DFF optimizations).
+Adding SRST signal on $flatten\u_timing.$procdff$1901 ($dff) from module i4004 (D = $flatten\u_timing.$add$rtl/control/i4004_timing.v:13$73_Y, Q = \u_timing.cnt, rval = 3'000).
+Adding SRST signal on $flatten\u_control.$procdff$1910 ($dff) from module i4004 (D = $flatten\u_control.$procmux$1113_Y, Q = \u_control.test_s, rval = 1'0).
+Adding EN signal on $auto$ff.cc:266:slice$1965 ($sdff) from module i4004 (D = \test, Q = \u_control.test_s).
+Adding SRST signal on $flatten\u_control.$procdff$1909 ($dff) from module i4004 (D = $flatten\u_control.$procmux$1097_Y, Q = \u_control.ram_bank, rval = 3'000).
+Adding EN signal on $auto$ff.cc:266:slice$1971 ($sdff) from module i4004 (D = \u_alu.acc [2:0], Q = \u_control.ram_bank).
+Adding SRST signal on $flatten\u_control.$procdff$1907 ($dff) from module i4004 (D = $flatten\u_control.$procmux$1105_Y, Q = \u_control.src_addr, rval = 4'0000).
+Adding EN signal on $auto$ff.cc:266:slice$1977 ($sdff) from module i4004 (D = \u_control.p_data [3:0], Q = \u_control.src_addr).
+Adding SRST signal on $flatten\u_control.$procdff$1906 ($dff) from module i4004 (D = $flatten\u_control.$procmux$1119_Y, Q = \u_control.rd_data, rval = 4'0000).
+Adding EN signal on $auto$ff.cc:266:slice$1981 ($sdff) from module i4004 (D = \d_in, Q = \u_control.rd_data).
+Adding SRST signal on $flatten\u_control.$procdff$1905 ($dff) from module i4004 (D = $flatten\u_control.$procmux$1126_Y, Q = \u_control.fetch_lo, rval = 4'0000).
+Adding EN signal on $auto$ff.cc:266:slice$1983 ($sdff) from module i4004 (D = \d_in, Q = \u_control.fetch_lo).
+Adding SRST signal on $flatten\u_control.$procdff$1904 ($dff) from module i4004 (D = $flatten\u_control.$procmux$1134_Y, Q = \u_control.fetch_hi, rval = 4'0000).
+Adding EN signal on $auto$ff.cc:266:slice$1985 ($sdff) from module i4004 (D = \d_in, Q = \u_control.fetch_hi).
+Adding SRST signal on $flatten\u_control.$procdff$1903 ($dff) from module i4004 (D = $flatten\u_control.$procmux$1142_Y, Q = \u_control.second, rval = 1'0).
+Adding EN signal on $auto$ff.cc:266:slice$1987 ($sdff) from module i4004 (D = $flatten\u_control.$procmux$1140_Y, Q = \u_control.second).
+Adding SRST signal on $flatten\u_control.$procdff$1902 ($dff) from module i4004 (D = $flatten\u_control.$procmux$1150_Y, Q = \u_control.ir, rval = 8'00000000).
+Adding EN signal on $auto$ff.cc:266:slice$1989 ($sdff) from module i4004 (D = { \u_control.fetch_hi \u_control.fetch_lo }, Q = \u_control.ir).
+Adding SRST signal on $flatten\u_alu.$procdff$1882 ($dff) from module i4004 (D = $flatten\u_alu.$procmux$462_Y, Q = \u_alu.cy, rval = 1'0).
+Adding EN signal on $auto$ff.cc:266:slice$1995 ($sdff) from module i4004 (D = \u_alu.n_cy, Q = \u_alu.cy).
+Adding SRST signal on $flatten\u_alu.$procdff$1881 ($dff) from module i4004 (D = $flatten\u_alu.$procmux$467_Y, Q = \u_alu.acc, rval = 4'0000).
+Adding EN signal on $auto$ff.cc:266:slice$2005 ($sdff) from module i4004 (D = \u_alu.n_acc, Q = \u_alu.acc).
+Adding SRST signal on $flatten\u_addr.$procdff$1883 ($dff) from module i4004 (D = $flatten\u_addr.$procmux$1076_Y, Q = \u_addr.sp, rval = 2'00).
+Adding EN signal on $auto$ff.cc:266:slice$2015 ($sdff) from module i4004 (D = $flatten\u_addr.$procmux$1076_Y, Q = \u_addr.sp).
+
+9.9.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \i4004..
+Removed 27 unused cells and 27 unused wires.
+<suppressed ~28 debug messages>
+
+9.9.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module i4004.
+<suppressed ~3 debug messages>
+
+9.9.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+9.9.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \i4004..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~46 debug messages>
+
+9.9.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \i4004.
+Performed a total of 0 changes.
+
+9.9.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\i4004'.
+<suppressed ~15 debug messages>
+Removed a total of 5 cells.
+
+9.9.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+9.9.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \i4004..
+Removed 0 unused cells and 5 unused wires.
+<suppressed ~1 debug messages>
+
+9.9.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module i4004.
+
+9.9.16. Rerunning OPT passes. (Maybe there is more to do..)
+
+9.9.17. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \i4004..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~46 debug messages>
+
+9.9.18. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \i4004.
+Performed a total of 0 changes.
+
+9.9.19. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\i4004'.
+Removed a total of 0 cells.
+
+9.9.20. Executing OPT_DFF pass (perform DFF optimizations).
+
+9.9.21. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \i4004..
+
+9.9.22. Executing OPT_EXPR pass (perform const folding).
+Optimizing module i4004.
+
+9.9.23. Finished OPT passes. (There is nothing left to do.)
+
+9.10. Executing WREDUCE pass (reducing word size of cells).
+Removed top 30 address bits (of 32) from memory init port i4004.$flatten\u_addr.$auto$proc_memwr.cc:45:proc_memwr$1930 (u_addr.slot).
+Removed top 30 address bits (of 32) from memory init port i4004.$flatten\u_addr.$auto$proc_memwr.cc:45:proc_memwr$1931 (u_addr.slot).
+Removed top 30 address bits (of 32) from memory init port i4004.$flatten\u_addr.$auto$proc_memwr.cc:45:proc_memwr$1932 (u_addr.slot).
+Removed top 30 address bits (of 32) from memory init port i4004.$flatten\u_addr.$auto$proc_memwr.cc:45:proc_memwr$1933 (u_addr.slot).
+Removed top 28 address bits (of 32) from memory init port i4004.$flatten\u_regs.$auto$proc_memwr.cc:45:proc_memwr$1911 (u_regs.r).
+Removed top 28 address bits (of 32) from memory init port i4004.$flatten\u_regs.$auto$proc_memwr.cc:45:proc_memwr$1912 (u_regs.r).
+Removed top 28 address bits (of 32) from memory init port i4004.$flatten\u_regs.$auto$proc_memwr.cc:45:proc_memwr$1913 (u_regs.r).
+Removed top 28 address bits (of 32) from memory init port i4004.$flatten\u_regs.$auto$proc_memwr.cc:45:proc_memwr$1914 (u_regs.r).
+Removed top 28 address bits (of 32) from memory init port i4004.$flatten\u_regs.$auto$proc_memwr.cc:45:proc_memwr$1915 (u_regs.r).
+Removed top 28 address bits (of 32) from memory init port i4004.$flatten\u_regs.$auto$proc_memwr.cc:45:proc_memwr$1916 (u_regs.r).
+Removed top 28 address bits (of 32) from memory init port i4004.$flatten\u_regs.$auto$proc_memwr.cc:45:proc_memwr$1917 (u_regs.r).
+Removed top 28 address bits (of 32) from memory init port i4004.$flatten\u_regs.$auto$proc_memwr.cc:45:proc_memwr$1918 (u_regs.r).
+Removed top 28 address bits (of 32) from memory init port i4004.$flatten\u_regs.$auto$proc_memwr.cc:45:proc_memwr$1919 (u_regs.r).
+Removed top 28 address bits (of 32) from memory init port i4004.$flatten\u_regs.$auto$proc_memwr.cc:45:proc_memwr$1920 (u_regs.r).
+Removed top 28 address bits (of 32) from memory init port i4004.$flatten\u_regs.$auto$proc_memwr.cc:45:proc_memwr$1921 (u_regs.r).
+Removed top 28 address bits (of 32) from memory init port i4004.$flatten\u_regs.$auto$proc_memwr.cc:45:proc_memwr$1922 (u_regs.r).
+Removed top 28 address bits (of 32) from memory init port i4004.$flatten\u_regs.$auto$proc_memwr.cc:45:proc_memwr$1923 (u_regs.r).
+Removed top 28 address bits (of 32) from memory init port i4004.$flatten\u_regs.$auto$proc_memwr.cc:45:proc_memwr$1924 (u_regs.r).
+Removed top 28 address bits (of 32) from memory init port i4004.$flatten\u_regs.$auto$proc_memwr.cc:45:proc_memwr$1925 (u_regs.r).
+Removed top 28 address bits (of 32) from memory init port i4004.$flatten\u_regs.$auto$proc_memwr.cc:45:proc_memwr$1926 (u_regs.r).
+Removed top 2 bits (of 3) from port B of cell i4004.$flatten\u_timing.$add$rtl/control/i4004_timing.v:13$73 ($add).
+Removed top 2 bits (of 3) from port B of cell i4004.$flatten\u_control.$procmux$1853_CMP0 ($eq).
+Removed top 1 bits (of 3) from port B of cell i4004.$flatten\u_control.$procmux$1852_CMP0 ($eq).
+Removed top 1 bits (of 3) from port B of cell i4004.$flatten\u_control.$procmux$1851_CMP0 ($eq).
+Removed top 1 bits (of 4) from port B of cell i4004.$flatten\u_control.$procmux$1435_CMP0 ($eq).
+Removed top 4 bits (of 12) from mux cell i4004.$flatten\u_control.$procmux$1397 ($mux).
+Removed top 3 bits (of 5) from mux cell i4004.$flatten\u_control.$procmux$1360 ($pmux).
+Removed top 4 bits (of 12) from mux cell i4004.$flatten\u_control.$procmux$1194 ($mux).
+Removed top 4 bits (of 12) from mux cell i4004.$flatten\u_control.$procmux$1159 ($mux).
+Removed top 1 bits (of 3) from port B of cell i4004.$flatten\u_control.$procmux$1135_CMP0 ($eq).
+Removed top 1 bits (of 3) from port B of cell i4004.$flatten\u_control.$eq$rtl/control/i4004_control.v:111$38 ($eq).
+Removed top 4 bits (of 12) from mux cell i4004.$flatten\u_control.$ternary$rtl/control/i4004_control.v:89$33 ($mux).
+Removed top 2 bits (of 3) from port B of cell i4004.$flatten\u_control.$eq$rtl/control/i4004_control.v:86$27 ($eq).
+Removed top 2 bits (of 4) from port B of cell i4004.$flatten\u_control.$eq$rtl/control/i4004_control.v:63$13 ($eq).
+Removed top 1 bits (of 4) from port B of cell i4004.$flatten\u_control.$eq$rtl/control/i4004_control.v:62$11 ($eq).
+Removed top 1 bits (of 4) from port B of cell i4004.$flatten\u_control.$eq$rtl/control/i4004_control.v:62$9 ($eq).
+Removed top 1 bits (of 4) from port B of cell i4004.$flatten\u_control.$eq$rtl/control/i4004_control.v:62$7 ($eq).
+Removed top 3 bits (of 4) from port B of cell i4004.$flatten\u_control.$eq$rtl/control/i4004_control.v:62$6 ($eq).
+Removed top 2 bits (of 4) from port B of cell i4004.$flatten\u_control.$eq$rtl/control/i4004_control.v:61$3 ($eq).
+Removed top 1 bits (of 4) from port B of cell i4004.$flatten\u_alu.$procmux$566_CMP0 ($eq).
+Removed top 3 bits (of 4) from port B of cell i4004.$flatten\u_alu.$procmux$552_CMP0 ($eq).
+Removed top 2 bits (of 4) from port B of cell i4004.$flatten\u_alu.$procmux$551_CMP0 ($eq).
+Removed top 2 bits (of 4) from port B of cell i4004.$flatten\u_alu.$procmux$550_CMP0 ($eq).
+Removed top 1 bits (of 4) from port B of cell i4004.$flatten\u_alu.$procmux$549_CMP0 ($eq).
+Removed top 1 bits (of 4) from port B of cell i4004.$flatten\u_alu.$procmux$548_CMP0 ($eq).
+Removed top 1 bits (of 4) from port B of cell i4004.$flatten\u_alu.$procmux$547_CMP0 ($eq).
+Removed top 3 bits (of 4) from port B of cell i4004.$flatten\u_alu.$procmux$503_CMP0 ($eq).
+Removed top 2 bits (of 4) from port B of cell i4004.$flatten\u_alu.$procmux$502_CMP0 ($eq).
+Removed top 1 bits (of 4) from port B of cell i4004.$flatten\u_alu.$procmux$501_CMP0 ($eq).
+Removed top 1 bits (of 2) from port B of cell i4004.$flatten\u_alu.$procmux$476_CMP0 ($eq).
+Removed top 4 bits (of 5) from port B of cell i4004.$flatten\u_alu.$add$rtl/datapath/i4004_alu.v:48$183 ($add).
+Removed top 1 bits (of 5) from port A of cell i4004.$flatten\u_alu.$add$rtl/datapath/i4004_alu.v:48$181 ($add).
+Removed top 1 bits (of 5) from port B of cell i4004.$flatten\u_alu.$add$rtl/datapath/i4004_alu.v:48$181 ($add).
+Removed top 4 bits (of 5) from port B of cell i4004.$flatten\u_alu.$add$rtl/datapath/i4004_alu.v:47$179 ($add).
+Removed top 1 bits (of 5) from port A of cell i4004.$flatten\u_alu.$add$rtl/datapath/i4004_alu.v:47$178 ($add).
+Removed top 1 bits (of 5) from port B of cell i4004.$flatten\u_alu.$add$rtl/datapath/i4004_alu.v:47$178 ($add).
+Removed top 1 bits (of 5) from port A of cell i4004.$flatten\u_alu.$add$rtl/datapath/i4004_alu.v:33$176 ($add).
+Removed top 2 bits (of 5) from port B of cell i4004.$flatten\u_alu.$add$rtl/datapath/i4004_alu.v:33$176 ($add).
+Removed top 2 bits (of 4) from mux cell i4004.$flatten\u_alu.$ternary$rtl/datapath/i4004_alu.v:30$173 ($mux).
+Removed top 1 bits (of 5) from port A of cell i4004.$flatten\u_alu.$add$rtl/datapath/i4004_alu.v:29$172 ($add).
+Removed top 1 bits (of 5) from port B of cell i4004.$flatten\u_alu.$add$rtl/datapath/i4004_alu.v:29$172 ($add).
+Removed top 1 bits (of 5) from port A of cell i4004.$flatten\u_alu.$add$rtl/datapath/i4004_alu.v:23$169 ($add).
+Removed top 4 bits (of 5) from port B of cell i4004.$flatten\u_alu.$add$rtl/datapath/i4004_alu.v:23$169 ($add).
+Removed top 3 bits (of 4) from port B of cell i4004.$flatten\u_regs.$add$rtl/datapath/i4004_regs.v:18$207 ($add).
+Removed top 1 bits (of 9) from port B of cell i4004.$auto$opt_dff.cc:195:make_patterns_logic$1998 ($ne).
+Removed top 11 bits (of 12) from port B of cell i4004.$flatten\u_addr.$add$rtl/datapath/i4004_addr.v:34$167 ($add).
+Removed top 1 bits (of 2) from port B of cell i4004.$flatten\u_addr.$sub$rtl/datapath/i4004_addr.v:28$147 ($sub).
+Removed top 1 bits (of 2) from port B of cell i4004.$flatten\u_addr.$add$rtl/datapath/i4004_addr.v:25$133 ($add).
+Removed top 4 bits (of 12) from wire i4004.$flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_EN[11:0]$101.
+Removed top 1 bits (of 2) from wire i4004.$flatten\u_addr.$0$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_ADDR[1:0]$102.
+Removed top 4 bits (of 12) from wire i4004.$flatten\u_addr.$2$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_EN[11:0]$129.
+Removed top 4 bits (of 12) from wire i4004.$flatten\u_addr.$3$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_EN[11:0]$143.
+Removed top 1 bits (of 2) from wire i4004.$flatten\u_addr.$3$memwr$\slot$rtl/datapath/i4004_addr.v:34$86_ADDR[1:0]$144.
+Removed top 4 bits (of 12) from wire i4004.$flatten\u_addr.$4$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_EN[11:0]$153.
+Removed top 4 bits (of 12) from wire i4004.$flatten\u_addr.$5$memwr$\slot$rtl/datapath/i4004_addr.v:32$85_EN[11:0]$159.
+Removed top 2 bits (of 4) from wire i4004.$flatten\u_alu.$ternary$rtl/datapath/i4004_alu.v:30$173_Y.
+Removed top 3 bits (of 5) from wire i4004.$flatten\u_control.$5\alu_op[4:0].
+Removed top 4 bits (of 12) from wire i4004.$flatten\u_control.$5\pc_load_val[11:0].
+Removed top 4 bits (of 12) from wire i4004.$flatten\u_control.$7\pc_load_val[11:0].
+Removed top 4 bits (of 12) from wire i4004.$flatten\u_control.$8\pc_load_val[11:0].
+
+9.11. Executing PEEPOPT pass (run peephole optimizers).
+
+9.12. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \i4004..
+Removed 0 unused cells and 12 unused wires.
+<suppressed ~1 debug messages>
+
+9.13. Executing ALUMACC pass (create $alu and $macc cells).
+Extracting $alu and $macc cells in module i4004:
+  creating $macc model for $flatten\u_addr.$add$rtl/datapath/i4004_addr.v:25$133 ($add).
+  creating $macc model for $flatten\u_addr.$add$rtl/datapath/i4004_addr.v:34$167 ($add).
+  creating $macc model for $flatten\u_addr.$sub$rtl/datapath/i4004_addr.v:28$147 ($sub).
+  creating $macc model for $flatten\u_alu.$add$rtl/datapath/i4004_alu.v:23$169 ($add).
+  creating $macc model for $flatten\u_alu.$add$rtl/datapath/i4004_alu.v:29$172 ($add).
+  creating $macc model for $flatten\u_alu.$add$rtl/datapath/i4004_alu.v:33$176 ($add).
+  creating $macc model for $flatten\u_alu.$add$rtl/datapath/i4004_alu.v:47$178 ($add).
+  creating $macc model for $flatten\u_alu.$add$rtl/datapath/i4004_alu.v:47$179 ($add).
+  creating $macc model for $flatten\u_alu.$add$rtl/datapath/i4004_alu.v:48$181 ($add).
+  creating $macc model for $flatten\u_alu.$add$rtl/datapath/i4004_alu.v:48$183 ($add).
+  creating $macc model for $flatten\u_regs.$add$rtl/datapath/i4004_regs.v:18$207 ($add).
+  creating $macc model for $flatten\u_timing.$add$rtl/control/i4004_timing.v:13$73 ($add).
+  merging $macc model for $flatten\u_alu.$add$rtl/datapath/i4004_alu.v:48$181 into $flatten\u_alu.$add$rtl/datapath/i4004_alu.v:48$183.
+  merging $macc model for $flatten\u_alu.$add$rtl/datapath/i4004_alu.v:47$178 into $flatten\u_alu.$add$rtl/datapath/i4004_alu.v:47$179.
+  creating $alu model for $macc $flatten\u_alu.$add$rtl/datapath/i4004_alu.v:48$183.
+  creating $alu model for $macc $flatten\u_regs.$add$rtl/datapath/i4004_regs.v:18$207.
+  creating $alu model for $macc $flatten\u_alu.$add$rtl/datapath/i4004_alu.v:47$179.
+  creating $alu model for $macc $flatten\u_timing.$add$rtl/control/i4004_timing.v:13$73.
+  creating $alu model for $macc $flatten\u_alu.$add$rtl/datapath/i4004_alu.v:33$176.
+  creating $alu model for $macc $flatten\u_alu.$add$rtl/datapath/i4004_alu.v:29$172.
+  creating $alu model for $macc $flatten\u_alu.$add$rtl/datapath/i4004_alu.v:23$169.
+  creating $alu model for $macc $flatten\u_addr.$sub$rtl/datapath/i4004_addr.v:28$147.
+  creating $alu model for $macc $flatten\u_addr.$add$rtl/datapath/i4004_addr.v:34$167.
+  creating $alu model for $macc $flatten\u_addr.$add$rtl/datapath/i4004_addr.v:25$133.
+  creating $alu model for $flatten\u_alu.$gt$rtl/datapath/i4004_alu.v:32$174 ($gt): new $alu
+  creating $alu cell for $flatten\u_alu.$gt$rtl/datapath/i4004_alu.v:32$174: $auto$alumacc.cc:485:replace_alu$2032
+  creating $alu cell for $flatten\u_addr.$add$rtl/datapath/i4004_addr.v:25$133: $auto$alumacc.cc:485:replace_alu$2043
+  creating $alu cell for $flatten\u_addr.$add$rtl/datapath/i4004_addr.v:34$167: $auto$alumacc.cc:485:replace_alu$2046
+  creating $alu cell for $flatten\u_addr.$sub$rtl/datapath/i4004_addr.v:28$147: $auto$alumacc.cc:485:replace_alu$2049
+  creating $alu cell for $flatten\u_alu.$add$rtl/datapath/i4004_alu.v:23$169: $auto$alumacc.cc:485:replace_alu$2052
+  creating $alu cell for $flatten\u_alu.$add$rtl/datapath/i4004_alu.v:29$172: $auto$alumacc.cc:485:replace_alu$2055
+  creating $alu cell for $flatten\u_alu.$add$rtl/datapath/i4004_alu.v:33$176: $auto$alumacc.cc:485:replace_alu$2058
+  creating $alu cell for $flatten\u_timing.$add$rtl/control/i4004_timing.v:13$73: $auto$alumacc.cc:485:replace_alu$2061
+  creating $alu cell for $flatten\u_alu.$add$rtl/datapath/i4004_alu.v:47$179: $auto$alumacc.cc:485:replace_alu$2064
+  creating $alu cell for $flatten\u_regs.$add$rtl/datapath/i4004_regs.v:18$207: $auto$alumacc.cc:485:replace_alu$2067
+  creating $alu cell for $flatten\u_alu.$add$rtl/datapath/i4004_alu.v:48$183: $auto$alumacc.cc:485:replace_alu$2070
+  created 11 $alu and 0 $macc cells.
+
+9.14. Executing SHARE pass (SAT-based resource sharing).
+Found 3 cells in module i4004 that may be considered for resource sharing.
+  Analyzing resource sharing options for $flatten\u_regs.$memrd$\r$rtl/datapath/i4004_regs.v:19$209 ($memrd):
+    Found 6 activation_patterns using ctrl signal { \u_addr.load_low \u_addr.load_full \u_addr.push \u_addr.pop \u_control.second \u_control.opa [0] \u_control.fin2 \u_control.src_c $flatten\u_control.$eq$rtl/control/i4004_control.v:61$3_Y $flatten\u_control.$eq$rtl/control/i4004_control.v:86$26_Y $flatten\u_control.$eq$rtl/control/i4004_control.v:86$27_Y $flatten\u_control.$eq$rtl/control/i4004_control.v:111$42_Y $flatten\u_control.$eq$rtl/control/i4004_control.v:133$66_Y \reset }.
+    Found 1 candidates: $flatten\u_regs.$memrd$\r$rtl/datapath/i4004_regs.v:17$205
+    Analyzing resource sharing with $flatten\u_regs.$memrd$\r$rtl/datapath/i4004_regs.v:17$205 ($memrd):
+      Found cell that is never activated: $flatten\u_alu.$add$rtl/datapath/i4004_alu.v:47$178
+      Found cell that is never activated: $flatten\u_alu.$add$rtl/datapath/i4004_alu.v:48$181
+      Found 8 activation_patterns using ctrl signal { \u_addr.load_low \u_addr.load_full \u_addr.push \u_addr.pop $auto$opt_reduce.cc:134:opt_pmux$1955 \u_alu.op [4] $flatten\u_alu.$procmux$475_CMP $flatten\u_alu.$procmux$476_CMP $flatten\u_alu.$procmux$482_CMP \u_control.r_we \u_control.second $flatten\u_control.$eq$rtl/control/i4004_control.v:62$11_Y $flatten\u_control.$eq$rtl/control/i4004_control.v:133$66_Y $flatten\u_control.$procmux$1435_CMP \reset }.
+      Forbidden control signals for this pair of cells: { \u_addr.load_low $flatten\u_control.$ne$rtl/control/i4004_control.v:178$67_Y }
+      Activation pattern for cell $flatten\u_regs.$memrd$\r$rtl/datapath/i4004_regs.v:19$209: { \u_addr.load_full \u_addr.push \u_control.second \u_control.opa [0] $flatten\u_control.$eq$rtl/control/i4004_control.v:61$3_Y $flatten\u_control.$eq$rtl/control/i4004_control.v:133$66_Y \reset } = 7'1101110
+      Activation pattern for cell $flatten\u_regs.$memrd$\r$rtl/datapath/i4004_regs.v:19$209: { \u_addr.push \u_addr.pop \u_control.second \u_control.opa [0] $flatten\u_control.$eq$rtl/control/i4004_control.v:61$3_Y $flatten\u_control.$eq$rtl/control/i4004_control.v:133$66_Y \reset } = 7'0001110
+      Activation pattern for cell $flatten\u_regs.$memrd$\r$rtl/datapath/i4004_regs.v:19$209: { \u_control.src_c $flatten\u_control.$eq$rtl/control/i4004_control.v:111$42_Y } = 2'11
+      Activation pattern for cell $flatten\u_regs.$memrd$\r$rtl/datapath/i4004_regs.v:19$209: { \u_control.fin2 $flatten\u_control.$eq$rtl/control/i4004_control.v:86$26_Y } = 2'11
+      Activation pattern for cell $flatten\u_regs.$memrd$\r$rtl/datapath/i4004_regs.v:19$209: { \u_control.fin2 $flatten\u_control.$eq$rtl/control/i4004_control.v:86$27_Y } = 2'11
+      Activation pattern for cell $flatten\u_regs.$memrd$\r$rtl/datapath/i4004_regs.v:17$205: { $auto$opt_reduce.cc:134:opt_pmux$1955 \u_alu.op [4] $flatten\u_alu.$procmux$482_CMP \u_control.second $flatten\u_control.$eq$rtl/control/i4004_control.v:133$66_Y \reset } = 6'101010
+      Activation pattern for cell $flatten\u_regs.$memrd$\r$rtl/datapath/i4004_regs.v:17$205: { $auto$opt_reduce.cc:134:opt_pmux$1955 \u_alu.op [4] $flatten\u_alu.$procmux$476_CMP \u_control.second $flatten\u_control.$eq$rtl/control/i4004_control.v:133$66_Y \reset } = 6'101010
+      Activation pattern for cell $flatten\u_regs.$memrd$\r$rtl/datapath/i4004_regs.v:17$205: { $auto$opt_reduce.cc:134:opt_pmux$1955 \u_alu.op [4] $flatten\u_alu.$procmux$475_CMP \u_control.second $flatten\u_control.$eq$rtl/control/i4004_control.v:133$66_Y \reset } = 6'101010
+      Activation pattern for cell $flatten\u_regs.$memrd$\r$rtl/datapath/i4004_regs.v:17$205: { \u_addr.load_full \u_addr.push \u_addr.pop \u_control.second $flatten\u_control.$eq$rtl/control/i4004_control.v:62$11_Y $flatten\u_control.$eq$rtl/control/i4004_control.v:133$66_Y \reset } = 7'0001110
+      Activation pattern for cell $flatten\u_regs.$memrd$\r$rtl/datapath/i4004_regs.v:17$205: { \u_addr.load_full \u_addr.push \u_control.second $flatten\u_control.$eq$rtl/control/i4004_control.v:62$11_Y $flatten\u_control.$eq$rtl/control/i4004_control.v:133$66_Y \reset } = 6'111110
+      Activation pattern for cell $flatten\u_regs.$memrd$\r$rtl/datapath/i4004_regs.v:17$205: { \u_addr.push \u_addr.pop \u_control.second $flatten\u_control.$eq$rtl/control/i4004_control.v:62$11_Y $flatten\u_control.$eq$rtl/control/i4004_control.v:133$66_Y \reset } = 6'001110
+      Activation pattern for cell $flatten\u_regs.$memrd$\r$rtl/datapath/i4004_regs.v:17$205: { \u_control.r_we \u_control.second $flatten\u_control.$eq$rtl/control/i4004_control.v:133$66_Y $flatten\u_control.$procmux$1435_CMP \reset } = 5'10110
+      Activation pattern for cell $flatten\u_regs.$memrd$\r$rtl/datapath/i4004_regs.v:17$205: { \u_control.r_we \u_control.second $flatten\u_control.$eq$rtl/control/i4004_control.v:62$11_Y $flatten\u_control.$eq$rtl/control/i4004_control.v:133$66_Y \reset } = 5'11110
+      Size of SAT problem: 0 cells, 718 variables, 2028 clauses
+      According to the SAT solver this pair of cells can be shared.
+      Activation signal for $flatten\u_regs.$memrd$\r$rtl/datapath/i4004_regs.v:19$209: $auto$share.cc:987:make_cell_activation_logic$2079
+      New cell: $auto$share.cc:711:make_supercell$2081 ($memrd)
+  Analyzing resource sharing options for $auto$share.cc:711:make_supercell$2081 ($memrd):
+    Found 13 activation_patterns using ctrl signal { \u_addr.load_full \u_addr.push \u_addr.pop $auto$opt_reduce.cc:134:opt_pmux$1955 \u_alu.op [4] $flatten\u_alu.$procmux$475_CMP $flatten\u_alu.$procmux$476_CMP $flatten\u_alu.$procmux$482_CMP \u_control.r_we \u_control.second \u_control.opa [0] \u_control.fin2 \u_control.src_c $flatten\u_control.$eq$rtl/control/i4004_control.v:61$3_Y $flatten\u_control.$eq$rtl/control/i4004_control.v:62$11_Y $flatten\u_control.$eq$rtl/control/i4004_control.v:86$26_Y $flatten\u_control.$eq$rtl/control/i4004_control.v:86$27_Y $flatten\u_control.$eq$rtl/control/i4004_control.v:111$42_Y $flatten\u_control.$eq$rtl/control/i4004_control.v:133$66_Y $flatten\u_control.$procmux$1435_CMP \reset }.
+    No candidates found.
+  Analyzing resource sharing options for $flatten\u_addr.$memrd$\slot$rtl/datapath/i4004_addr.v:17$87 ($memrd):
+    Found 4 activation_patterns using ctrl signal { \u_addr.inc \u_addr.load_low \u_addr.load_full \u_addr.push \u_addr.pop \u_control.fin2 $flatten\u_control.$eq$rtl/control/i4004_control.v:86$26_Y $flatten\u_control.$eq$rtl/control/i4004_control.v:86$27_Y $flatten\u_control.$eq$rtl/control/i4004_control.v:111$38_Y \reset }.
+    No candidates found.
+Removing 4 cells in module i4004:
+  Removing cell $flatten\u_regs.$memrd$\r$rtl/datapath/i4004_regs.v:17$205 ($memrd).
+  Removing cell $flatten\u_regs.$memrd$\r$rtl/datapath/i4004_regs.v:19$209 ($memrd).
+  Removing cell $flatten\u_alu.$add$rtl/datapath/i4004_alu.v:48$181 ($add).
+  Removing cell $flatten\u_alu.$add$rtl/datapath/i4004_alu.v:47$178 ($add).
+
+9.15. Executing OPT pass (performing simple optimizations).
+
+9.15.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module i4004.
+
+9.15.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\i4004'.
+Removed a total of 0 cells.
+
+9.15.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \i4004..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~47 debug messages>
+
+9.15.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \i4004.
+Performed a total of 0 changes.
+
+9.15.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\i4004'.
+Removed a total of 0 cells.
+
+9.15.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+9.15.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \i4004..
+Removed 0 unused cells and 3 unused wires.
+<suppressed ~2 debug messages>
+
+9.15.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module i4004.
+
+9.15.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+9.15.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \i4004..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~47 debug messages>
+
+9.15.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \i4004.
+Performed a total of 0 changes.
+
+9.15.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\i4004'.
+Removed a total of 0 cells.
+
+9.15.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+9.15.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \i4004..
+
+9.15.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module i4004.
+
+9.15.16. Finished OPT passes. (There is nothing left to do.)
+
+9.16. Executing MEMORY pass.
+
+9.16.1. Executing OPT_MEM pass (optimize memories).
+Performed a total of 4 transformations.
+
+9.16.2. Executing OPT_MEM_PRIORITY pass (removing unnecessary memory write priority relations).
+Performed a total of 127 transformations.
+
+9.16.3. Executing OPT_MEM_FEEDBACK pass (finding memory read-to-write feedback paths).
+  Analyzing i4004.u_addr.slot write port 0.
+  Analyzing i4004.u_addr.slot write port 1.
+  Analyzing i4004.u_addr.slot write port 2.
+  Analyzing i4004.u_addr.slot write port 3.
+  Analyzing i4004.u_addr.slot write port 4.
+  Analyzing i4004.u_addr.slot write port 5.
+  Analyzing i4004.u_addr.slot write port 6.
+  Analyzing i4004.u_addr.slot write port 7.
+  Analyzing i4004.u_regs.r write port 0.
+  Analyzing i4004.u_regs.r write port 1.
+  Analyzing i4004.u_regs.r write port 2.
+  Analyzing i4004.u_regs.r write port 3.
+  Analyzing i4004.u_regs.r write port 4.
+  Analyzing i4004.u_regs.r write port 5.
+  Analyzing i4004.u_regs.r write port 6.
+  Analyzing i4004.u_regs.r write port 7.
+  Analyzing i4004.u_regs.r write port 8.
+  Analyzing i4004.u_regs.r write port 9.
+  Analyzing i4004.u_regs.r write port 10.
+  Analyzing i4004.u_regs.r write port 11.
+  Analyzing i4004.u_regs.r write port 12.
+  Analyzing i4004.u_regs.r write port 13.
+  Analyzing i4004.u_regs.r write port 14.
+  Analyzing i4004.u_regs.r write port 15.
+  Analyzing i4004.u_regs.r write port 16.
+  Analyzing i4004.u_regs.r write port 17.
+  Analyzing i4004.u_regs.r write port 18.
+
+9.16.4. Executing MEMORY_BMUX2ROM pass (converting muxes to ROMs).
+
+9.16.5. Executing MEMORY_DFF pass (merging $dff cells to $memrd).
+Checking read port `\u_addr.slot'[0] in module `\i4004': no output FF found.
+Checking read port `\u_regs.r'[0] in module `\i4004': no output FF found.
+Checking read port `\u_regs.r'[1] in module `\i4004': no output FF found.
+Checking read port address `\u_addr.slot'[0] in module `\i4004': merged address FF to cell.
+Checking read port address `\u_regs.r'[0] in module `\i4004': no address FF found.
+Checking read port address `\u_regs.r'[1] in module `\i4004': no address FF found.
+
+9.16.6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \i4004..
+
+9.16.7. Executing MEMORY_SHARE pass (consolidating $memrd/$memwr cells).
+Consolidating write ports of memory i4004.u_addr.slot by address:
+  Merging ports 0, 1 (address 2'00).
+  Merging ports 0, 2 (address 2'00).
+  Merging ports 5, 6 (address \u_addr.sp).
+  Merging ports 5, 7 (address \u_addr.sp).
+Consolidating write ports of memory i4004.u_addr.slot by address:
+Consolidating read ports of memory i4004.u_regs.r by address:
+Consolidating write ports of memory i4004.u_regs.r by address:
+  Merging ports 0, 1 (address 4'0000).
+  Merging ports 0, 2 (address 4'0000).
+  Merging ports 0, 3 (address 4'0000).
+  Merging ports 0, 4 (address 4'0000).
+  Merging ports 0, 5 (address 4'0000).
+  Merging ports 0, 6 (address 4'0000).
+  Merging ports 0, 7 (address 4'0000).
+  Merging ports 0, 8 (address 4'0000).
+  Merging ports 10, 11 (address 4'1010).
+  Merging ports 12, 13 (address 4'1100).
+  Merging ports 12, 14 (address 4'1100).
+  Merging ports 12, 15 (address 4'1100).
+  Merging ports 17, 18 (address { \u_regs.sel [3:1] 1'0 }).
+Consolidating write ports of memory i4004.u_regs.r by address:
+  Merging ports 1, 2 (address 4'1001).
+  Merging ports 1, 3 (address 4'1000).
+Consolidating write ports of memory i4004.u_regs.r by address:
+Consolidating write ports of memory i4004.u_addr.slot using sat-based resource sharing:
+  Checking group clocked with posedge \clk, width 12: ports 1, 2, 3.
+  Common input cone for all EN signals: 70 cells.
+  Size of unconstrained SAT problem: 588 variables, 1510 clauses
+  Merging port 2 into port 1.
+  Merging port 3 into port 1.
+Consolidating write ports of memory i4004.u_regs.r using sat-based resource sharing:
+
+9.16.8. Executing OPT_MEM_WIDEN pass (optimize memories where all ports are wide).
+Performed a total of 0 transformations.
+
+9.16.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \i4004..
+Removed 21 unused cells and 21 unused wires.
+<suppressed ~22 debug messages>
+
+9.16.10. Executing MEMORY_COLLECT pass (generating $mem cells).
+
+9.17. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \i4004..
+
+9.18. Executing OPT pass (performing simple optimizations).
+
+9.18.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module i4004.
+<suppressed ~72 debug messages>
+
+9.18.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\i4004'.
+Removed a total of 0 cells.
+
+9.18.3. Executing OPT_DFF pass (perform DFF optimizations).
+Adding EN signal on $auto$ff.cc:266:slice$2006 ($sdffe) from module i4004 (D = \u_alu.n_acc [0], Q = \u_alu.acc [0]).
+
+9.18.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \i4004..
+Removed 0 unused cells and 53 unused wires.
+<suppressed ~1 debug messages>
+
+9.18.5. Rerunning OPT passes. (Removed registers in this run.)
+
+9.18.6. Executing OPT_EXPR pass (perform const folding).
+Optimizing module i4004.
+
+9.18.7. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\i4004'.
+Removed a total of 0 cells.
+
+9.18.8. Executing OPT_DFF pass (perform DFF optimizations).
+
+9.18.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \i4004..
+
+9.18.10. Finished fast OPT passes.
+
+9.19. Executing MEMORY_MAP pass (converting memories to logic and flip-flops).
+Mapping memory \u_addr.slot in module \i4004:
+  created 4 $dff cells and 0 static cells of width 12.
+Extracted addr FF from read port 0 of i4004.u_addr.slot: $\u_addr.slot$rdreg[0]
+  read interface: 1 $dff and 3 $mux cells.
+  write interface: 12 write mux blocks.
+Mapping memory \u_regs.r in module \i4004:
+  created 16 $dff cells and 0 static cells of width 4.
+  read interface: 0 $dff and 30 $mux cells.
+  write interface: 64 write mux blocks.
+
+9.20. Executing OPT pass (performing simple optimizations).
+
+9.20.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module i4004.
+<suppressed ~76 debug messages>
+
+9.20.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\i4004'.
+<suppressed ~24 debug messages>
+Removed a total of 8 cells.
+
+9.20.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \i4004..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+      Replacing known input bits on port B of cell $auto$memory_share.cc:453:consolidate_wr_using_sat$2114: $auto$rtlil.cc:2405:ReduceOr$2108 -> 1'1
+  Analyzing evaluation results.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1775.
+    dead port 1/2 on $mux $flatten\u_control.$procmux$1784.
+Removed 2 multiplexer ports.
+<suppressed ~67 debug messages>
+
+9.20.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \i4004.
+    New input vector for $reduce_or cell $auto$memory_share.cc:426:consolidate_wr_using_sat$2115: { $auto$rtlil.cc:2432:Or$2102 $auto$rtlil.cc:2432:Or$2106 }
+    New input vector for $reduce_and cell $auto$opt_dff.cc:220:make_patterns_logic$2127: { $auto$opt_dff.cc:194:make_patterns_logic$1999 $auto$opt_dff.cc:194:make_patterns_logic$2007 $auto$opt_dff.cc:194:make_patterns_logic$2011 $auto$opt_dff.cc:194:make_patterns_logic$2124 \u_alu.we }
+    Consolidated identical input bits for $mux cell $auto$share.cc:718:make_supercell$2082:
+      Old ports: A=\u_regs.sel, B={ \u_regs.sel [3:1] 1'0 }, Y=$auto$rtlil.cc:2498:Mux$2083
+      New ports: A=\u_regs.sel [0], B=1'0, Y=$auto$rtlil.cc:2498:Mux$2083 [0]
+      New connections: $auto$rtlil.cc:2498:Mux$2083 [3:1] = \u_regs.sel [3:1]
+    Consolidated identical input bits for $mux cell $flatten\u_control.$procmux$1466:
+      Old ports: A=12'000000000000, B={ 4'0000 $auto$wreduce.cc:461:run$2028 [7:0] }, Y=$flatten\u_control.$4\pc_load_val[11:0]
+      New ports: A=8'00000000, B=$auto$wreduce.cc:461:run$2028 [7:0], Y=$flatten\u_control.$4\pc_load_val[11:0] [7:0]
+      New connections: $flatten\u_control.$4\pc_load_val[11:0] [11:8] = 4'0000
+  Optimizing cells in module \i4004.
+Performed a total of 4 changes.
+
+9.20.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\i4004'.
+Removed a total of 0 cells.
+
+9.20.6. Executing OPT_SHARE pass.
+
+9.20.7. Executing OPT_DFF pass (perform DFF optimizations).
+Adding SRST signal on $\u_addr.slot$rdreg[0] ($dff) from module i4004 (D = $auto$rtlil.cc:2498:Mux$2090, Q = $\u_addr.slot$rdreg[0]$q, rval = 2'00).
+
+9.20.8. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \i4004..
+Removed 1 unused cells and 136 unused wires.
+<suppressed ~2 debug messages>
+
+9.20.9. Executing OPT_EXPR pass (perform const folding).
+Optimizing module i4004.
+<suppressed ~1 debug messages>
+
+9.20.10. Rerunning OPT passes. (Maybe there is more to do..)
+
+9.20.11. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \i4004..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~67 debug messages>
+
+9.20.12. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \i4004.
+Performed a total of 0 changes.
+
+9.20.13. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\i4004'.
+Removed a total of 0 cells.
+
+9.20.14. Executing OPT_SHARE pass.
+
+9.20.15. Executing OPT_DFF pass (perform DFF optimizations).
+Adding EN signal on $memory\u_regs.r[9]$2230 ($dff) from module i4004 (D = $memory\u_regs.r$wrmux[9][3][0]$y$2557, Q = \u_regs.r[9]).
+Adding EN signal on $memory\u_regs.r[8]$2228 ($dff) from module i4004 (D = $memory\u_regs.r$wrmux[8][3][0]$y$2539, Q = \u_regs.r[8]).
+Adding EN signal on $memory\u_regs.r[7]$2226 ($dff) from module i4004 (D = $memory\u_regs.r$wrmux[7][3][0]$y$2513, Q = \u_regs.r[7]).
+Adding EN signal on $memory\u_regs.r[6]$2224 ($dff) from module i4004 (D = $memory\u_regs.r$wrmux[6][3][0]$y$2495, Q = \u_regs.r[6]).
+Adding EN signal on $memory\u_regs.r[5]$2222 ($dff) from module i4004 (D = $memory\u_regs.r$wrmux[5][3][0]$y$2475, Q = \u_regs.r[5]).
+Adding EN signal on $memory\u_regs.r[4]$2220 ($dff) from module i4004 (D = $memory\u_regs.r$wrmux[4][3][0]$y$2457, Q = \u_regs.r[4]).
+Adding EN signal on $memory\u_regs.r[3]$2218 ($dff) from module i4004 (D = $memory\u_regs.r$wrmux[3][3][0]$y$2433, Q = \u_regs.r[3]).
+Adding EN signal on $memory\u_regs.r[2]$2216 ($dff) from module i4004 (D = $memory\u_regs.r$wrmux[2][3][0]$y$2413, Q = \u_regs.r[2]).
+Adding EN signal on $memory\u_regs.r[1]$2214 ($dff) from module i4004 (D = $memory\u_regs.r$wrmux[1][3][0]$y$2389, Q = \u_regs.r[1]).
+Adding EN signal on $memory\u_regs.r[15]$2242 ($dff) from module i4004 (D = $memory\u_regs.r$wrmux[15][3][0]$y$2673, Q = \u_regs.r[15]).
+Adding EN signal on $memory\u_regs.r[14]$2240 ($dff) from module i4004 (D = $memory\u_regs.r$wrmux[14][3][0]$y$2655, Q = \u_regs.r[14]).
+Adding EN signal on $memory\u_regs.r[13]$2238 ($dff) from module i4004 (D = $memory\u_regs.r$wrmux[13][3][0]$y$2635, Q = \u_regs.r[13]).
+Adding EN signal on $memory\u_regs.r[12]$2236 ($dff) from module i4004 (D = $memory\u_regs.r$wrmux[12][3][0]$y$2617, Q = \u_regs.r[12]).
+Adding EN signal on $memory\u_regs.r[11]$2234 ($dff) from module i4004 (D = $memory\u_regs.r$wrmux[11][3][0]$y$2595, Q = \u_regs.r[11]).
+Adding EN signal on $memory\u_regs.r[10]$2232 ($dff) from module i4004 (D = $memory\u_regs.r$wrmux[10][3][0]$y$2577, Q = \u_regs.r[10]).
+Adding EN signal on $memory\u_regs.r[0]$2212 ($dff) from module i4004 (D = $memory\u_regs.r$wrmux[0][3][0]$y$2367, Q = \u_regs.r[0]).
+Adding EN signal on $memory\u_addr.slot[3]$2135 ($dff) from module i4004 (D = $auto$rtlil.cc:2498:Mux$2120 [11:8], Q = \u_addr.slot[3] [11:8]).
+Adding EN signal on $memory\u_addr.slot[3]$2135 ($dff) from module i4004 (D = $auto$rtlil.cc:2498:Mux$2120 [7:0], Q = \u_addr.slot[3] [7:0]).
+Adding EN signal on $memory\u_addr.slot[2]$2133 ($dff) from module i4004 (D = $memory\u_addr.slot$wrmux[2][1][0]$y$2193, Q = \u_addr.slot[2] [7:0]).
+Adding EN signal on $memory\u_addr.slot[2]$2133 ($dff) from module i4004 (D = $memory\u_addr.slot$wrmux[2][1][8]$y$2197, Q = \u_addr.slot[2] [11:8]).
+Adding EN signal on $memory\u_addr.slot[1]$2131 ($dff) from module i4004 (D = $memory\u_addr.slot$wrmux[1][1][0]$y$2177, Q = \u_addr.slot[1] [7:0]).
+Adding EN signal on $memory\u_addr.slot[1]$2131 ($dff) from module i4004 (D = $memory\u_addr.slot$wrmux[1][1][8]$y$2181, Q = \u_addr.slot[1] [11:8]).
+Adding EN signal on $memory\u_addr.slot[0]$2129 ($dff) from module i4004 (D = $memory\u_addr.slot$wrmux[0][1][8]$y$2165, Q = \u_addr.slot[0] [11:8]).
+Adding EN signal on $memory\u_addr.slot[0]$2129 ($dff) from module i4004 (D = $memory\u_addr.slot$wrmux[0][1][0]$y$2161, Q = \u_addr.slot[0] [7:0]).
+
+9.20.16. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \i4004..
+Removed 2 unused cells and 2 unused wires.
+<suppressed ~3 debug messages>
+
+9.20.17. Executing OPT_EXPR pass (perform const folding).
+Optimizing module i4004.
+<suppressed ~41 debug messages>
+
+9.20.18. Rerunning OPT passes. (Maybe there is more to do..)
+
+9.20.19. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \i4004..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~62 debug messages>
+
+9.20.20. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \i4004.
+Performed a total of 0 changes.
+
+9.20.21. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\i4004'.
+Removed a total of 0 cells.
+
+9.20.22. Executing OPT_SHARE pass.
+
+9.20.23. Executing OPT_DFF pass (perform DFF optimizations).
+Adding SRST signal on $auto$ff.cc:266:slice$2740 ($dffe) from module i4004 (D = $auto$rtlil.cc:2498:Mux$2120 [7:0], Q = \u_addr.slot[0] [7:0], rval = 8'00000000).
+Adding SRST signal on $auto$ff.cc:266:slice$2737 ($dffe) from module i4004 (D = $auto$rtlil.cc:2498:Mux$2120 [11:8], Q = \u_addr.slot[0] [11:8], rval = 4'0000).
+Adding SRST signal on $auto$ff.cc:266:slice$2734 ($dffe) from module i4004 (D = $auto$rtlil.cc:2498:Mux$2120 [11:8], Q = \u_addr.slot[1] [11:8], rval = 4'0000).
+Adding SRST signal on $auto$ff.cc:266:slice$2731 ($dffe) from module i4004 (D = $auto$rtlil.cc:2498:Mux$2120 [7:0], Q = \u_addr.slot[1] [7:0], rval = 8'00000000).
+Adding SRST signal on $auto$ff.cc:266:slice$2728 ($dffe) from module i4004 (D = $auto$rtlil.cc:2498:Mux$2120 [11:8], Q = \u_addr.slot[2] [11:8], rval = 4'0000).
+Adding SRST signal on $auto$ff.cc:266:slice$2725 ($dffe) from module i4004 (D = $auto$rtlil.cc:2498:Mux$2120 [7:0], Q = \u_addr.slot[2] [7:0], rval = 8'00000000).
+
+9.20.24. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \i4004..
+Removed 6 unused cells and 25 unused wires.
+<suppressed ~7 debug messages>
+
+9.20.25. Executing OPT_EXPR pass (perform const folding).
+Optimizing module i4004.
+
+9.20.26. Rerunning OPT passes. (Maybe there is more to do..)
+
+9.20.27. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \i4004..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~56 debug messages>
+
+9.20.28. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \i4004.
+Performed a total of 0 changes.
+
+9.20.29. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\i4004'.
+Removed a total of 0 cells.
+
+9.20.30. Executing OPT_SHARE pass.
+
+9.20.31. Executing OPT_DFF pass (perform DFF optimizations).
+
+9.20.32. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \i4004..
+
+9.20.33. Executing OPT_EXPR pass (perform const folding).
+Optimizing module i4004.
+
+9.20.34. Finished OPT passes. (There is nothing left to do.)
+
+9.21. Executing TECHMAP pass (map to technology primitives).
+
+9.21.1. Executing Verilog-2005 frontend: /usr/bin/../share/yosys/techmap.v
+Parsing Verilog input from `/usr/bin/../share/yosys/techmap.v' to AST representation.
+Generating RTLIL representation for module `\_90_simplemap_bool_ops'.
+Generating RTLIL representation for module `\_90_simplemap_reduce_ops'.
+Generating RTLIL representation for module `\_90_simplemap_logic_ops'.
+Generating RTLIL representation for module `\_90_simplemap_compare_ops'.
+Generating RTLIL representation for module `\_90_simplemap_various'.
+Generating RTLIL representation for module `\_90_simplemap_registers'.
+Generating RTLIL representation for module `\_90_shift_ops_shr_shl_sshl_sshr'.
+Generating RTLIL representation for module `\_90_shift_shiftx'.
+Generating RTLIL representation for module `\_90_fa'.
+Generating RTLIL representation for module `\_90_lcu'.
+Generating RTLIL representation for module `\_90_alu'.
+Generating RTLIL representation for module `\_90_macc'.
+Generating RTLIL representation for module `\_90_alumacc'.
+Generating RTLIL representation for module `\$__div_mod_u'.
+Generating RTLIL representation for module `\$__div_mod_trunc'.
+Generating RTLIL representation for module `\_90_div'.
+Generating RTLIL representation for module `\_90_mod'.
+Generating RTLIL representation for module `\$__div_mod_floor'.
+Generating RTLIL representation for module `\_90_divfloor'.
+Generating RTLIL representation for module `\_90_modfloor'.
+Generating RTLIL representation for module `\_90_pow'.
+Generating RTLIL representation for module `\_90_pmux'.
+Generating RTLIL representation for module `\_90_demux'.
+Generating RTLIL representation for module `\_90_lut'.
+Successfully finished Verilog frontend.
+
+9.21.2. Continuing TECHMAP pass.
+Using extmapper simplemap for cells of type $reduce_bool.
+Using extmapper simplemap for cells of type $eq.
+Using extmapper simplemap for cells of type $and.
+Using extmapper simplemap for cells of type $mux.
+Using template $paramod$b85fbb3374a1d9ba7ee4f4d6323c30f939df3ada\_90_alu for cells of type $alu.
+Using extmapper simplemap for cells of type $dffe.
+Using extmapper simplemap for cells of type $sdffce.
+Using extmapper simplemap for cells of type $not.
+Using extmapper simplemap for cells of type $sdffe.
+Using extmapper simplemap for cells of type $logic_not.
+Using template $paramod$33afdd83bf3811dac2de7a968d39eea5718691bc\_90_pmux for cells of type $pmux.
+Using template $paramod$d629d85c8826a74239b9178d1930215a43b0ceb0\_90_pmux for cells of type $pmux.
+Using template $paramod$95ab7b964273918a033d1324366ecc612d202989\_90_pmux for cells of type $pmux.
+Using extmapper simplemap for cells of type $or.
+Using extmapper simplemap for cells of type $sdff.
+Using template $paramod$c5c783b17ab1d780abfad8cfe6563a0a7b47a3b0\_90_pmux for cells of type $pmux.
+Using template $paramod$97565c3687be688407d1272a293bd9d0ae6852dc\_90_pmux for cells of type $pmux.
+Using template $paramod$77db613179eb70c5e4e5c5aca72d602a7c6017b6\_90_pmux for cells of type $pmux.
+Using template $paramod$c2e415ef15bc3ccd2723772353a6b450d3d76206\_90_pmux for cells of type $pmux.
+Using template $paramod$32a7b7b86c07519b7537abc18e96f0331f97914d\_90_alu for cells of type $alu.
+Using template $paramod$bf2533632d512eac76dd186c0da49367e29b8e98\_90_pmux for cells of type $pmux.
+Using extmapper simplemap for cells of type $reduce_or.
+Using template $paramod$c654a831025ee805eb993d5880de10a3d616cd3b\_90_pmux for cells of type $pmux.
+Using extmapper simplemap for cells of type $logic_and.
+Using extmapper simplemap for cells of type $xor.
+Using template $paramod$aebc44f5eedf4f1603d7564e4920ac508059c773\_90_alu for cells of type $alu.
+Using template $paramod$943564b9366bbc392bf4bbc801aa0a2d7742a4e0\_90_alu for cells of type $alu.
+Using template $paramod$4d45682f6d5f8751d24fc75184ef72226da353f7\_90_pmux for cells of type $pmux.
+Using template $paramod$bf541dd3c0ba8228982b61e7bfbc350a2c253f4c\_90_pmux for cells of type $pmux.
+Using template $paramod$3ef7d3dd227da7627a99c5e5a6a4deb817573e39\_90_alu for cells of type $alu.
+Using extmapper simplemap for cells of type $logic_or.
+Using template $paramod$175e67c02b86e96b1288b9dc100122520d7240d8\_90_alu for cells of type $alu.
+Using extmapper simplemap for cells of type $reduce_and.
+Using extmapper simplemap for cells of type $ne.
+Using template $paramod$740b056ede97228d3eae64ea2fdc81f0a33e0fe7\_90_alu for cells of type $alu.
+Using template $paramod$ba698a254f9a5947e85cbe7beae6b161eefc5386\_90_alu for cells of type $alu.
+Using template $paramod$8f780356cb6cdb52f6a744190131b65634639c4e\_90_alu for cells of type $alu.
+Using extmapper simplemap for cells of type $pos.
+Using template $paramod\_90_lcu\WIDTH=32'00000000000000000000000000000010 for cells of type $lcu.
+Using template $paramod\_90_lcu\WIDTH=32'00000000000000000000000000001100 for cells of type $lcu.
+Using template $paramod\_90_lcu\WIDTH=32'00000000000000000000000000000011 for cells of type $lcu.
+Using template $paramod\_90_lcu\WIDTH=32'00000000000000000000000000000101 for cells of type $lcu.
+Using template $paramod\_90_lcu\WIDTH=32'00000000000000000000000000000100 for cells of type $lcu.
+No more expansions possible.
+<suppressed ~1746 debug messages>
+
+9.22. Executing OPT pass (performing simple optimizations).
+
+9.22.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module i4004.
+<suppressed ~713 debug messages>
+
+9.22.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\i4004'.
+<suppressed ~642 debug messages>
+Removed a total of 214 cells.
+
+9.22.3. Executing OPT_DFF pass (perform DFF optimizations).
+
+9.22.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \i4004..
+Removed 27 unused cells and 1035 unused wires.
+<suppressed ~28 debug messages>
+
+9.22.5. Finished fast OPT passes.
+
+9.23. Executing ABC pass (technology mapping using ABC).
+
+9.23.1. Extracting gate netlist of module `\i4004' to `<abc-temp-dir>/input.blif'..
+Extracted 1359 gates and 1515 wires to a netlist network with 154 inputs and 145 outputs.
+
+9.23.1.1. Executing ABC.
+Running ABC command: "<yosys-exe-dir>/yosys-abc" -s -f <abc-temp-dir>/abc.script 2>&1
+ABC: ABC command line: "source <abc-temp-dir>/abc.script".
+ABC: 
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_library <abc-temp-dir>/stdcells.genlib 
+ABC: Entered genlib library with 13 gates from file "<abc-temp-dir>/stdcells.genlib".
+ABC: + strash 
+ABC: + dretime 
+ABC: + map 
+ABC: + write_blif <abc-temp-dir>/output.blif 
+
+9.23.1.2. Re-integrating ABC results.
+ABC RESULTS:              XNOR cells:        2
+ABC RESULTS:              NAND cells:       39
+ABC RESULTS:               NOR cells:       70
+ABC RESULTS:             ORNOT cells:       59
+ABC RESULTS:               MUX cells:      267
+ABC RESULTS:               NOT cells:       70
+ABC RESULTS:                OR cells:      333
+ABC RESULTS:            ANDNOT cells:      379
+ABC RESULTS:               AND cells:       53
+ABC RESULTS:               XOR cells:       39
+ABC RESULTS:        internal signals:     1216
+ABC RESULTS:           input signals:      154
+ABC RESULTS:          output signals:      145
+Removing temp directory.
+
+9.24. Executing OPT pass (performing simple optimizations).
+
+9.24.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module i4004.
+<suppressed ~47 debug messages>
+
+9.24.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\i4004'.
+<suppressed ~18 debug messages>
+Removed a total of 6 cells.
+
+9.24.3. Executing OPT_DFF pass (perform DFF optimizations).
+
+9.24.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \i4004..
+Removed 3 unused cells and 803 unused wires.
+<suppressed ~21 debug messages>
+
+9.24.5. Finished fast OPT passes.
+
+9.25. Executing HIERARCHY pass (managing design hierarchy).
+
+9.25.1. Analyzing design hierarchy..
+Top module:  \i4004
+
+9.25.2. Analyzing design hierarchy..
+Top module:  \i4004
+Removed 0 unused modules.
+
+9.26. Printing statistics.
+
+=== i4004 ===
+
+   Number of wires:               1406
+   Number of wire bits:           1749
+   Number of public wires:         124
+   Number of public wire bits:     462
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:               1455
+     $_ANDNOT_                     378
+     $_AND_                         53
+     $_DFFE_PP_                     76
+     $_MUX_                        267
+     $_NAND_                        39
+     $_NOR_                         67
+     $_NOT_                         67
+     $_ORNOT_                       59
+     $_OR_                         333
+     $_SDFFCE_PN0P_                 36
+     $_SDFFE_PP0N_                   7
+     $_SDFFE_PP0P_                  29
+     $_SDFF_PP0_                     5
+     $_XNOR_                         2
+     $_XOR_                         37
+
+9.27. Executing CHECK pass (checking for obvious problems).
+Checking module i4004...
+Found and reported 0 problems.
+
+10. Executing DFFLEGALIZE pass (convert FFs to types supported by the target).
+
+11. Executing DFFLIBMAP pass (mapping DFF cells to sequential cells from liberty file).
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbn_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbn_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtn_1' - skipping.
+Warning: Found unsupported expression 'D&DE|IQ&!DE' in pin attribute of cell 'sky130_fd_sc_hd__edfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&DE|IQ&!DE' in pin attribute of cell 'sky130_fd_sc_hd__edfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_4' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfsbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfsbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_4' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_4' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxbp_2' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_2' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_4' - skipping.
+  cell sky130_fd_sc_hd__dfxtp_1 (noninv, pins=3, area=20.02) is a direct match for cell type $_DFF_P_.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbn_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbn_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtn_1' - skipping.
+  cell sky130_fd_sc_hd__dfrtn_1 (noninv, pins=4, area=25.02) is a direct match for cell type $_DFF_NN0_.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbn_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbn_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtn_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbn_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbn_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtn_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbn_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbn_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtn_1' - skipping.
+Warning: Found unsupported expression 'D&DE|IQ&!DE' in pin attribute of cell 'sky130_fd_sc_hd__edfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&DE|IQ&!DE' in pin attribute of cell 'sky130_fd_sc_hd__edfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_4' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfsbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfsbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_4' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_4' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxbp_2' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_2' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_4' - skipping.
+  cell sky130_fd_sc_hd__dfrtp_1 (noninv, pins=4, area=25.02) is a direct match for cell type $_DFF_PN0_.
+Warning: Found unsupported expression 'D&DE|IQ&!DE' in pin attribute of cell 'sky130_fd_sc_hd__edfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&DE|IQ&!DE' in pin attribute of cell 'sky130_fd_sc_hd__edfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_4' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfsbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfsbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_4' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_4' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxbp_2' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_2' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_4' - skipping.
+  cell sky130_fd_sc_hd__dfstp_2 (noninv, pins=4, area=26.28) is a direct match for cell type $_DFF_PN1_.
+Warning: Found unsupported expression 'D&DE|IQ&!DE' in pin attribute of cell 'sky130_fd_sc_hd__edfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&DE|IQ&!DE' in pin attribute of cell 'sky130_fd_sc_hd__edfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_4' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfsbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfsbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_4' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_4' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxbp_2' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_2' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_4' - skipping.
+Warning: Found unsupported expression 'D&DE|IQ&!DE' in pin attribute of cell 'sky130_fd_sc_hd__edfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&DE|IQ&!DE' in pin attribute of cell 'sky130_fd_sc_hd__edfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_4' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfsbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfsbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_4' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_4' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxbp_2' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_2' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_4' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbn_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbn_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtn_1' - skipping.
+  cell sky130_fd_sc_hd__dfbbn_1 (noninv, pins=6, area=32.53) is a direct match for cell type $_DFFSR_NNN_.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbn_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbn_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtn_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbn_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbn_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtn_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbn_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbn_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtn_1' - skipping.
+Warning: Found unsupported expression 'D&DE|IQ&!DE' in pin attribute of cell 'sky130_fd_sc_hd__edfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&DE|IQ&!DE' in pin attribute of cell 'sky130_fd_sc_hd__edfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_4' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfsbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfsbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_4' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_4' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxbp_2' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_2' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_4' - skipping.
+  cell sky130_fd_sc_hd__dfbbp_1 (noninv, pins=6, area=32.53) is a direct match for cell type $_DFFSR_PNN_.
+Warning: Found unsupported expression 'D&DE|IQ&!DE' in pin attribute of cell 'sky130_fd_sc_hd__edfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&DE|IQ&!DE' in pin attribute of cell 'sky130_fd_sc_hd__edfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_4' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfsbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfsbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_4' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_4' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxbp_2' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_2' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_4' - skipping.
+Warning: Found unsupported expression 'D&DE|IQ&!DE' in pin attribute of cell 'sky130_fd_sc_hd__edfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&DE|IQ&!DE' in pin attribute of cell 'sky130_fd_sc_hd__edfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_4' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfsbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfsbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_4' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_4' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxbp_2' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_2' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_4' - skipping.
+Warning: Found unsupported expression 'D&DE|IQ&!DE' in pin attribute of cell 'sky130_fd_sc_hd__edfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&DE|IQ&!DE' in pin attribute of cell 'sky130_fd_sc_hd__edfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfbbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfrtp_4' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfsbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfsbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfstp_4' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxbp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_4' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxbp_2' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_1' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_2' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxtp_4' - skipping.
+  final dff cell mappings:
+    unmapped dff cell: $_DFF_N_
+    \sky130_fd_sc_hd__dfxtp_1 _DFF_P_ (.CLK( C), .D( D), .Q( Q));
+    \sky130_fd_sc_hd__dfrtn_1 _DFF_NN0_ (.CLK_N( C), .D( D), .Q( Q), .RESET_B( R));
+    unmapped dff cell: $_DFF_NN1_
+    unmapped dff cell: $_DFF_NP0_
+    unmapped dff cell: $_DFF_NP1_
+    \sky130_fd_sc_hd__dfrtp_1 _DFF_PN0_ (.CLK( C), .D( D), .Q( Q), .RESET_B( R));
+    \sky130_fd_sc_hd__dfstp_2 _DFF_PN1_ (.CLK( C), .D( D), .Q( Q), .SET_B( R));
+    unmapped dff cell: $_DFF_PP0_
+    unmapped dff cell: $_DFF_PP1_
+    \sky130_fd_sc_hd__dfbbn_1 _DFFSR_NNN_ (.CLK_N( C), .D( D), .Q( Q), .Q_N(~Q), .RESET_B( R), .SET_B( S));
+    unmapped dff cell: $_DFFSR_NNP_
+    unmapped dff cell: $_DFFSR_NPN_
+    unmapped dff cell: $_DFFSR_NPP_
+    \sky130_fd_sc_hd__dfbbp_1 _DFFSR_PNN_ (.CLK( C), .D( D), .Q( Q), .Q_N(~Q), .RESET_B( R), .SET_B( S));
+    unmapped dff cell: $_DFFSR_PNP_
+    unmapped dff cell: $_DFFSR_PPN_
+    unmapped dff cell: $_DFFSR_PPP_
+
+11.1. Executing DFFLEGALIZE pass (convert FFs to types supported by the target).
+Mapping DFF cells in module `\i4004':
+  mapped 153 $_DFF_P_ cells to \sky130_fd_sc_hd__dfxtp_1 cells.
+
+12. Executing ABC pass (technology mapping using ABC).
+
+12.1. Extracting gate netlist of module `\i4004' to `<abc-temp-dir>/input.blif'..
+Extracted 1527 gates and 1687 wires to a netlist network with 159 inputs and 164 outputs.
+
+12.1.1. Executing ABC.
+Running ABC command: "<yosys-exe-dir>/yosys-abc" -s -f <abc-temp-dir>/abc.script 2>&1
+ABC: ABC command line: "source <abc-temp-dir>/abc.script".
+ABC: 
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_lib -w /tmp/tmp.T1MxF5sZur/f.lib 
+ABC: Parsing finished successfully.  Parsing time =     0.13 sec
+ABC: Scl_LibertyReadGenlib() skipped cell "sky130_fd_sc_hd__decap_12" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "sky130_fd_sc_hd__decap_3" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "sky130_fd_sc_hd__decap_4" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "sky130_fd_sc_hd__decap_6" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "sky130_fd_sc_hd__decap_8" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dfbbn_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dfbbn_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dfbbp_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dfrbp_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dfrbp_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dfrtn_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dfrtp_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dfrtp_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dfrtp_4".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dfsbp_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dfsbp_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dfstp_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dfstp_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dfstp_4".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dfxbp_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dfxbp_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dfxtp_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dfxtp_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dfxtp_4".
+ABC: Scl_LibertyReadGenlib() skipped cell "sky130_fd_sc_hd__diode_2" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "sky130_fd_sc_hd__dlclkp_1" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "sky130_fd_sc_hd__dlclkp_2" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "sky130_fd_sc_hd__dlclkp_4" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dlrbn_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dlrbn_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dlrbp_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dlrbp_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dlrtn_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dlrtn_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dlrtn_4".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dlrtp_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dlrtp_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dlrtp_4".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dlxbn_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dlxbn_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dlxbp_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dlxtn_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dlxtn_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dlxtn_4".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__dlxtp_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__edfxbp_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__edfxtp_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__sdfbbn_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__sdfbbn_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__sdfbbp_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__sdfrbp_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__sdfrbp_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__sdfrtn_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__sdfrtp_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__sdfrtp_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__sdfrtp_4".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__sdfsbp_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__sdfsbp_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__sdfstp_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__sdfstp_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__sdfstp_4".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__sdfxbp_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__sdfxbp_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__sdfxtp_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__sdfxtp_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__sdfxtp_4".
+ABC: Scl_LibertyReadGenlib() skipped cell "sky130_fd_sc_hd__sdlclkp_1" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "sky130_fd_sc_hd__sdlclkp_2" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "sky130_fd_sc_hd__sdlclkp_4" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__sedfxbp_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__sedfxbp_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__sedfxtp_1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__sedfxtp_2".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "sky130_fd_sc_hd__sedfxtp_4".
+ABC: Library "sky130_fd_sc_hd__tt_025C_1v80" from "/tmp/tmp.T1MxF5sZur/f.lib" has 290 cells (74 skipped: 62 seq; 0 tri-state; 12 no func; 0 dont_use).  Time =     0.20 sec
+ABC: Memory =   18.57 MB. Time =     0.20 sec
+ABC: Warning: Detected 9 multi-output gates (for example, "sky130_fd_sc_hd__fa_1").
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &fraig -x 
+ABC: + &put 
+ABC: + scorr 
+ABC: Warning: The network is combinational (run "fraig" or "fraig_sweep").
+ABC: + dc2 
+ABC: + dretime 
+ABC: + retime -o -D 10000 
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &dch -f 
+ABC: + &nf -D 10000 
+ABC: + &put 
+ABC: + write_blif <abc-temp-dir>/output.blif 
+
+12.1.2. Re-integrating ABC results.
+ABC RESULTS:   sky130_fd_sc_hd__and2_0 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__nor4b_1 cells:        2
+ABC RESULTS:   sky130_fd_sc_hd__nand3b_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__nand4b_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__or4b_1 cells:        2
+ABC RESULTS:   sky130_fd_sc_hd__a21boi_0 cells:        2
+ABC RESULTS:   sky130_fd_sc_hd__mux4_2 cells:        7
+ABC RESULTS:   sky130_fd_sc_hd__a32o_1 cells:        8
+ABC RESULTS:   sky130_fd_sc_hd__a31o_1 cells:        2
+ABC RESULTS:   sky130_fd_sc_hd__mux2_1 cells:       16
+ABC RESULTS:   sky130_fd_sc_hd__nor4_1 cells:        7
+ABC RESULTS:   sky130_fd_sc_hd__or2_0 cells:        5
+ABC RESULTS:   sky130_fd_sc_hd__a211o_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__and3_1 cells:        7
+ABC RESULTS:   sky130_fd_sc_hd__a221oi_1 cells:        3
+ABC RESULTS:   sky130_fd_sc_hd__and4_1 cells:        2
+ABC RESULTS:   sky130_fd_sc_hd__a41oi_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__a222oi_1 cells:        3
+ABC RESULTS:   sky130_fd_sc_hd__nand2b_1 cells:       20
+ABC RESULTS:   sky130_fd_sc_hd__a22oi_1 cells:        8
+ABC RESULTS:   sky130_fd_sc_hd__maj3_1 cells:        8
+ABC RESULTS:   sky130_fd_sc_hd__mux2i_1 cells:       42
+ABC RESULTS:   sky130_fd_sc_hd__nor2b_1 cells:       10
+ABC RESULTS:   sky130_fd_sc_hd__o311ai_0 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__nand4_1 cells:        6
+ABC RESULTS:   sky130_fd_sc_hd__o211ai_1 cells:        3
+ABC RESULTS:   sky130_fd_sc_hd__clkinv_1 cells:        8
+ABC RESULTS:   sky130_fd_sc_hd__or3_1 cells:        9
+ABC RESULTS:   sky130_fd_sc_hd__o21a_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__o221ai_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__o31ai_1 cells:        2
+ABC RESULTS:   sky130_fd_sc_hd__a32oi_1 cells:        9
+ABC RESULTS:   sky130_fd_sc_hd__nand3_1 cells:       28
+ABC RESULTS:   sky130_fd_sc_hd__o22ai_1 cells:       11
+ABC RESULTS:   sky130_fd_sc_hd__a21o_1 cells:        5
+ABC RESULTS:   sky130_fd_sc_hd__a31oi_1 cells:        4
+ABC RESULTS:   sky130_fd_sc_hd__a2111oi_0 cells:        2
+ABC RESULTS:   sky130_fd_sc_hd__xnor2_1 cells:       11
+ABC RESULTS:   sky130_fd_sc_hd__o21bai_1 cells:        2
+ABC RESULTS:   sky130_fd_sc_hd__a22o_1 cells:       12
+ABC RESULTS:   sky130_fd_sc_hd__o21ai_0 cells:       92
+ABC RESULTS:   sky130_fd_sc_hd__nand2_1 cells:      150
+ABC RESULTS:   sky130_fd_sc_hd__a21oi_1 cells:      114
+ABC RESULTS:   sky130_fd_sc_hd__xor2_1 cells:       10
+ABC RESULTS:   sky130_fd_sc_hd__nor3_1 cells:       60
+ABC RESULTS:   sky130_fd_sc_hd__a221o_1 cells:       65
+ABC RESULTS:   sky130_fd_sc_hd__nor2_1 cells:      167
+ABC RESULTS:   sky130_fd_sc_hd__a211oi_1 cells:       10
+ABC RESULTS:        internal signals:     1364
+ABC RESULTS:           input signals:      159
+ABC RESULTS:          output signals:      164
+Removing temp directory.
+
+13. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \i4004..
+Removed 0 unused cells and 1760 unused wires.
+<suppressed ~85 debug messages>
+
+14. Executing CHECK pass (checking for obvious problems).
+Checking module i4004...
+Found and reported 0 problems.
+
+15. Printing statistics.
+
+=== i4004 ===
+
+   Number of wires:                972
+   Number of wire bits:           1102
+   Number of public wires:          40
+   Number of public wire bits:     169
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:               1095
+     sky130_fd_sc_hd__a2111oi_0      2
+     sky130_fd_sc_hd__a211o_1        1
+     sky130_fd_sc_hd__a211oi_1      10
+     sky130_fd_sc_hd__a21boi_0       2
+     sky130_fd_sc_hd__a21o_1         5
+     sky130_fd_sc_hd__a21oi_1      114
+     sky130_fd_sc_hd__a221o_1       65
+     sky130_fd_sc_hd__a221oi_1       3
+     sky130_fd_sc_hd__a222oi_1       3
+     sky130_fd_sc_hd__a22o_1        12
+     sky130_fd_sc_hd__a22oi_1        8
+     sky130_fd_sc_hd__a31o_1         2
+     sky130_fd_sc_hd__a31oi_1        4
+     sky130_fd_sc_hd__a32o_1         8
+     sky130_fd_sc_hd__a32oi_1        9
+     sky130_fd_sc_hd__a41oi_1        1
+     sky130_fd_sc_hd__and2_0         1
+     sky130_fd_sc_hd__and3_1         7
+     sky130_fd_sc_hd__and4_1         2
+     sky130_fd_sc_hd__clkinv_1       8
+     sky130_fd_sc_hd__dfxtp_1      153
+     sky130_fd_sc_hd__maj3_1         8
+     sky130_fd_sc_hd__mux2_1        16
+     sky130_fd_sc_hd__mux2i_1       42
+     sky130_fd_sc_hd__mux4_2         7
+     sky130_fd_sc_hd__nand2_1      150
+     sky130_fd_sc_hd__nand2b_1      20
+     sky130_fd_sc_hd__nand3_1       28
+     sky130_fd_sc_hd__nand3b_1       1
+     sky130_fd_sc_hd__nand4_1        6
+     sky130_fd_sc_hd__nand4b_1       1
+     sky130_fd_sc_hd__nor2_1       167
+     sky130_fd_sc_hd__nor2b_1       10
+     sky130_fd_sc_hd__nor3_1        60
+     sky130_fd_sc_hd__nor4_1         7
+     sky130_fd_sc_hd__nor4b_1        2
+     sky130_fd_sc_hd__o211ai_1       3
+     sky130_fd_sc_hd__o21a_1         1
+     sky130_fd_sc_hd__o21ai_0       92
+     sky130_fd_sc_hd__o21bai_1       2
+     sky130_fd_sc_hd__o221ai_1       1
+     sky130_fd_sc_hd__o22ai_1       11
+     sky130_fd_sc_hd__o311ai_0       1
+     sky130_fd_sc_hd__o31ai_1        2
+     sky130_fd_sc_hd__or2_0          5
+     sky130_fd_sc_hd__or3_1          9
+     sky130_fd_sc_hd__or4b_1         2
+     sky130_fd_sc_hd__xnor2_1       11
+     sky130_fd_sc_hd__xor2_1        10
+
+   Chip area for module '\i4004': 8637.033600
+
+16. Executing Verilog backend.
+Dumping module `\i4004'.
+
+Warnings: 26 unique messages, 234 total
+End of script. Logfile hash: 7310dc7ede, CPU: user 2.80s system 0.04s, MEM: 40.61 MB peak
+Yosys 0.33 (git sha1 2584903a060)
+Time spent: 29% 2x abc (1 sec), 15% 31x opt_expr (0 sec), ...
