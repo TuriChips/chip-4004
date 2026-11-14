@@ -37,13 +37,34 @@ confirmed by reading its source:
 - `JMS` leaves `pc = target − 1` for an external executor that isn't in the package.
 With this many of its own bugs, almost every mismatch would measure pyntel4004, not our chip.
 
-**MAME `mcs40` core (`src/devices/cpu/mcs40/mcs40.cpp`, BSD-3-Clause, Vas Crabb): preferred
-candidate, not yet integrated.** It's an independent, widely used implementation of the 4004 at
-bus-cycle level (A1–X3, CM lines), so it could even be compared at the pins, not only per
-instruction. Open question: how to run it. It's written against MAME's device framework, and
-the Debian `mame` package needs a machine with ROM images to start. Next step: a feasibility
-check (standalone build of the core with a minimal shim vs. a MAME machine driven through its
-debugger trace). The result goes here, and it's the decision for #7.
+**MAME `mcs40` core (`src/devices/cpu/mcs40/mcs40.cpp`, BSD-3-Clause, Vas Crabb): chosen.
+Feasibility checked 2026-11-14, works.** It's an independent, widely used implementation of the
+4004 at bus-cycle level. Its address stack is a pointer stepping through 4 slots, mod 4
+(`push_pc`/`pop_pc`), the same circular model as spec §3, so a 4th JMS and BBL underflow are
+comparable. What was checked, on the lab VM, with no root:
+- Ubuntu's `mame` 0.264 package plus its 81 missing library packages, fetched with
+  `apt-get download` and unpacked with `dpkg-deb -x` (~180 MB, nothing installed system-wide),
+  run with `LD_LIBRARY_PATH`. `mame -listfull` lists `i4004` and the 4004 machines `busicom`,
+  `4004clk` and `intlc44`.
+- `busicom` runs **our own program** when it's given as the 5 ROM files `busicom.l01/l02/l05/l07/l11`
+  (0x000–0x4FF). MAME prints "WRONG CHECKSUMS … might not run correctly" and runs anyway.
+  No original ROM is needed or used.
+- Headless instruction trace: `QT_QPA_PLATFORM=offscreen`, `-video none -sound none -nothrottle
+  -seconds_to_run N -debug -debugger qt -debugscript s.txt`, with
+  `trace t.log,maincpu,noloop,{tracelog "pc=%03X a=%X cy=%X sp=%X …",pc,a,(curflags>>1)&1,sp,r0,…}`.
+  It logs the state **before** each instruction. Debugger symbols: `pc`, `a`, `r0`–`r15`, `sp`,
+  `cr`, and `curflags` (bit 1 = carry, bit 0 = TEST). `cy`, `c` and `genflags` don't work as names.
+  Check: LDM 15; IAC; IAC; STC; CLC traced as expected (cy = 0 after IAC on 0).
+- Gotchas: run under `timeout -s KILL` (it ignores SIGTERM with the Qt debugger); `-seconds_to_run`
+  takes whole seconds; the first instruction after reset isn't traced.
+
+**Plan for the comparison** (next PR): random programs limited to pages 0–4, run in MAME `busicom`
+and in `ref4004.py` with the same 5 ROMs. Compare `pc, acc, cy, r0..r15, sp` instruction by
+instruction. The Busicom machine drives TEST (printer drum) and the ROM port inputs (keyboard), so
+the model takes TEST from the trace (`curflags` bit 0) and RDR is excluded. RAM behaviour will be
+compared once the Busicom RAM fit is known. Licence: MAME as a whole is GPL-2.0+ (core file BSD-3).
+We only run it, fetched at test time and never committed (rule 9). CI needs the ~180 MB of
+packages cached, which will be an issue for Tesla when the PR is ready.
 
 Other candidates seen, not evaluated: lpg2709/emulator-Intel-4004 (C, MIT, "still in
 development"), yurafx/i4004-py (GPL-3.0).
