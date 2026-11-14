@@ -1,0 +1,1 @@
+Mutant (not committed): mcs4_system bus_conflict tied to 0 -> every program that reaches a conflict FAILs (seed 2, 40 x 1000: prog6, 17, 21, 27 ...)

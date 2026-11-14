@@ -77,14 +77,17 @@ def coverage(s, cov):
         if m in IO and m not in ("WRR", "RDR", "WPM"):
             hit = (R.DCL_LINES[s.ram_bank] >> s.rams[0].bank) & 1
             ev.append("RAM op, populated bank selected" if hit else "RAM op, empty bank selected")
+            nb = len({r.bank for r in s.rams if (R.DCL_LINES[s.ram_bank] >> r.bank) & 1})
+            if nb >= 2 and m in ("WRM", "WMP", "WR0", "WR1", "WR2", "WR3"):
+                ev.append("RAM write to 2+ populated banks at once")
         if (addr & 0xFFF) == 0xFFF: ev.append("pc wrap at FFF")
         for e in ev: cov[e] = cov.get(e, 0) + 1
         prev_sp = sp
 
 
-def model_pins(prog, io_in, tests, cov=None, ram_bank=0):
+def model_pins(prog, io_in, tests, cov=None, ram_bank=0, banks=None):
     roms = [R.Rom4001(n, prog[256 * n:256 * (n + 1)], port_in=bool((PORT_IN >> n) & 1)) for n in range(16)]
-    s = R.System(roms, [R.Ram4002(ram_bank, c) for c in range(4)])
+    s = R.System(roms, [R.Ram4002(b, c) for b in (banks or [ram_bank]) for c in range(4)])
     s.rom_io_in = {n: io_in[n] for n in range(16)}
     out = []
     RESET = ("R", "0", "0", "0000", "0")     # spec 5: pins while reset = 1
@@ -108,6 +111,9 @@ def model_pins(prog, io_in, tests, cov=None, ram_bank=0):
     return out
 
 
+STOPPED = []      # programs stopped at their first bus conflict (multi-bank variant)
+
+
 def compare(pdir, want):
     got = [l.split() for l in open(f"{pdir}/pins.txt")]
     errs = []
@@ -126,6 +132,14 @@ def compare(pdir, want):
         per += 1
         if per == 8:
             per = 0; cyc += 1
+        if w[FIELDS.index("conflict")] == "1":
+            # Two RAMs drive (multi-bank variant, spec 7 Decision C): the bus value is undefined, but
+            # mcs4_system must raise bus_conflict. Check that, then stop comparing this program.
+            if g[FIELDS.index("conflict")] != "1":
+                errs.append(f"line {i}, {where}: bus_conflict rtl={g[FIELDS.index('conflict')]} model=1")
+            else:
+                STOPPED.append(f"{where} (bus_conflict raised as required)")
+            break
         for k, name in enumerate(FIELDS):
             if name == "d_out" and w[k] is None:
                 continue                      # spec 4: "-" = not compared
@@ -143,10 +157,14 @@ def main():
     ap.add_argument("--seed", type=int, default=1)
     ap.add_argument("--out", default=os.path.join(ROOT, "build", "c9"))
     ap.add_argument("--ram-bank", type=int, default=0, choices=range(4), help="bank holding the 4 x 4002")
+    ap.add_argument("--ram-banks", default="", help="multi-bank variant, e.g. 1,2: 4 x 4002 on each; a program "
+                    "is compared up to its first bus conflict, where bus_conflict must be 1 (spec 7)")
     ap.add_argument("--rtl", default=os.path.join(ROOT, "rtl"), help="RTL directory under test")
     ap.add_argument("--extra", nargs="*", default=[], help="extra Verilog files (e.g. PDK cell models)")
     ap.add_argument("--define", nargs="*", default=[], help="iverilog defines, e.g. FUNCTIONAL UNIT_DELAY=")
     a = ap.parse_args()
+    banks = [int(b) for b in a.ram_banks.split(",") if b != ""] or [a.ram_bank]
+    mask = sum(1 << b for b in set(banks))
     rng = random.Random(a.seed)
     os.makedirs(a.out, exist_ok=True)
     progs = []
@@ -156,7 +174,7 @@ def main():
         progs.append((prog, io_in, tests))
     rtl = sorted(os.path.join(dp, f) for dp, _, fs in os.walk(a.rtl) for f in fs if f.endswith(".v"))
     vvp = f"{a.out}/c9.vvp"
-    subprocess.run(["iverilog", "-g2012", f"-DRAM_BANK={a.ram_bank}", *[f"-D{d}" for d in a.define], "-o", vvp, *a.extra, *rtl, os.path.join(ROOT, "tests/random/c9/tb.sv")], check=True)
+    subprocess.run(["iverilog", "-g2012", f"-DRAM_BANK={a.ram_bank}", f"-DRAM_BANKS={mask}", *[f"-D{d}" for d in a.define], "-o", vvp, *a.extra, *rtl, os.path.join(ROOT, "tests/random/c9/tb.sv")], check=True)
     sim = subprocess.run(["vvp", "-n", vvp, f"+dir={a.out}", f"+nprog={a.nprog}", f"+ncyc={a.ncyc}"],
                          check=True, capture_output=True, text=True)
     print(sim.stdout.strip())
@@ -166,7 +184,7 @@ def main():
     bad = 0
     cov = {}
     for p, (prog, io_in, tests) in enumerate(progs):
-        errs = compare(f"{a.out}/prog{p}", model_pins(prog, io_in, tests, cov, a.ram_bank))
+        errs = compare(f"{a.out}/prog{p}", model_pins(prog, io_in, tests, cov, a.ram_bank, banks))
         if errs:
             bad += 1
             if bad <= 10:
@@ -179,7 +197,9 @@ def main():
           "by period " + ", ".join(f"{n}={resets.count(i)}" for i, n in enumerate("A1 A2 A3 M1 M2 X1 X2 X3".split())))
     missing = [n for n in names if not cov.get(n) and n not in ("FE", "FF")]
     print("unexercised instructions: " + (", ".join(missing) if missing else "none"))
-    print(f"c9: ram_bank={a.ram_bank} seed={a.seed} programs={a.nprog} cycles={a.ncyc} mismatching_programs={bad}")
+    if len(banks) > 1:
+        print(f"multi-bank: {len(STOPPED)} programs stopped at their first bus conflict, bus_conflict raised every time")
+    print(f"c9: ram_banks={','.join(map(str, banks))} seed={a.seed} programs={a.nprog} cycles={a.ncyc} mismatching_programs={bad}")
     print("PASS" if bad == 0 else "FAIL")
     return 1 if bad else 0
 
