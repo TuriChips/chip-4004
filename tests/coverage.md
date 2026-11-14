@@ -7,7 +7,7 @@ Spec: docs/spec.md v1. Status per row: **done** (test written), **partial**, **t
 | C1 | CLB CLC IAC CMC CMA RAL RAR TCC DAC TCS STC DAA KBP (6.4), cy cases of IAC/DAC/DAA | tests/c1/acc_group | done (PASS, logs/rtl-run1) |
 | C1 | NOP INC ADD SUB LD XCH LDM, cy cases of ADD/SUB | tests/c1/reg_ops | done (PASS, logs/rtl-run1) |
 | C1 | BBL | tests/c4/* | done (PASS, logs/rtl-run1) |
-| C1 | SRC FIM FIN JIN JCN JUN JMS ISZ | | todo |
+| C1 | FIM FIN (incl. FIN P0) JIN JUN ISZ; JCN in c5, JMS in c4, SRC in ram_io | tests/c1/flow | done (PASS, logs/rtl-run7) |
 | C1 | SRC WRM RDM ADM SBM WR0-3 RD0-3 WMP WRR RDR (bank 0, chips 0 and 1) | tests/c1/ram_io | done (PASS, logs/rtl-run4) |
 | C1 | WPM, DCL | | todo |
 | C2 | pin timing: NOP LDM CLB FIM(2 cycles) SRC and all I/O-group instructions, bank 0. Not yet: jumps, JMS, FIN second cycle, 2-word jump cycles | tests/c2/pins_basic | partial (PASS, logs/rtl-run5) |
