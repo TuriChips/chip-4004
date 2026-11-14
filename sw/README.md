@@ -5,4 +5,6 @@
 
 **Runner note:** the program writes to 4001 number 0 (`SRC P7` with r14 = r15 = 0), so that 4001's I/O port must be configured as output (`PORT_IN` = 0).
 
-Status: the program and its expected output are checked by hand and with a throwaway interpreter of the spec rules. It has not run on the RTL yet, because `mcs4_system` (Zura, #5) is not merged. The one-command runner `sw/run_demo.sh` comes with it.
+- `demo_tb.sv`, `run_demo.sh`: `./sw/run_demo.sh` assembles `add.asm`, runs it on `mcs4_system` in Icarus, prints each change of 4001 #0's port, and compares the sequence with `add.expected`. Log: `logs/demo/add.log`.
+
+Status: on a scratch merge of the open RTL branches (Ada's datapath and 4001/4002, Zura's control and system) the demo printed `2 7 9 6 0` and passed. That log is not committed, because the RTL is not on main yet. The demo log gets committed once it is.
