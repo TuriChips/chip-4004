@@ -1,6 +1,6 @@
 # Coverage: spec behaviour -> test
 
-Spec: docs/spec.md v1. Status per row: **done** (test written), **partial**, **todo**. Nothing here is "passing" until a log in `logs/` says so; the RTL for the chip is not on main yet, so no test has run against a design.
+Spec: docs/spec.md v1. Latest full run: logs/rtl-run10 (all PASS, on main). Status per row: **done** (test written), **partial**, **todo**. Nothing here is "passing" until a log in `logs/` says so; the RTL for the chip is not on main yet, so no test has run against a design.
 
 | Spec | Behaviour | Test | Status |
 |------|-----------|------|--------|

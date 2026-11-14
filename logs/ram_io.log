@@ -1,3 +1,0 @@
-WARNING: tb/tb_prog.sv:34: $readmemh(tests/c1/ram_io.exp): Not enough words in the file for the requested range [0:4095].
-PASS: trace=30 expected=30 errors=0
-tb/tb_prog.sv:62: $finish called at 8050000 (1ps)

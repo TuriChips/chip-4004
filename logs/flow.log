@@ -1,3 +1,0 @@
-WARNING: tb/tb_prog.sv:35: $readmemh(tests/c1/flow.exp): Not enough words in the file for the requested range [0:4095].
-PASS: trace=10 expected=10 errors=0
-tb/tb_prog.sv:76: $finish called at 4370000 (1ps)
