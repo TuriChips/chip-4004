@@ -34,13 +34,20 @@ LINE = re.compile(r"pc=([0-9A-F]+) a=([0-9A-F]) cy=([0-9A-F]) t=([0-9A-F]) sp=([
 
 def gen(rng):
     """Random bytes for pages 0-4. JUN/JMS targets are kept in pages 0-4 (MAME's busicom has no ROM
-    above 0x4FF, so a jump there just slides through FF), and JIN is made 8x rarer (a JIN to itself
-    is an endless loop that ends the useful part of the run)."""
+    above 0x4FF, so a jump there just slides through FF). JIN is made 8x rarer (a JIN to itself is an
+    endless loop that ends the useful part of the run). DCL is thinned out (see the spec 6.3 stop rule)."""
     out = []
     while len(out) < 5 * 256:
         b = rng.choice(OPCODES)
         if b >> 4 == 3 and b & 1 and rng.random() < 7 / 8:
             continue                                   # JIN, mostly skipped
+        if b == 0xFD:
+            # A DCL away from bank 0 followed by SRC ends the comparison (spec 6.3 stop rule), so
+            # half of the DCLs are dropped and half of the rest select bank 0 (LDM 0; DCL).
+            if rng.random() < 1 / 2:
+                continue
+            if rng.random() < 1 / 2:
+                out.append(0xD0)
         if b >> 4 in (4, 5):
             b = (b & 0xF0) | ((b & 15) % 5)            # JUN/JMS page 0-4
         out.append(b)

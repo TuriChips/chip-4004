@@ -67,6 +67,8 @@ Random programs in pages 0–4 run in MAME `busicom` and in `ref4004.py`, compar
   (unmapped ROM fetches `ill $ff`), where our spec §2 says 0000.
 - TEST comes from the trace (`curflags` bit 0). The Busicom printer drives it. RDR is excluded
   (the keyboard drives the ROM ports).
+- DCL is thinned out (half dropped, half of the rest preceded by LDM 0), which halves the §6.3
+  stops (14 → 7 of 40) while DCL still executes.
 - JUN/JMS targets stay in pages 0–4 and JIN is 8× rarer, so the runs execute real code (without
   this, 79% of the instructions were an FF slide).
 - **Known difference, spec §6.3:** MAME latches SRC globally, so a RAM on bank 0 sees an SRC sent
@@ -76,7 +78,7 @@ Random programs in pages 0–4 run in MAME `busicom` and in `ref4004.py`, compar
   latch); MAME's system models the latch in the CPU.
 **Same programs on the RTL (spec §9: "the same random programs as C9").** `tests/random/c9/run.py
 --gen acc3 --seed 100 --nprog 40 --ncyc 4000` runs the acceptance-test-3 programs (byte-identical,
-same seeds) on `mcs4_system` against the model, every pin every period. Evidence `logs/c9-acc3progs-20261114T141255Z/`:
+same seeds) on `mcs4_system` against the model, every pin every period. Evidence `logs/c9-acc3progs-20261114T152314Z/`:
 40 programs, 0 mismatches. So, on the same 40 programs, RTL ≡ model (C9, pins) and model ≡ MAME
 (acc3, per instruction, up to the §6.3 difference). C9's TEST, RAM fit and bus follow our spec;
 acc3's follow MAME's busicom. Each comparison is checked under its own system.
