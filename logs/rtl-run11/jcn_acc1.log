@@ -1,0 +1,6 @@
+WARNING: tb/tb_prog.sv:36: $readmemh(tests/c5/jcn_acc1.exp): Not enough words in the file for the requested range [0:4095].
+FAIL trace[0]: expected 1 got 2 (clock 47)
+FAIL trace[6]: expected 1 got 2 (clock 431)
+FAIL trace[12]: expected 2 got 1 (clock 815)
+FAIL: trace=16 expected=16 errors=3
+tb/tb_prog.sv:78: $finish called at 10770000 (1ps)

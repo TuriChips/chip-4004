@@ -1,0 +1,3 @@
+Mutants of the model (not committed), same seeds, 20 x 3000:
+  DAA cy = carry_out          -> 4/20 programs mismatch
+  non-circular stack (sp>=0)  -> 18/20 programs mismatch

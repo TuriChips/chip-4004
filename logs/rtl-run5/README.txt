@@ -1,0 +1,1 @@
+C2 pins_basic (216 periods) and C6 pins_dcl (512 periods) on local merge of #16 + #10 + #15 (z16=25ea2e30dccaeb8c59e09414b802a12e650d4272 a10=dc7202ba051346b07eb8484291bf7a92a24f0a09 a15=9fc444666d7698026eb71138f67cfd6804f53ae3). Both PASS. Mutation check: a corrupted expected word gives FAIL.

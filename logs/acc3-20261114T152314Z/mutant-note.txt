@@ -1,0 +1,3 @@
+Model mutants (not committed), seeds 100-119, 20 x 3000, generator of this commit:
+  DAA cy = carry_out: acc3: seed0=100 programs=20 instructions=3000 agree=15 (stopped early at the spec 6.3 latch difference: 2)
+  non-circular stack: acc3: seed0=100 programs=20 instructions=3000 agree=3 (stopped early at the spec 6.3 latch difference: 0)
