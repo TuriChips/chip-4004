@@ -8,7 +8,8 @@ Spec: docs/spec.md v1. Status per row: **done** (test written), **partial**, **t
 | C1 | NOP INC ADD SUB LD XCH LDM, cy cases of ADD/SUB | tests/c1/reg_ops | done (PASS, logs/rtl-run1) |
 | C1 | BBL | tests/c4/* | done (PASS, logs/rtl-run1) |
 | C1 | SRC FIM FIN JIN JCN JUN JMS ISZ | | todo |
-| C1 | WRM WMP WRR WPM WR0-3 SBM RDM RDR ADM RD0-3, DCL | | todo |
+| C1 | SRC WRM RDM ADM SBM WR0-3 RD0-3 WMP WRR RDR (bank 0, chips 0 and 1) | tests/c1/ram_io | done (PASS, logs/rtl-run4) |
+| C1 | WPM, DCL | | todo |
 | C2 | pin timing per class | | todo |
 | C3 | page quirk: JCN, ISZ, FIN, JIN at the end of a page (page 15 -> 0 wrap not tested: needs 16 ROMs) | tests/c3/page_quirk | done (PASS, logs/rtl-run3) |
 | C4 | stack: 3 nested JMS/BBL, JMS x4 then BBL x4, BBL after reset; also covers BBL for C1 | tests/c4/nested3, jms4, bbl_reset | done (PASS, logs/rtl-run1) |
