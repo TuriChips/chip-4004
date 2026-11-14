@@ -1,0 +1,42 @@
+ok seed 100: 3000 instructions
+ok seed 101: 3000 instructions
+ok seed 102: stopped at instr 218: RAM op after an SRC the bank-0 RAMs did not see (spec 6.3)
+ok seed 103: stopped at instr 743: RAM op after an SRC the bank-0 RAMs did not see (spec 6.3)
+ok seed 104: 3000 instructions
+ok seed 105: 3000 instructions
+ok seed 106: 3000 instructions
+ok seed 107: 3000 instructions
+ok seed 108: stopped at instr 330: RAM op after an SRC the bank-0 RAMs did not see (spec 6.3)
+ok seed 109: stopped at instr 95: RAM op after an SRC the bank-0 RAMs did not see (spec 6.3)
+ok seed 110: stopped at instr 524: RAM op after an SRC the bank-0 RAMs did not see (spec 6.3)
+ok seed 111: 3000 instructions
+ok seed 112: 3000 instructions
+ok seed 113: stopped at instr 734: RAM op after an SRC the bank-0 RAMs did not see (spec 6.3)
+ok seed 114: 3000 instructions
+ok seed 115: 3000 instructions
+ok seed 116: 3000 instructions
+ok seed 117: 3000 instructions
+ok seed 118: stopped at instr 181: RAM op after an SRC the bank-0 RAMs did not see (spec 6.3)
+ok seed 119: 3000 instructions
+ok seed 120: 3000 instructions
+ok seed 121: 3000 instructions
+ok seed 122: 3000 instructions
+ok seed 123: stopped at instr 92: RAM op after an SRC the bank-0 RAMs did not see (spec 6.3)
+ok seed 124: stopped at instr 250: RAM op after an SRC the bank-0 RAMs did not see (spec 6.3)
+ok seed 125: 3000 instructions
+ok seed 126: 3000 instructions
+ok seed 127: stopped at instr 97: RAM op after an SRC the bank-0 RAMs did not see (spec 6.3)
+ok seed 128: 3000 instructions
+ok seed 129: stopped at instr 253: RAM op after an SRC the bank-0 RAMs did not see (spec 6.3)
+ok seed 130: 3000 instructions
+ok seed 131: 3000 instructions
+ok seed 132: stopped at instr 85: RAM op after an SRC the bank-0 RAMs did not see (spec 6.3)
+ok seed 133: 3000 instructions
+ok seed 134: 3000 instructions
+ok seed 135: 3000 instructions
+ok seed 136: stopped at instr 267: RAM op after an SRC the bank-0 RAMs did not see (spec 6.3)
+ok seed 137: 3000 instructions
+ok seed 138: 3000 instructions
+ok seed 139: stopped at instr 767: RAM op after an SRC the bank-0 RAMs did not see (spec 6.3)
+acc3: seed0=100 programs=40 instructions=3000 agree=40 (stopped early at the spec 6.3 latch difference: 14)
+PASS

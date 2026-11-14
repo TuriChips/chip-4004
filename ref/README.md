@@ -58,13 +58,21 @@ comparable. What was checked, on the lab VM, with no root:
 - Gotchas: run under `timeout -s KILL` (it ignores SIGTERM with the Qt debugger); `-seconds_to_run`
   takes whole seconds; the first instruction after reset isn't traced.
 
-**Plan for the comparison** (next PR): random programs limited to pages 0–4, run in MAME `busicom`
-and in `ref4004.py` with the same 5 ROMs. Compare `pc, acc, cy, r0..r15, sp` instruction by
-instruction. The Busicom machine drives TEST (printer drum) and the ROM port inputs (keyboard), so
-the model takes TEST from the trace (`curflags` bit 0) and RDR is excluded. RAM behaviour will be
-compared once the Busicom RAM fit is known. Licence: MAME as a whole is GPL-2.0+ (core file BSD-3).
-We only run it, fetched at test time and never committed (rule 9). CI needs the ~180 MB of
-packages cached, which will be an issue for Tesla when the PR is ready.
-
+**The comparison: `tests/random/acc3/run.py`** (MAME from `tests/random/acc3/fetch_mame.sh`, no root).
+Random programs in pages 0–4 run in MAME `busicom` and in `ref4004.py`, compared on
+`pc, acc, cy, r0..r15, sp` before every instruction. Harness rules, each matching MAME's
+`busicom` machine rather than our default build:
+- The model fits 4001s on pages 0–4 only, two 4002s on bank 0 (chips 0 and 1, found with a
+  write/read probe over all 8 DCL codes × 4 chips), and `idle_bus=15`. MAME's open bus reads 0xF
+  (unmapped ROM fetches `ill $ff`), where our spec §2 says 0000.
+- TEST comes from the trace (`curflags` bit 0). The Busicom printer drives it. RDR is excluded
+  (the keyboard drives the ROM ports).
+- JUN/JMS targets stay in pages 0–4 and JIN is 8× rarer, so the runs execute real code (without
+  this, 79% of the instructions were an FF slide).
+- **Known difference, spec §6.3:** MAME latches SRC globally, so a RAM on bank 0 sees an SRC sent
+  while another bank is selected (the §6.3 example reads Y in MAME, X in our spec). The runner
+  stops a program at the first RAM instruction where the two latched addresses differ, and
+  reports it as "stopped", not as a pass or a mismatch. Our spec follows the manual (per-chip
+  latch); MAME's system models the latch in the CPU.
 Other candidates seen, not evaluated: lpg2709/emulator-Intel-4004 (C, MIT, "still in
 development"), yurafx/i4004-py (GPL-3.0).
