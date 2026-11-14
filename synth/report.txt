@@ -1,0 +1,58 @@
+
+19. Printing statistics.
+
+=== i4004 ===
+
+   Number of wires:               1148
+   Number of wire bits:           1292
+   Number of public wires:          43
+   Number of public wire bits:     182
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:               1278
+     $_ANDNOT_                      54
+     $_AND_                        279
+     $_DFFE_PP_                    112
+     $_MUX_                        140
+     $_NAND_                       487
+     $_NOR_                         30
+     $_NOT_                         11
+     $_ORNOT_                       32
+     $_OR_                          66
+     $_SDFFE_PP0N_                  13
+     $_SDFFE_PP0P_                  23
+     $_SDFF_PP0_                     5
+     $_XNOR_                        15
+     $_XOR_                         11
+
+20. Executing LTP pass (find longest path).
+
+Longest topological path in i4004 (length=25):
+    0: \u_control.second
+    1: $abc$6985$new_n337_ (via $abc$6985$auto$blifparse.cc:386:parse_blif$6994)
+    2: $abc$6985$new_n358_ (via $abc$6985$auto$blifparse.cc:386:parse_blif$7015)
+    3: $abc$6985$new_n359_ (via $abc$6985$auto$blifparse.cc:386:parse_blif$7016)
+    4: $abc$6985$new_n361_ (via $abc$6985$auto$blifparse.cc:386:parse_blif$7018)
+    5: $abc$6985$new_n363_ (via $abc$6985$auto$blifparse.cc:386:parse_blif$7020)
+    6: $abc$6985$new_n374_ (via $abc$6985$auto$blifparse.cc:386:parse_blif$7031)
+    7: $abc$6985$new_n422_ (via $abc$6985$auto$blifparse.cc:386:parse_blif$7079)
+    8: $abc$6985$new_n492_ (via $abc$6985$auto$blifparse.cc:386:parse_blif$7149)
+    9: $abc$6985$new_n497_ (via $abc$6985$auto$blifparse.cc:386:parse_blif$7154)
+   10: $abc$6985$new_n507_ (via $abc$6985$auto$blifparse.cc:386:parse_blif$7164)
+   11: $abc$6985$new_n897_ (via $abc$6985$auto$blifparse.cc:386:parse_blif$7554)
+   12: $abc$6985$new_n902_ (via $abc$6985$auto$blifparse.cc:386:parse_blif$7559)
+   13: $abc$6985$new_n903_ (via $abc$6985$auto$blifparse.cc:386:parse_blif$7560)
+   14: $abc$6985$new_n905_ (via $abc$6985$auto$blifparse.cc:386:parse_blif$7562)
+   15: $abc$6985$new_n913_ (via $abc$6985$auto$blifparse.cc:386:parse_blif$7570)
+   16: $abc$6985$new_n977_ (via $abc$6985$auto$blifparse.cc:386:parse_blif$7634)
+   17: $abc$6985$new_n978_ (via $abc$6985$auto$blifparse.cc:386:parse_blif$7635)
+   18: $abc$6985$new_n1024_ (via $abc$6985$auto$blifparse.cc:386:parse_blif$7681)
+   19: $abc$6985$new_n1057_ (via $abc$6985$auto$blifparse.cc:386:parse_blif$7714)
+   20: $abc$6985$new_n1058_ (via $abc$6985$auto$blifparse.cc:386:parse_blif$7715)
+   21: $abc$6985$new_n1059_ (via $abc$6985$auto$blifparse.cc:386:parse_blif$7716)
+   22: $abc$6985$new_n1060_ (via $abc$6985$auto$blifparse.cc:386:parse_blif$7717)
+   23: $abc$6985$new_n1061_ (via $abc$6985$auto$blifparse.cc:386:parse_blif$7718)
+   24: $abc$6985$new_n1062_ (via $abc$6985$auto$blifparse.cc:386:parse_blif$7719)
+   25: \u_alu.n_cy (via $abc$6985$auto$blifparse.cc:386:parse_blif$7720)
+   ff: \u_alu.cy (via $auto$ff.cc:266:slice$4114)

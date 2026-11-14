@@ -95,12 +95,13 @@ Our model: while `reset` = 1 on a rising `clk` edge, `acc`, `cy`, `pc`, the stac
 **Pins while `reset` = 1** (*Decision*): `d_oe` = 0, `sync` = 0, `cm_rom` = 0, `cm_ram` = 4'b0000. Nothing else is compared while `reset` = 1. Comparison starts at the first A1 after `reset` falls.
 
 ## 6. Instructions (normative)
-46 instructions. `OPR` = high nibble of the first word, `OPA` = low nibble. `R` = `r[OPA]`, `P` = pair `OPA[3:1]`. All arithmetic is mod 16 unless noted.
+46 instructions. `OPR` = high nibble of the first word, `OPA` = low nibble. `R` = `r[OPA]`, `P` = pair `OPA[3:1]`. All arithmetic is mod 16 unless noted. Every first-word byte is either one of the 46 instructions or one of the 17 bytes **01–0F, FE, FF**, which are not instructions and execute as NOP (§6.1, §6.4). Random tests (C9) exclude those 17 bytes.
 
 ### 6.1 One-word, 1 cycle
 | Hex | Mnemonic | Effect |
 |-----|----------|--------|
 | 00 | NOP | none |
+| 01–0F | (none) | Not instructions (OPR = 0000 is used only by NOP; manual p.30 lists nothing else). **Decision: execute as NOP**: 1 word, 1 cycle, pins as for a non-I/O instruction (§4). Tests must not depend on it |
 | 6R | INC R | `R = R + 1`. `cy` unchanged |
 | 8R | ADD R | `{cy, acc} = acc + R + cy` |
 | 9R | SUB R | `{cy, acc} = acc + ~R + ~cy`. On input, `cy` = 1 means a borrow is pending; on output, `cy` = 1 means *no* borrow. So chained subtraction needs CMC between digits |
@@ -161,7 +162,7 @@ All act on the chip, register and character selected by SRC, **as latched by eac
 | FB | DAA | `if (cy \|\| acc > 9) { t = acc + 6 (5 bits); acc = t[3:0]; cy = cy \| t[4]; }` else nothing. So `cy` is never cleared by DAA: `cy`=1, `acc`=2 gives `acc`=8, `cy`=1 (manual p.35: "set to 1 if the result generates a carry, otherwise unaffected") |
 | FC | KBP | `acc` = 0→0, 1→1, 2→2, 4→3, 8→4, anything else → 15 |
 | FD | DCL | `ram_bank = acc[2:0]` (§6.5) |
-| FE, FF | (none) | Not instructions. **Decision: execute as NOP.** Tests must not depend on it |
+| FE, FF | (none) | Not instructions. **Decision: execute as NOP**: 1 word, 1 cycle, pins as for a non-I/O instruction (§4). Tests must not depend on it |
 
 ### 6.5 RAM bank selection (DCL)
 | `ram_bank` | Active line(s) |
@@ -197,7 +198,7 @@ All 8 rows confirmed against the truth table on manual p.36 (page image).
 | C9 | Random programs: the RTL and Beru's reference model agree on every pin, every clock, for N random programs (N set by Beru, at least 10,000 programs × 1,000 cycles) |
 
 ## 9. Acceptance tests (software not written by this team)
-1. **Busicom 141-PF calculator firmware**, the program the 4004 was built for, running on `mcs4_system` with a model of the printer/keyboard I/O: key in sums and check the printed results. Source: the reconstructed and commented listing published by the 4004 restoration project (Tim McNerney et al.). Checked 2026-11-14: 4004.com says works on the site are under **CC BY-NC-SA 3.0** "unless noted". The listing itself doesn't carry its own terms on the page we found. Because of rule 9 (no copied code in the repo), the ROM image is **never committed**: the test downloads it at run time from the project's site, and the release credits the Silvermans and Lajos Kintli. *Decision (Sai, 2026-11-14, #standup):* approved. The test may use this non-commercial-licensed listing on these terms: download it at test time, never commit it, credit it in the release. If the listing turns out to carry its own stricter terms, we drop the test and rely on 2 and 3.
+1. **Busicom 141-PF calculator firmware**, the program the 4004 was built for, running on `mcs4_system` with a model of the printer/keyboard I/O: key in sums and check the printed results. Source: the reconstructed and commented listing published by the 4004 restoration project (Tim McNerney et al.). Checked 2026-11-14: 4004.com says works on the site are under **CC BY-NC-SA 3.0** "unless noted". The listing carries its own terms in its header (read 2026-11-14, `Busicom-141PF-Calculator_asm_rel-1-0-1.txt` lines 8–39): "The original Busicom binary code is not a copyrighted work and may be freely distributed without restriction"; the commented code and documentation are CC BY-NC-SA 2.5. These are not stricter than the site-wide terms, so the decision below stands. Because of rule 9 (no copied code in the repo), the ROM image is **never committed**: the test downloads it at run time from the project's site, and the release credits the Silvermans and Lajos Kintli. *Decision (Sai, 2026-11-14, #standup):* approved. The test may use this non-commercial-licensed listing on these terms: download it at test time, never commit it, credit it in the release. If the terms in the listing header ever change to something stricter (the fetch script checks for both phrases above and stops), we drop the test and rely on 2 and 3. We still never commit the ROM image or listing, even though the binary itself is uncopyrighted: rule 9 forbids copied code in our repos.
 2. **Example programs from the MCS-4 Users Manual** (e.g. multi-digit decimal addition, subtraction), typed in from the manual. Expected results come from the manual's text.
 3. **Instruction-level comparison against an independent, existing 4004 emulator** (to be chosen by Beru; it must not be written by this team), run on the same random programs as C9.
 
