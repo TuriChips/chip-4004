@@ -5,7 +5,8 @@ Spec: docs/spec.md v1. Status per row: **done** (test written), **partial**, **t
 | Spec | Behaviour | Test | Status |
 |------|-----------|------|--------|
 | C1 | CLB CLC IAC CMC CMA RAL RAR TCC DAC TCS STC DAA KBP (6.4), cy cases of IAC/DAC/DAA | tests/c1/acc_group | done (not yet run) |
-| C1 | NOP INC ADD SUB LD XCH BBL LDM | | todo |
+| C1 | NOP INC ADD SUB LD XCH LDM, cy cases of ADD/SUB | tests/c1/reg_ops | done (not yet run) |
+| C1 | BBL | | todo (needs stack, with C4) |
 | C1 | SRC FIM FIN JIN JCN JUN JMS ISZ | | todo |
 | C1 | WRM WMP WRR WPM WR0-3 SBM RDM RDR ADM RD0-3, DCL | | todo |
 | C2 | pin timing per class | | todo |
