@@ -9,7 +9,8 @@ mkdir -p logs/busicom build
 ./sw/busicom/fetch_rom.sh
 SRC=$(find rtl -name '*.v' | sort)
 iverilog -g2012 -o build/busicom.vvp sw/busicom/busicom_tb.sv $SRC
-{ echo "main commit: $(git rev-parse HEAD)$(git diff --quiet HEAD -- . && echo "" || echo " (+ uncommitted changes)")"; vvp -n build/busicom.vvp +KEYFILE="$KEYS" | grep -v WARNING; } | tee logs/busicom/run.log
+stamp="main commit: $(git rev-parse HEAD)$(git diff --quiet HEAD -- . ':(exclude)logs' || echo ' (+ uncommitted changes)')"   # computed before the log is (re)written
+{ echo "$stamp"; vvp -n build/busicom.vvp +KEYFILE="$KEYS" | grep -v WARNING; } | tee logs/busicom/run.log
 ! grep -q '^FAIL' logs/busicom/run.log || { echo "BUSICOM FAIL: harness check failed" | tee -a logs/busicom/run.log; exit 1; }
 # printed lines, with trailing blank paper feed removed, as text between the bars
 grep '^PRINT' logs/busicom/run.log | sed 's/^PRINT |//; s/|$//; s/^ *//; s/ *$//' | sed '/^$/d' > build/busicom.got
