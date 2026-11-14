@@ -5,6 +5,8 @@
 //           +SECT=<clocks per drum sector, default 6000>  +HOLD=<sectors a key is held, default 24>  +MAXCLK=<default 6000000>
 // Assumptions I made from the listing text, not from a datasheet, that the first run must confirm:
 //   - ROM1 and ROM2 ports are active-high; TEST = 1 while the sector signal is active.
+//   - Confirmed by the first traced run: the firmware fills the keyboard shifter with 1s and walks a single 0 through it,
+//     so the SELECTED column is the one whose shifter bit is 0.
 //   - Row under the hammers = pulses since the pulse after which the index signal was seen, mod 13.
 `timescale 1ns/1ps
 module busicom_tb;
@@ -29,7 +31,7 @@ module busicom_tb;
     wire [3:0] p_ram0 = ram_port_out[3:0];
 
     // ---- keys: scan code = 0x81 + column*4 + row (listing section 3.2) ----
-    integer sect = 6000, hold = 24, maxclk = 6000000;
+    integer sect = 20800, hold = 24, maxclk = 6000000;
     integer keys [0:255]; integer nkeys = 0;
     integer cur_key = -1;                     // scan code held down, -1 = none
     reg [3:0] colrows [0:9];                  // rows pulled high by the pressed key, per shifter bit
@@ -49,7 +51,7 @@ module busicom_tb;
     integer i;
     always @(*) begin
         rows = 4'd0;
-        for (i = 0; i < 10; i = i + 1) if (kb[i]) rows = rows | colrows[i];
+        for (i = 0; i < 10; i = i + 1) if (!kb[i]) rows = rows | colrows[i];
         rom_io_in[7:4] = rows;
     end
     always @(posedge clk) begin
@@ -57,6 +59,12 @@ module busicom_tb;
         if (p_rom0[0] && !kb_clk_q) kb <= {kb[8:0], p_rom0[1]};
     end
 
+    reg [3:0] p0q = 0; reg [3:0] r0q = 0; reg trace = 0;   // +TRACE prints every change of the ROM0 and RAM0 ports
+    always @(posedge clk) begin
+        p0q <= p_rom0; r0q <= p_ram0;
+        if (p_rom0 !== p0q && trace) begin $display("T %0d rom0 port %b kb=%b rows=%b", t, p_rom0, kb, rows); end
+        if (p_ram0 !== r0q && trace) begin $display("T %0d ram0 port %b", t, p_ram0); end
+    end
     // ---- printer shifter (20 bit, clock = ROM0 bit2, data = ROM0 bit1) and drum ----
     reg [19:0] ps = 20'd0; reg ps_clk_q = 0;
     always @(posedge clk) begin
@@ -98,7 +106,7 @@ module busicom_tb;
     initial begin
         string kf;
         for (k = 0; k < 17; k = k + 1) line[k] = 8'd0;
-        void'($value$plusargs("SECT=%d", sect)); void'($value$plusargs("HOLD=%d", hold)); void'($value$plusargs("MAXCLK=%d", maxclk));
+        trace = $test$plusargs("TRACE"); void'($value$plusargs("SECT=%d", sect)); void'($value$plusargs("HOLD=%d", hold)); void'($value$plusargs("MAXCLK=%d", maxclk));
         if ($value$plusargs("KEYFILE=%s", kf)) $readmemh(kf, keys); // codes; 0 ends the list
         while (keys[nkeys] !== 8'hxx && nkeys < 255 && keys[nkeys] != 0) nkeys = nkeys + 1;
         set_key(-1);
@@ -109,9 +117,9 @@ module busicom_tb;
         t <= t + 1;
         test <= (t % sect) < (sect / 10);                       // sector pulse: first tenth of each period
         rom_io_in[8] <= (npulse % 13 == 12) && ((t % sect) < (sect / 10 + 400));   // index, around the 13th pulse
+        if (t % sect == sect / 10) row <= (npulse + 1) % 13;   // the drum row advances when the sector pulse ends
         if (t % sect == 0) begin
             npulse <= npulse + 1;
-            row <= (npulse + 1) % 13;
             // key schedule: hold a key for 'hold' pulses, then release for 'hold' pulses
             held <= held + 1;
             if (held == hold) begin set_key(-1); end
