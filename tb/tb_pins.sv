@@ -1,6 +1,6 @@
 // Pin-timing testbench (C2, C6): compares every clock period's d_oe, d_out (where the spec compares it),
 // sync, cm_rom, cm_ram with an expected file made by tests/c2/pin_gen.py from spec section 4.
-// Plusargs: +EXP=<file, one 12-bit hex word per period: {0,sync,d_oe,cm_rom} cm_ram d_out ('x' = not compared)>
+// Plusargs: +N=<number of periods> +EXP=<file, one 12-bit hex word per period: {0,sync,d_oe,cm_rom} cm_ram d_out ('x' = not compared)>
 // Alignment: the first sync=1 is X3 of cycle 1; the expected file starts at the next clock (A1 of cycle 2).
 `timescale 1ns/1ps
 module tb_pins;
@@ -19,7 +19,7 @@ module tb_pins;
   initial begin
     if (!$value$plusargs("EXP=%s", expf)) begin $display("FAIL no +EXP"); $finish; end
     $readmemh(expf, exp);
-    for (i = 0; i < 4096; i = i + 1) if (^exp[i] !== 1'bx || exp[i][3:0] !== 4'bx && exp[i] !== 12'bx) n = i + 1;
+    if (!$value$plusargs("N=%d", n)) begin $display("FAIL no +N"); $finish; end
     repeat (70) @(posedge clk); @(negedge clk); reset = 0;
   end
   reg [11:0] e;
