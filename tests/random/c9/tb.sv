@@ -1,10 +1,13 @@
 // C9 co-simulation testbench (Beru). Runs NPROG random programs on mcs4_system and dumps every
 // pin of every clock period (spec section 4) for tests/random/c9/run.py to compare with ref/ref4004.py.
-// Build: 16 x 4001 (chip n = page n, ROM_PORT_IN = `PORT_IN), 4 x 4002 on bank 0 (spec 7, C9 rule).
+// Build: 16 x 4001 (chip n = page n, ROM_PORT_IN = `PORT_IN), 4 x 4002 on bank `RAM_BANK (default 0; one bank only, spec 7 C9 rule).
 // Files in +dir=<d>: prog<p>/rom<n>.hex (256 bytes each), prog<p>/stim.hex
 //   (line 0: rom_io_in, 64-bit hex; lines 1..NCYC: test bit per instruction cycle).
 // Output <d>/prog<p>/pins.txt: one line per period after reset:
 //   sync cm_rom cm_ram d_oe d_out bus conflict   (d_out printed in binary so X/Z shows)
+`ifndef RAM_BANK
+`define RAM_BANK 0
+`endif
 `ifndef PORT_IN
 `define PORT_IN 16'hF0F0
 `endif
@@ -14,7 +17,9 @@ module tb;
     wire [63:0] rom_io_out, ram_port_out;
     wire [3:0]  bus;
     wire        bus_conflict;
-    mcs4_system #(.N_ROM(16), .ROM_PORT_IN(`PORT_IN), .N_RAM_BANK0(4)) dut (
+    mcs4_system #(.N_ROM(16), .ROM_PORT_IN(`PORT_IN), .N_RAM_BANK0(`RAM_BANK == 0 ? 4 : 0),
+                  .N_RAM_BANK1(`RAM_BANK == 1 ? 4 : 0), .N_RAM_BANK2(`RAM_BANK == 2 ? 4 : 0),
+                  .N_RAM_BANK3(`RAM_BANK == 3 ? 4 : 0)) dut (
         .clk(clk), .reset(reset), .test(test), .rom_io_in(rom_io_in),
         .rom_io_out(rom_io_out), .ram_port_out(ram_port_out), .bus(bus), .bus_conflict(bus_conflict));
 

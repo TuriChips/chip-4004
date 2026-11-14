@@ -69,15 +69,17 @@ def coverage(s, cov):
         if m in ("JCN", "ISZ") and (addr & 0xFF) == 0xFE: ev.append("page quirk: 2-word at xFE")
         if m in ("FIN", "JIN") and (addr & 0xFF) == 0xFF: ev.append("page quirk: FIN/JIN at xFF")
         if m in IO and s.ram_bank in (3, 5, 6, 7): ev.append("I/O with multi-line DCL")
-        if m in IO and s.ram_bank != 0 and m not in ("WRR", "RDR", "WPM"): ev.append("RAM op on empty bank")
+        if m in IO and m not in ("WRR", "RDR", "WPM"):
+            hit = (R.DCL_LINES[s.ram_bank] >> s.rams[0].bank) & 1
+            ev.append("RAM op, populated bank selected" if hit else "RAM op, empty bank selected")
         if (addr & 0xFFF) == 0xFFF: ev.append("pc wrap at FFF")
         for e in ev: cov[e] = cov.get(e, 0) + 1
         prev_sp = sp
 
 
-def model_pins(prog, io_in, tests, cov=None):
+def model_pins(prog, io_in, tests, cov=None, ram_bank=0):
     roms = [R.Rom4001(n, prog[256 * n:256 * (n + 1)], port_in=bool((PORT_IN >> n) & 1)) for n in range(16)]
-    s = R.System(roms)
+    s = R.System(roms, [R.Ram4002(ram_bank, c) for c in range(4)])
     s.rom_io_in = {n: io_in[n] for n in range(16)}
     s.do_reset()
     out = []
@@ -115,6 +117,8 @@ def main():
     ap.add_argument("--ncyc", type=int, default=1000)
     ap.add_argument("--seed", type=int, default=1)
     ap.add_argument("--out", default=os.path.join(ROOT, "build", "c9"))
+    ap.add_argument("--ram-bank", type=int, default=0, choices=range(4), help="bank holding the 4 x 4002")
+    ap.add_argument("--rtl", default=os.path.join(ROOT, "rtl"), help="RTL directory under test")
     a = ap.parse_args()
     rng = random.Random(a.seed)
     os.makedirs(a.out, exist_ok=True)
@@ -123,9 +127,9 @@ def main():
         prog, io_in, tests = gen(rng, a.ncyc)
         write(f"{a.out}/prog{p}", prog, io_in, tests)
         progs.append((prog, io_in, tests))
-    rtl = sorted(os.path.join(dp, f) for dp, _, fs in os.walk(os.path.join(ROOT, "rtl")) for f in fs if f.endswith(".v"))
+    rtl = sorted(os.path.join(dp, f) for dp, _, fs in os.walk(a.rtl) for f in fs if f.endswith(".v"))
     vvp = f"{a.out}/c9.vvp"
-    subprocess.run(["iverilog", "-g2012", "-o", vvp, *rtl, os.path.join(ROOT, "tests/random/c9/tb.sv")], check=True)
+    subprocess.run(["iverilog", "-g2012", f"-DRAM_BANK={a.ram_bank}", "-o", vvp, *rtl, os.path.join(ROOT, "tests/random/c9/tb.sv")], check=True)
     sim = subprocess.run(["vvp", "-n", vvp, f"+dir={a.out}", f"+nprog={a.nprog}", f"+ncyc={a.ncyc}"],
                          check=True, capture_output=True, text=True)
     print(sim.stdout.strip())
@@ -135,7 +139,7 @@ def main():
     bad = 0
     cov = {}
     for p, (prog, io_in, tests) in enumerate(progs):
-        errs = compare(f"{a.out}/prog{p}", model_pins(prog, io_in, tests, cov))
+        errs = compare(f"{a.out}/prog{p}", model_pins(prog, io_in, tests, cov, a.ram_bank))
         if errs:
             bad += 1
             if bad <= 10:
@@ -145,7 +149,7 @@ def main():
     print("coverage (corner cases): " + ", ".join(f"{k}={v}" for k, v in sorted(cov.items()) if k not in names))
     missing = [n for n in names if not cov.get(n) and n not in ("FE", "FF")]
     print("unexercised instructions: " + (", ".join(missing) if missing else "none"))
-    print(f"c9: seed={a.seed} programs={a.nprog} cycles={a.ncyc} mismatching_programs={bad}")
+    print(f"c9: ram_bank={a.ram_bank} seed={a.seed} programs={a.nprog} cycles={a.ncyc} mismatching_programs={bad}")
     print("PASS" if bad == 0 else "FAIL")
     return 1 if bad else 0
 
