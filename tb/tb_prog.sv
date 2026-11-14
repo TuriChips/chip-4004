@@ -12,11 +12,11 @@ module tb_prog;
   wire [3:0] bus; wire bus_conflict;
   wire [3:0] d_out; wire d_oe, sync, cm_rom; wire [3:0] cm_ram;
   string rom0, expf; integer timeout; integer tv;
-  // 8 4001s (pages 0-7, files from -DROM<n>="path" (Icarus cannot concatenate strings in a parameter)), 4 4002s on bank 0. ROM_FILE<n> per chip (Zura, #16).
+  // 8 4001s, 4 4002s on bank 0 and one on each of banks 1-3 (DCL tests); (pages 0-7, files from -DROM<n>="path" (Icarus cannot concatenate strings in a parameter)), 4 4002s on bank 0. ROM_FILE<n> per chip (Zura, #16).
   mcs4_system #(.N_ROM(8),
     .ROM_FILE0(`ROM0), .ROM_FILE1(`ROM1), .ROM_FILE2(`ROM2),
     .ROM_FILE3(`ROM3), .ROM_FILE4(`ROM4), .ROM_FILE5(`ROM5),
-    .ROM_FILE6(`ROM6), .ROM_FILE7(`ROM7), .N_RAM_BANK0(4)) dut (
+    .ROM_FILE6(`ROM6), .ROM_FILE7(`ROM7), .N_RAM_BANK0(4), .N_RAM_BANK1(1), .N_RAM_BANK2(1), .N_RAM_BANK3(1)) dut (
     .clk(clk), .reset(reset), .test(test), .rom_io_in(64'b0),
     .rom_io_out(rom_io_out), .ram_port_out(ram_port_out), .bus(bus), .bus_conflict(bus_conflict));
   // pins of the 4004 are observed through the system's hierarchy-free ports where available:
