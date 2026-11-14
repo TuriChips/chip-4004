@@ -1,0 +1,3 @@
+WARNING: tb/tb_prog.sv:34: $readmemh(tests/c1/acc_group.exp): Not enough words in the file for the requested range [0:4095].
+PASS: trace=33 expected=33 errors=0
+tb/tb_prog.sv:62: $finish called at 8530000 (1ps)
