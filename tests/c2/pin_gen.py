@@ -9,6 +9,7 @@ and unconditional flow: JUN, JMS, BBL (circular stack, spec 3), FIN (second cycl
 (the testbench aligns on the first sync), a 12-bit hex word: {0, sync, d_oe, cm_rom} cm_ram d_out ('x' = not compared).
 """
 import sys, os
+sys.dont_write_bytecode = True   # no tests/__pycache__ in the tree
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)) + '/..')
 import asm
 LINES = [0b0001, 0b0010, 0b0100, 0b0110, 0b1000, 0b1010, 0b1100, 0b1110]   # spec 6.5, bit i = CM-RAMi
