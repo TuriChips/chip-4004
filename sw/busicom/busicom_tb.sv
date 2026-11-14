@@ -2,7 +2,7 @@
 // model of the keyboard matrix, the printer drum and the i4003 shift registers (hardware description: chapter 3
 // of the 4004.com listing). It types a key sequence and prints every line the printer prints as "PRINT <text>".
 // Plusargs: +KEYS=<hex scan codes, e.g. 9b95 8e ...> are given as a file of one hex code per line via +KEYFILE=<file>
-//           +SECT=<clocks per drum sector, default 6000>  +HOLD=<sectors a key is held, default 24>  +MAXCLK=<default 6000000>
+//           +SECT=<clocks per drum sector, default 20800>  +HOLD=<sectors a key is held, default 3>  +MAXCLK=<default: (2*HOLD*keys + 60) sectors>
 // Assumptions I made from the listing text, not from a datasheet, that the first run must confirm:
 //   - ROM1 and ROM2 ports are active-high; TEST = 1 while the sector signal is active.
 //   - Confirmed by the first traced run: the firmware fills the keyboard shifter with 1s and walks a single 0 through it,
@@ -31,7 +31,9 @@ module busicom_tb;
     wire [3:0] p_ram0 = ram_port_out[3:0];
 
     // ---- keys: scan code = 0x81 + column*4 + row (listing section 3.2) ----
-    integer sect = 20800, hold = 24, maxclk = 6000000;
+    // 28 ms drum sector / 10.8 us instruction cycle = 2593 cycles = 20744 clocks. 20800 is a multiple of 8 (one cycle), so
+    // 'test' and the sector pulse (sect/10 = 2080) change on cycle boundaries.
+    integer sect = 20800, hold = 3, maxclk = -1;   // maxclk -1: enough sectors for all keys, see below
     integer keys [0:255]; integer nkeys = 0;
     integer cur_key = -1;                     // scan code held down, -1 = none
     reg [3:0] colrows [0:9];                  // rows pulled high by the pressed key, per shifter bit
@@ -103,6 +105,9 @@ module busicom_tb;
 
     // ---- drum sector signal on TEST, index on ROM2 bit 0, key schedule ----
     integer t = 0, key_i = 0, held = 0;
+    reg test_q = 0;
+    always @(posedge clk) test_q <= test;
+    wire test_next = (t % sect) < (sect / 10);   // see the sector-period note near 'sect'
     initial begin
         string kf;
         for (k = 0; k < 17; k = k + 1) line[k] = 8'd0;
@@ -110,12 +115,15 @@ module busicom_tb;
         if ($value$plusargs("KEYFILE=%s", kf)) $readmemh(kf, keys); // codes; 0 ends the list
         while (keys[nkeys] !== 8'hxx && nkeys < 255 && keys[nkeys] != 0) nkeys = nkeys + 1;
         set_key(-1);
+        if (maxclk < 0) maxclk = (2 * hold * nkeys + 60) * sect;
         repeat (80) @(posedge clk);
         reset = 0;
     end
     always @(posedge clk) if (!reset) begin
         t <= t + 1;
-        test <= (t % sect) < (sect / 10);                       // sector pulse: first tenth of each period
+        if (dut.cpu.period === 3'd7) test <= test_next;         // change only on the edge that starts A1; sector pulse = first tenth of each period
+        // spec section 4 (TEST decision): test may change only on the edge that starts A1, seen one edge later, so the period counter must read A1 (0)
+        if (test !== test_q && dut.cpu.period !== 3'd0) begin $display("FAIL TEST changed outside A1 at clock %0d", t); $finish; end
         rom_io_in[8] <= (npulse % 13 == 12) && ((t % sect) < (sect / 10 + 400));   // index, around the 13th pulse
         if (t % sect == sect / 10) row <= (npulse + 1) % 13;   // the drum row advances when the sector pulse ends
         if (t % sect == 0) begin
