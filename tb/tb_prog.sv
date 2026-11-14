@@ -56,7 +56,7 @@ module tb_prog;
   else if (!reset) begin
     cyc = cyc + 1;
     if (aligned || sync === 1'b1) begin
-      if (^{d_oe, sync, cm_rom, cm_ram, bus, bus_conflict} === 1'bx) begin
+      if (^{d_out, d_oe, sync, cm_rom, cm_ram, bus, bus_conflict, rom_io_out, ram_port_out} === 1'bx) begin   // C8: every output, d_out too
         errors = errors + 1; $display("FAIL C8 X/Z on pins at clock %0d (period %0d)", cyc, per);
       end
       if (bus_conflict !== 1'b0) begin errors = errors + 1; $display("FAIL bus_conflict at clock %0d", cyc); end
