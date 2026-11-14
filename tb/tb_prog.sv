@@ -22,7 +22,7 @@ module tb_prog;
   always #5 clk = ~clk;
 
   reg [3:0] exp [0:4095]; integer nexp = 0, got = 0, errors = 0, cyc = 0;
-  integer per = -1; // -1 = not aligned yet
+  integer per = 0; reg aligned = 0; // per: 0=A1 .. 7=X3 (spec section 4)
   integer i; reg [8*256-1:0] line;
   initial begin
     if (!$value$plusargs("EXP=%s", expf)) begin $display("FAIL no +EXP"); $finish; end
@@ -35,13 +35,14 @@ module tb_prog;
   // sample at the falling edge: the middle of each clock period
   always @(negedge clk) if (!reset) begin
     cyc = cyc + 1;
-    if (per >= 0 || sync === 1'b1) begin
+    if (aligned || sync === 1'b1) begin
       if (^{d_oe, sync, cm_rom, cm_ram, bus, bus_conflict} === 1'bx) begin
         errors = errors + 1; $display("FAIL C8 X/Z on pins at clock %0d (period %0d)", cyc, per);
       end
       if (bus_conflict !== 1'b0) begin errors = errors + 1; $display("FAIL bus_conflict at clock %0d", cyc); end
     end
-    if (sync === 1'b1) per = 0; else if (per >= 0) per = per + 1;   // clock after sync = A1
+    if (sync === 1'b1) begin per = 7; aligned = 1; end   // sync=1 is X3 (spec section 4); the next clock is A1
+    else if (aligned) per = (per + 1) % 8;
     if (per == 6 && d_oe === 1'b1 && cm_rom === 1'b0) begin // X2 of an I/O write
       if (got < nexp) begin
         if (d_out !== exp[got]) begin errors = errors + 1;
