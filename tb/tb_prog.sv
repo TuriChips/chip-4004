@@ -1,5 +1,5 @@
 // Program-trace testbench on mcs4_system pins only (spec sections 2, 4, 8 C1/C8).
-// Plusargs: +ROM0=<hex file for 4001 #0>  +EXP=<expected trace, one hex nibble per line>  +TIMEOUT=<clocks>  +TEST=<0|1, the test pin, default 0>
+// Plusargs: +EXP=<expected trace, one hex nibble per line>  +TIMEOUT=<clocks>  +TEST=<0|1, the test pin, default 0>
 // Trace = the value on d_out at X2 of every I/O-write-class instruction (d_oe=1, cm_rom=0 at X2:
 // WRM, WMP, WRR, WPM, WR0-3), so a program shows acc/cy/registers by writing them out.
 // Also checks, on every clock after the first sync: no X/Z on any output (C8), bus_conflict = 0.
@@ -12,8 +12,11 @@ module tb_prog;
   wire [3:0] bus; wire bus_conflict;
   wire [3:0] d_out; wire d_oe, sync, cm_rom; wire [3:0] cm_ram;
   string rom0, expf; integer timeout; integer tv;
-  // ASSUMPTION (check against rtl/control/mcs4_system.v when it lands): single 4001, 4 4002 on bank 0
-  mcs4_system #(.N_ROM(1), .ROM_FILE0(`ROM_FILES_PARAM), .N_RAM_BANK0(4)) dut (
+  // 8 4001s (pages 0-7, files <ROMDIR>/rom<n>.hex), 4 4002s on bank 0. ROM_FILE<n> per chip (Zura, #16).
+  mcs4_system #(.N_ROM(8),
+    .ROM_FILE0({`ROMDIR, "/rom0.hex"}), .ROM_FILE1({`ROMDIR, "/rom1.hex"}), .ROM_FILE2({`ROMDIR, "/rom2.hex"}),
+    .ROM_FILE3({`ROMDIR, "/rom3.hex"}), .ROM_FILE4({`ROMDIR, "/rom4.hex"}), .ROM_FILE5({`ROMDIR, "/rom5.hex"}),
+    .ROM_FILE6({`ROMDIR, "/rom6.hex"}), .ROM_FILE7({`ROMDIR, "/rom7.hex"}), .N_RAM_BANK0(4)) dut (
     .clk(clk), .reset(reset), .test(test), .rom_io_in(64'b0),
     .rom_io_out(rom_io_out), .ram_port_out(ram_port_out), .bus(bus), .bus_conflict(bus_conflict));
   // pins of the 4004 are observed through the system's hierarchy-free ports where available:

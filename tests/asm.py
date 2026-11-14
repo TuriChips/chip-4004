@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Tiny 4004 assembler for the tests. Written from docs/spec.md section 6 only.
-Usage: asm.py prog.asm outdir   -> outdir/rom<N>.hex (256 lines of 2 hex digits per 256-byte page)
+Usage: asm.py prog.asm outdir   -> outdir/rom0..7.hex (256 lines of 2 hex digits per 256-byte page)
 Syntax: one statement per line, ';' starts a comment, 'label:' defines a label,
         '.org N' sets the address, '.byte V' emits a byte. Numbers: decimal or 0x.. ; labels as operands.
 Registers are written r0..r15, pairs p0..p7."""
@@ -65,8 +65,7 @@ def main():
     assemble(lines, False, labels)
     mem = assemble(lines, True, labels)
     os.makedirs(out, exist_ok=True)
-    for page in range(16):
-        if not any((page << 8) <= a < (page << 8) + 256 for a in mem) and page: continue
+    for page in range(8):   # always write pages 0-7 (testbench has 8 4001s); empty page = NOPs
         with open(f"{out}/rom{page}.hex", "w") as f:
             for i in range(256): f.write(f"{mem.get((page << 8) + i, 0):02X}\n")
 

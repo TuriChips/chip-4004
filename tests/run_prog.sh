@@ -4,7 +4,7 @@
 set -euo pipefail
 name=$1; b=build/prog/$(basename "$name"); mkdir -p "$b" logs
 python3 tests/asm.py "$name.asm" "$b"
-iverilog -g2012 -DROM_FILES_PARAM="\"$b/rom0.hex\"" -o "$b/sim.vvp" tb/tb_prog.sv $(find rtl -name '*.v')
+iverilog -g2012 -DROMDIR="\"$b\"" -o "$b/sim.vvp" tb/tb_prog.sv $(find rtl -name '*.v')
 plus=""; [ -f "$name.plus" ] && plus=$(cat "$name.plus")
 vvp -n "$b/sim.vvp" +EXP="$name.exp" $plus 2>&1 | tee "logs/$(basename "$name").log"
 grep -q '^PASS' "logs/$(basename "$name").log"
