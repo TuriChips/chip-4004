@@ -1,0 +1,10 @@
+Netlist: synth/sky130/i4004_sky130.v at main fd29456 (Leo, #31)
+ROM/RAM/system: RTL i4001, i4002, mcs4_system from the same commit
+Cell models: /home/turichips/tools/mm/root/envs/pdk/share/pdk/sky130A/libs.ref/sky130_fd_sc_hd/verilog/{primitives.v,sky130_fd_sc_hd.v}, -DFUNCTIONAL -DUNIT_DELAY= (zero delay), Icarus
+Icarus Verilog version 12.0 (stable) ()
+
+Acceptance runs on the netlist (scratch worktree of main 0aacd5f; netlist and system RTL identical to fd29456: rtl/ = netlist + RTL
+i4001/i4002/mcs4_system + rtl/0_sky130_cells.v, which defines FUNCTIONAL/UNIT_DELAY and includes the PDK models):
+- acc-demo-gl.log: ./sw/run_demo.sh unchanged -> DEMO PASS
+- acc1-busicom-gl.log: ./sw/busicom/run.sh with busicom_tb-pins-only.patch (dut.cpu.period -> dut.cpu_sync,
+  #35 for Homer; the same patch on the RTL also gives BUSICOM PASS) -> BUSICOM PASS, 5,366,400 clocks, 7 min 10 s

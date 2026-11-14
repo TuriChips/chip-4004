@@ -144,6 +144,8 @@ def main():
     ap.add_argument("--out", default=os.path.join(ROOT, "build", "c9"))
     ap.add_argument("--ram-bank", type=int, default=0, choices=range(4), help="bank holding the 4 x 4002")
     ap.add_argument("--rtl", default=os.path.join(ROOT, "rtl"), help="RTL directory under test")
+    ap.add_argument("--extra", nargs="*", default=[], help="extra Verilog files (e.g. PDK cell models)")
+    ap.add_argument("--define", nargs="*", default=[], help="iverilog defines, e.g. FUNCTIONAL UNIT_DELAY=")
     ap.add_argument("--gen", choices=["c9", "acc3"], default="c9",
                     help="acc3: the programs of acceptance test 3 (tests/random/acc3, program p from "
                          "seed SEED+p, pages 0-4, the rest 00 = no ROM under spec 2), so the RTL runs "
@@ -164,7 +166,7 @@ def main():
         progs.append((prog, io_in, tests))
     rtl = sorted(os.path.join(dp, f) for dp, _, fs in os.walk(a.rtl) for f in fs if f.endswith(".v"))
     vvp = f"{a.out}/c9.vvp"
-    subprocess.run(["iverilog", "-g2012", f"-DRAM_BANK={a.ram_bank}", "-o", vvp, *rtl, os.path.join(ROOT, "tests/random/c9/tb.sv")], check=True)
+    subprocess.run(["iverilog", "-g2012", f"-DRAM_BANK={a.ram_bank}", *[f"-D{d}" for d in a.define], "-o", vvp, *a.extra, *rtl, os.path.join(ROOT, "tests/random/c9/tb.sv")], check=True)
     sim = subprocess.run(["vvp", "-n", vvp, f"+dir={a.out}", f"+nprog={a.nprog}", f"+ncyc={a.ncyc}"],
                          check=True, capture_output=True, text=True)
     print(sim.stdout.strip())
