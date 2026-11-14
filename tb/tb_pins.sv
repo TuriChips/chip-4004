@@ -27,6 +27,8 @@ module tb_pins;
     cyc = cyc + 1;
     if (aligned) begin
       e = exp[idx];
+      if (^{d_out, d_oe, sync, cm_rom, cm_ram, bus, bus_conflict, rom_io_out, ram_port_out} === 1'bx) begin
+        errors = errors + 1; $display("FAIL C8 X/Z on an output at period %0d", idx); end   // C8: every output, d_out too
       if ({sync, d_oe, cm_rom, cm_ram} !== {e[10:8], e[7:4]} ||
           (e[3:0] !== 4'bxxxx && d_out !== e[3:0]) || bus_conflict !== 1'b0) begin
         errors = errors + 1;

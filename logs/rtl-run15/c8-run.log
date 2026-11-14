@@ -1,0 +1,2 @@
+RESET_AT=407 PASS: trace=6 expected=6 errors=0
+C8: 44 runs, 0 failing, X/Z reports=0, bus_conflict reports=0
