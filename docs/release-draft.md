@@ -18,7 +18,8 @@ git clone https://github.com/TuriChips/chip-4004 && cd chip-4004
 | Demo: 1294 + 5678 in decimal on `mcs4_system`; the sum 6972 appears on a 4001 port as 2 7 9 6 0 | pass | `logs/demo/add.log` |
 | Acceptance test 1: the Busicom 141-PF firmware on `mcs4_system`, with our keyboard and printer model. Sums 18 + 42 = 60, 100 + 35 - = 65, 12 x 12 = 144 | `BUSICOM PASS`: printed lines match `sw/busicom/sums.expected` | `logs/busicom/run.log` (header has the main commit) |
 | C9: random programs against the reference model (`ref/ref4004.py`), every pin in every clock period, plus 6,773 mid-run resets | 10,000 programs x 1,000 cycles, 0 mismatching programs (RTL at main 8c91f80) | `logs/c9-full-20261114T134153Z/SUMMARY.md` |
-| Acceptance test 3: 40 random programs (3,000 instructions each) run on MAME 0.264's `mcs40` 4004 (an independent emulator, BSD-3) and on our reference model, compared step by step | 40 programs agree. 7 of them stop early at a known difference: MAME keeps one global SRC latch, our spec (following the manual, p.15) keeps one per 4002 (issue #40, decision pending) | `logs/acc3-20261114T152314Z/acc3.log` |
+| Acceptance test 2: two example programs from the MCS-4 Users Manual, typed in from the page images: Routine A, 16-digit decimal addition (p.49, 5 cases), and the BCD-to-binary routine (p.50, 8 numbers: 0 7 10 99 100 128 205 255). The manual's bytes are asserted by the generators; expected results come from Python arithmetic, since the manual prints no test data | all 13 pass (RTL at main 08c8fd5) | `logs/rtl-run12/`, `logs/rtl-run13/` |
+| Acceptance test 3: 40 random programs (3,000 instructions each) run on MAME 0.264's `mcs40` 4004 (an independent emulator, BSD-3) and on our reference model, compared step by step | 40 programs agree. 7 of them stop early at a known difference: MAME keeps one global SRC latch, our spec (following the manual, p.15) keeps one per 4002 (issue #40: decided in #41 to keep our spec's behaviour, which waits for Sai's merge) | `logs/acc3-20261114T152314Z/acc3.log` |
 | The same 40 programs on our RTL against the reference model | 0 mismatching programs (RTL at main 0aacd5f) | `logs/c9-acc3progs-20261114T152314Z/c9.log` |
 | Behaviour tests from spec section 8, each walking an assembled program on `mcs4_system` and checking the I/O writes against hand-derived expectations: C1 (accumulator group, register ops, branches, RAM and I/O), C2 (pin timing of every instruction class), C3 (page quirk), C4 (stack), C5 (all 16 JCN conditions), C6 (DCL), C7 (reset mid-run) | all pass; C8 (no X/Z, no bus conflict) is checked in every run but marked partial; WPM is not tested | `logs/rtl-run10/` (full suite, 31 programs, main fd29456), `logs/rtl-run11/`; the per-row list is `tests/coverage.md` |
 
@@ -42,8 +43,7 @@ _Draft, from Igris's list on the review of #39; each item needs its issue or PR 
 - My first Busicom runs were misaligned with the spec's TEST timing by luck; a check I added fired at clock 0 (#25). Another reader found it could not run on the gate-level netlist (#35).
 
 ## Not yet (do not publish until these have logs)
-- Acceptance test 2 (example programs from the Users Manual): `tests/coverage.md` marks it todo.
-- A decision on the SRC-latch difference with MAME (#40), and the spec wording for acceptance test 3 that goes with it.
+- Sai's merge of #41, which records the SRC-latch difference with MAME (#40) in the spec.
 - C9 on the sky130 netlist (Beru, #34) and gate-level Busicom on it.
 - Signoff for the layout (timing closure, power, signoff DRC, LVS).
 - WPM and the WPM/DCL line in C1 (`tests/coverage.md`).
