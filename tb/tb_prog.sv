@@ -24,6 +24,7 @@ module tb_prog;
   assign cm_rom = dut.cpu.cm_rom; assign cm_ram = dut.cpu.cm_ram;
   always #5 clk = ~clk;
 
+  integer rst_at = -1, rcnt = 0;
   reg [3:0] exp [0:4095]; integer nexp = 0, got = 0, errors = 0, cyc = 0;
   integer per = 0; reg aligned = 0; // per: 0=A1 .. 7=X3 (spec section 4)
   integer i; reg [8*256-1:0] line;
@@ -34,13 +35,14 @@ module tb_prog;
     if ($value$plusargs("TEST=%d", tv)) test = tv[0];   // static TEST pin for the whole run
     $readmemh(expf, exp); // count lines
     for (i = 0; i < 4096; i = i + 1) if (^exp[i] !== 1'bx) nexp = i + 1;
+    if (nexp == 0) begin $display("FAIL empty or missing +EXP file %0s (no expected trace)", expf); $finish; end
     repeat (70) @(posedge clk);   // reset held >= 64 edges (spec section 5)
     @(negedge clk); reset = 0;
   end
   // sample at the falling edge: the middle of each clock period
   // Optional mid-run reset (C7): +RESET_AT=<clock>  asserts reset there, holds it 70 edges (>= 64, spec section 5),
   // checks the reset pins (spec section 5: d_oe, sync, cm_rom, cm_ram all 0), and after it falls the next clock is A1.
-  integer rst_at = -1, rcnt = 0; reg in_mid = 0, mid_done = 0;
+  reg in_mid = 0, mid_done = 0;
   task midreset; begin
     if (!in_mid) begin in_mid = 1; mid_done = 1; reset = 1; rcnt = 0; end
     else begin

@@ -26,6 +26,10 @@ def num(tok, labels, pc, final):
         if final: raise SystemExit(f"unknown symbol {tok!r}")
         return 0
 
+def rng(v, lo, hi, what):
+    if not lo <= v <= hi: raise SystemExit(f"{what} {v} out of range {lo}..{hi}")
+    return v
+
 def reg(t, k='r'):
     m = re.fullmatch(k + r'(\d+)', t.strip().lower())
     if not m or int(m.group(1)) > (15 if k == 'r' else 7): raise SystemExit(f"bad register {t!r}")
@@ -45,17 +49,24 @@ def assemble(lines, final, labels):
         if not ln: continue
         op, _, rest = ln.partition(' '); op = op.lower(); args = [a for a in rest.split(',') if a.strip()]
         n = lambda i: num(args[i], labels, pc, final)
+        def target(i, size):   # byte operand of JCN/ISZ. A label must be on the page of the address after the 2nd word
+            v = n(i)           # (spec 6.2, incl. the xFE quirk); a number is taken as the byte itself.
+            if args[i].strip() in labels:
+                if final and (v >> 8) != ((pc + size) >> 8):
+                    raise SystemExit(f"label {args[i].strip()} ({v:#05x}) is not on the page of {(pc + size):#05x}")
+                return v & 0xFF
+            return rng(v, 0, 255, "branch byte")
         if op == '.org': pc = n(0)
-        elif op == '.byte': emit(n(0))
+        elif op == '.byte': emit(rng(n(0), 0, 255, '.byte'))
         elif op in ONE: emit(ONE[op])
         elif op in REGOP: emit(REGOP[op] | reg(args[0]))
-        elif op in IMM: emit(IMM[op] | (n(0) & 15))
+        elif op in IMM: emit(IMM[op] | rng(n(0), 0, 15, op + ' immediate'))
         elif op in PAIR: emit(PAIR[op] | (reg(args[0], 'p') << 1))
-        elif op == 'fim': emit(0x20 | (reg(args[0], 'p') << 1), n(1))
-        elif op == 'isz': emit(0x70 | reg(args[0]), n(1) & 0xFF)
-        elif op == 'jcn': emit(0x10 | (n(0) & 15), n(1) & 0xFF)
-        elif op == 'jun': a = n(0); emit(0x40 | (a >> 8) & 15, a)
-        elif op == 'jms': a = n(0); emit(0x50 | (a >> 8) & 15, a)
+        elif op == 'fim': emit(0x20 | (reg(args[0], 'p') << 1), rng(n(1), 0, 255, 'fim byte'))
+        elif op == 'isz': emit(0x70 | reg(args[0]), target(1, 2))
+        elif op == 'jcn': emit(0x10 | rng(n(0), 0, 15, 'jcn condition'), target(1, 2))
+        elif op == 'jun': a = rng(n(0), 0, 0xFFF, 'address'); emit(0x40 | a >> 8, a)
+        elif op == 'jms': a = rng(n(0), 0, 0xFFF, 'address'); emit(0x50 | a >> 8, a)
         else: raise SystemExit(f"unknown mnemonic {op!r}")
     return mem
 
@@ -64,6 +75,7 @@ def main():
     lines = open(src).read().splitlines(); labels = {}
     assemble(lines, False, labels)
     mem = assemble(lines, True, labels)
+    if mem and max(mem) >= 0x800: raise SystemExit(f"byte at {max(mem):#05x}: the testbench has ROM pages 0-7 only (< 0x800)")
     os.makedirs(out, exist_ok=True)
     for page in range(8):   # always write pages 0-7 (testbench has 8 4001s); empty page = NOPs
         with open(f"{out}/rom{page}.hex", "w") as f:
