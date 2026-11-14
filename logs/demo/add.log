@@ -1,0 +1,9 @@
+main commit: fd29456ae5ebbed88f4cce764263a811af6244f4
+port 2
+port 7
+port 9
+port 6
+port 0
+done after 4000 clocks
+sw/demo_tb.sv:33: $finish called at 40795000 (1ps)
+DEMO PASS: port writes match sw/add.expected (1294 + 5678 = 6972)
