@@ -45,11 +45,11 @@ Generic Yosys (`synth/report.txt`, `synth/logs/yosys.log`) and an open-source sk
 The Busicom firmware is not in this repo; the test downloads it from [4004.com](https://www.4004.com/busicom/). Binaries recovered by Tim McNerney and Fred Huettig with the Computer History Museum; disassembly by Barry Silverman, Brian Silverman and Tim McNerney; commented listing by Lajos Kintli. The commented code is CC BY-NC-SA; the original binary is stated to be uncopyrighted. The spec was checked against Intel's *MCS-4 Micro Computer Set Users Manual*, Rev. 4 (February 1973); where the text scan was unreadable, the spec's section 10 says which page image or other source was used.
 
 ## What went wrong along the way
-- The spec had undefined cases we had to decide: bytes 01–0F are not instructions (#19), the per-chip SRC latch, reset state and multi-bank RAM reads (review of #16).
+- The spec had undefined cases we had to decide: bytes 01–0F are not instructions (#19), the per-chip SRC latch, reset state and multi-bank RAM reads (found in the spec review, TuriChips/turichips#16).
 - Acceptance test 3 found a real difference between our spec and MAME's 4004: the SRC latch (#40).
 - The Busicom licence turned out looser than we assumed: only the commented code is CC BY-NC-SA, the original binary is stated to be uncopyrighted (#22).
-- My first Busicom harness printed nothing: it selected keyboard columns active-high, and the firmware walks a single 0 (#23). My first subtraction test typed the keys wrong for an adding machine (100 - 35 printed 135); the chip was right.
-- My first Busicom runs were misaligned with the spec's TEST timing by luck; a check I added fired at clock 0 (#25). Another reader found it could not run on the gate-level netlist (#35).
+- Homer's first Busicom harness printed nothing: it selected keyboard columns active-high, and the firmware walks a single 0 (#23). Homer's first subtraction test typed the keys wrong for an adding machine (100 - 35 printed 135); the chip was right.
+- Homer's first Busicom runs were aligned with the spec's TEST timing only by luck; a check added in #25 fired at clock 0. Beru then found the harness could not run on the gate-level netlist (#35).
 
 ## Not done
 - Layout signoff: timing closure, power, clock tree, signoff DRC and LVS. The layout is a first routed run, not a manufacturable one (details in `synth/README.md`).
