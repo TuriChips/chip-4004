@@ -84,9 +84,11 @@ class Ram4002:
 
 
 class System:
-    def __init__(self, roms, rams=None):
+    def __init__(self, roms, rams=None, idle_bus=0):
         """roms: list of Rom4001. rams: list of Ram4002 (default: 4 x 4002 on bank 0,
-        spec section 7 default build)."""
+        spec section 7 default build). idle_bus: value of the bus when nobody drives it.
+        Spec section 2 says 0000; acceptance test 3 sets 15 to match MAME's open bus."""
+        self.idle_bus = idle_bus
         self.roms = {r.chip: r for r in roms}
         assert len(self.roms) == len(roms), "two ROMs with one chip number"
         self.rams = rams if rams is not None else [Ram4002(0, c) for c in range(4)]
@@ -136,15 +138,17 @@ class System:
         else:
             self.addr = self.pc
         rom = self.roms.get(self.addr >> 8)
-        self.byte = rom.data[self.addr & 0xFF] if rom else None   # None: nobody drives M1/M2
-        b = self.byte or 0
+        # None: nobody drives M1/M2, the 4004 reads the idle bus (0x00 per spec section 2)
+        self.byte = rom.data[self.addr & 0xFF] if rom else None
+        self.fetched = self.byte if rom else self.idle_bus * 0x11
+        b = self.fetched
         first = self.kind == "first"
         self.io = first and (b >> 4) == 0xE
         self.src = first and is_src(b)
 
     def _drivers_x2(self):
         """Who drives the bus at X2 of an I/O read (spec 4, 6.3, 7). Returns list of values."""
-        opa = self.byte & 15
+        opa = self.fetched & 15
         vals = []
         if opa == 0xA:                                   # RDR: the selected ROM
             for rom in self.roms.values():
@@ -177,15 +181,15 @@ class System:
                 cm_rom, cm_ram = 1, self.lines()
         elif p == X2:
             if self.src:
-                d_oe, d_out = 1, self.pair((self.byte & 15) >> 1) >> 4
+                d_oe, d_out = 1, self.pair((self.fetched & 15) >> 1) >> 4
                 cm_rom, cm_ram = 1, self.lines()
-            elif self.io and (self.byte & 15) in IO_WRITE:
+            elif self.io and (self.fetched & 15) in IO_WRITE:
                 d_oe, d_out = 1, self.acc
-            elif self.io and (self.byte & 15) in IO_READ:
+            elif self.io and (self.fetched & 15) in IO_READ:
                 others = self._drivers_x2()
         elif p == X3:
             if self.src:
-                d_oe, d_out = 1, self.pair((self.byte & 15) >> 1) & 15
+                d_oe, d_out = 1, self.pair((self.fetched & 15) >> 1) & 15
         drivers = len(others) + d_oe
         if d_oe:
             bus = d_out
@@ -194,7 +198,7 @@ class System:
             for v in others[1:]:
                 bus |= v      # undefined by spec (Decision C); flagged as conflict
         else:
-            bus = 0
+            bus = self.idle_bus
         return Pins(p, sync, cm_rom, cm_ram, d_oe, d_out, bus, drivers > 1)
 
     def step(self, reset=0, test=0):
@@ -224,7 +228,7 @@ class System:
             self._io_x2(pins.bus)
         if p == X2:
             self.x2_bus = pins.bus
-        if p == X3 and self.kind == "first" and (self.byte or 0) >> 4 == 1:
+        if p == X3 and self.kind == "first" and self.fetched >> 4 == 1:
             self.test_latch = test & 1        # spec 4: JCN samples TEST at end of X3, cycle 1
         if p == X3:
             self._end_cycle()
@@ -235,7 +239,7 @@ class System:
 
     def _io_x2(self, bus):
         """Writes by ROM/RAM at X2 of an I/O instruction (bus = acc for writes)."""
-        opa = self.byte & 15
+        opa = self.fetched & 15
         if opa == 0x2:                                   # WRR
             for rom in self.roms.values():
                 if rom.chip == rom.sel and not rom.port_in:
@@ -253,7 +257,7 @@ class System:
 
     def _end_cycle(self):
         """End of X3: the instruction's effect on 4004 state (spec 6)."""
-        b = self.byte or 0
+        b = self.fetched
         if self.kind == "fin":
             self.set_pair((self.w1 & 15) >> 1, b)        # pc does not advance
             self.kind = "first"
