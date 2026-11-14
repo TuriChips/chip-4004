@@ -128,7 +128,7 @@ The chip latches SRC only when `cm_ram` = 1 at X2, and acts on an I/O instructio
 | `port_out` | out | 4 | Output port latch (WMP); 0 after reset |
 
 ### `mcs4_system` (Zura)
-Parameters: `N_ROM` (1–16), `ROM_FILES` (one `$readmemh` file per chip), `ROM_PORT_IN` (16 bits, one per chip), `N_RAM_BANK0..3` (0–4 each).
+Parameters: `N_ROM` (1–16), `ROM_FILE0` … `ROM_FILE15` (strings, one `$readmemh` file per chip; Verilog has no portable string-array parameter), `ROM_PORT_IN` (16 bits, one per chip), `N_RAM_BANK0..3` (0–4 each).
 | Port | Dir | Width | Meaning |
 |------|-----|-------|---------|
 | `clk`, `reset`, `test` | in | 1, 1, 1 | |
