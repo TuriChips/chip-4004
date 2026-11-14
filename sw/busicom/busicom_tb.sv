@@ -107,6 +107,8 @@ module busicom_tb;
     integer t = 0, key_i = 0, held = 0;
     reg test_q = 0;
     always @(posedge clk) test_q <= test;
+    reg sync_q = 0;                       // pins only: sync is 1 in X3, so one edge after sync = 1 the period is A1
+    always @(posedge clk) sync_q <= dut.cpu_sync;
     wire test_next = (t % sect) < (sect / 10);   // see the sector-period note near 'sect'
     initial begin
         string kf;
@@ -121,9 +123,9 @@ module busicom_tb;
     end
     always @(posedge clk) if (!reset) begin
         t <= t + 1;
-        if (dut.cpu.period === 3'd7) test <= test_next;         // change only on the edge that starts A1; sector pulse = first tenth of each period
-        // spec section 4 (TEST decision): test may change only on the edge that starts A1, seen one edge later, so the period counter must read A1 (0)
-        if (test !== test_q && dut.cpu.period !== 3'd0) begin $display("FAIL TEST changed outside A1 at clock %0d", t); $finish; end
+        if (dut.cpu_sync === 1'b1) test <= test_next;           // change only on the edge that starts A1 (the edge after sync); sector pulse = first tenth of each period
+        // spec section 4 (TEST decision): test may change only on the edge that starts A1, seen one edge later, so sync must have been 1 at the edge before (pins only: this also elaborates on the gate-level netlist)
+        if (test !== test_q && sync_q !== 1'b1) begin $display("FAIL TEST changed outside A1 at clock %0d", t); $finish; end
         rom_io_in[8] <= (npulse % 13 == 12) && ((t % sect) < (sect / 10 + 400));   // index, around the 13th pulse
         if (t % sect == sect / 10) row <= (npulse + 1) % 13;   // the drum row advances when the sector pulse ends
         if (t % sect == 0) begin
