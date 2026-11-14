@@ -21,7 +21,7 @@ Yosys maps `i4004` to `sky130_fd_sc_hd` at the typical corner (`lpflow_*`, probe
 | Cell area | 8,637 µm² (8,981 µm² placed with 275 tap cells, 42% utilization) | `sky130/logs/stat.txt`, `sky130/logs/openroad.log` |
 | Die | 156.9 × 156.9 µm | `sky130/logs/openroad.log` |
 | Routed wire length, vias | 31,101 µm, 9,192 | `sky130/logs/openroad.log` |
-| Longest path (typical corner, ideal 10 ns clock) | 6.931 ns data arrival, 0.161 ns setup, slack 2.908 ns (met), 18 cells from `_1922_` to `_1874_` | `sky130/logs/openroad.log` |
+| Longest path (typical corner, ideal 10 ns clock) | 6.931 ns data arrival, 0.161 ns setup, slack 2.908 ns (met), 16 gates between flops `_1922_` and `_1874_` | `sky130/logs/openroad.log` |
 | Router DRC violations | 0 (the router's own count, not a signoff) | `sky130/logs/openroad.log` |
 
 The path above implies a clock of about 140 MHz (1 / 7.09 ns) before any optimization. The original 4004 ran at 740 kHz.
