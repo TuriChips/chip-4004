@@ -1,5 +1,5 @@
 // Program-trace testbench on mcs4_system pins only (spec sections 2, 4, 8 C1/C8).
-// Plusargs: +EXP=<expected trace, one hex nibble per line>  +TIMEOUT=<clocks>  +TEST=<0|1, the test pin, default 0>
+// Plusargs: +EXP=<expected trace, one hex nibble per line>  +TIMEOUT=<clocks>  +TEST=<0|1, the test pin, default 0>  +RESET_AT=<clock: reset again mid-run, see C7>
 // Trace = the value on d_out at X2 of every I/O-write-class instruction (d_oe=1, cm_rom=0 at X2:
 // WRM, WMP, WRR, WPM, WR0-3), so a program shows acc/cy/registers by writing them out.
 // Also checks, on every clock after the first sync: no X/Z on any output (C8), bus_conflict = 0.
@@ -30,6 +30,7 @@ module tb_prog;
   initial begin
     if (!$value$plusargs("EXP=%s", expf)) begin $display("FAIL no +EXP"); $finish; end
     if (!$value$plusargs("TIMEOUT=%d", timeout)) timeout = 100000;
+    if (!$value$plusargs("RESET_AT=%d", rst_at)) rst_at = -1;
     if ($value$plusargs("TEST=%d", tv)) test = tv[0];   // static TEST pin for the whole run
     $readmemh(expf, exp); // count lines
     for (i = 0; i < 4096; i = i + 1) if (^exp[i] !== 1'bx) nexp = i + 1;
@@ -37,7 +38,20 @@ module tb_prog;
     @(negedge clk); reset = 0;
   end
   // sample at the falling edge: the middle of each clock period
-  always @(negedge clk) if (!reset) begin
+  // Optional mid-run reset (C7): +RESET_AT=<clock>  asserts reset there, holds it 70 edges (>= 64, spec section 5),
+  // checks the reset pins (spec section 5: d_oe, sync, cm_rom, cm_ram all 0), and after it falls the next clock is A1.
+  integer rst_at = -1, rcnt = 0; reg in_mid = 0, mid_done = 0;
+  task midreset; begin
+    if (!in_mid) begin in_mid = 1; mid_done = 1; reset = 1; rcnt = 0; end
+    else begin
+      rcnt = rcnt + 1;
+      if (rcnt >= 2 && ({d_oe, sync, cm_rom, cm_ram} !== 7'b0)) begin
+        errors = errors + 1; $display("FAIL reset pins at reset clock %0d: oe=%b sync=%b rom=%b ram=%h", rcnt, d_oe, sync, cm_rom, cm_ram); end
+      if (rcnt == 70) begin reset = 0; in_mid = 0; per = 7; aligned = 1; end
+    end
+  end endtask
+  always @(negedge clk) if (in_mid || (rst_at >= 0 && cyc == rst_at && !mid_done)) midreset;
+  else if (!reset) begin
     cyc = cyc + 1;
     if (aligned || sync === 1'b1) begin
       if (^{d_oe, sync, cm_rom, cm_ram, bus, bus_conflict} === 1'bx) begin
