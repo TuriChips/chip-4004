@@ -1,5 +1,5 @@
 // Program-trace testbench on mcs4_system pins only (spec sections 2, 4, 8 C1/C8).
-// Plusargs: +ROM0=<hex file for 4001 #0>  +EXP=<expected trace, one hex nibble per line>  +TIMEOUT=<clocks>
+// Plusargs: +ROM0=<hex file for 4001 #0>  +EXP=<expected trace, one hex nibble per line>  +TIMEOUT=<clocks>  +TEST=<0|1, the test pin, default 0>
 // Trace = the value on d_out at X2 of every I/O-write-class instruction (d_oe=1, cm_rom=0 at X2:
 // WRM, WMP, WRR, WPM, WR0-3), so a program shows acc/cy/registers by writing them out.
 // Also checks, on every clock after the first sync: no X/Z on any output (C8), bus_conflict = 0.
@@ -11,7 +11,7 @@ module tb_prog;
   wire [63:0] rom_io_out, ram_port_out;
   wire [3:0] bus; wire bus_conflict;
   wire [3:0] d_out; wire d_oe, sync, cm_rom; wire [3:0] cm_ram;
-  string rom0, expf; integer timeout;
+  string rom0, expf; integer timeout; integer tv;
   // ASSUMPTION (check against rtl/control/mcs4_system.v when it lands): single 4001, 4 4002 on bank 0
   mcs4_system #(.N_ROM(1), .ROM_FILE0(`ROM_FILES_PARAM), .N_RAM_BANK0(4)) dut (
     .clk(clk), .reset(reset), .test(test), .rom_io_in(64'b0),
@@ -27,6 +27,7 @@ module tb_prog;
   initial begin
     if (!$value$plusargs("EXP=%s", expf)) begin $display("FAIL no +EXP"); $finish; end
     if (!$value$plusargs("TIMEOUT=%d", timeout)) timeout = 100000;
+    if ($value$plusargs("TEST=%d", tv)) test = tv[0];   // static TEST pin for the whole run
     $readmemh(expf, exp); // count lines
     for (i = 0; i < 4096; i = i + 1) if (^exp[i] !== 1'bx) nexp = i + 1;
     repeat (70) @(posedge clk);   // reset held >= 64 edges (spec section 5)
