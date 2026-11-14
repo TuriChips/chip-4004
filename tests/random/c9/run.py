@@ -26,6 +26,11 @@ def gen(rng, ncyc):
     prog = [rng.choice(OPCODES) for _ in range(4096)]
     io_in = [rng.randrange(16) for _ in range(16)]
     tests = [rng.randrange(2) for _ in range(ncyc)]
+    # Mid-run resets (spec 5): in about 1 program in 3, 1-3 random cycles get a reset raised at a
+    # random period. Encoded with TEST: bit 1 = reset in this cycle, bits 4:2 = period.
+    if rng.random() < 1 / 3:
+        for c in rng.sample(range(1, ncyc), rng.randint(1, 3)):
+            tests[c] |= 2 | (rng.randrange(8) << 2)
     return prog, io_in, tests
 
 
@@ -38,7 +43,7 @@ def write(pdir, prog, io_in, tests):
     for n, v in enumerate(io_in):
         word |= v << (4 * n)
     with open(f"{pdir}/stim.hex", "w") as f:
-        f.write(f"{word:016x}\n" + "\n".join(str(t) for t in tests) + "\n")
+        f.write(f"{word:016x}\n" + "\n".join(f"{t:02x}" for t in tests) + "\n")
 
 
 MNEM = {0x0: "NOP", 0x1: "JCN", 0x4: "JUN", 0x5: "JMS", 0x6: "INC", 0x7: "ISZ", 0x8: "ADD",
@@ -83,8 +88,12 @@ def model_pins(prog, io_in, tests, cov=None, ram_bank=0):
     s.rom_io_in = {n: io_in[n] for n in range(16)}
     s.do_reset()
     out = []
-    for t in tests:
-        for _ in range(8):
+    for v in tests:
+        t, rst, rp = v & 1, (v >> 1) & 1, (v >> 2) & 7
+        for k in range(8):
+            if rst and k == rp:
+                s.do_reset(64)                # not compared while reset = 1 (spec 5)
+                break
             p = s.step(0, t)
             out.append(("%d" % p.sync, "%d" % p.cm_rom, format(p.cm_ram, "04b"), "%d" % p.d_oe,
                         None if p.d_out is None else format(p.d_out, "04b"),
@@ -147,6 +156,9 @@ def main():
     names = sorted(set(MNEM.values()) | set(IO) | set(ACC) | {"SRC", "FIM", "JIN", "FIN"})
     print("coverage (instructions retired by the model): " + ", ".join(f"{n}={cov.get(n, 0)}" for n in names))
     print("coverage (corner cases): " + ", ".join(f"{k}={v}" for k, v in sorted(cov.items()) if k not in names))
+    resets = [(v >> 2) & 7 for _, _, tests in progs for v in tests if v & 2]
+    print(f"coverage (mid-run resets): {len(resets)} in {sum(any(v & 2 for v in t) for _, _, t in progs)} programs, "
+          "by period " + ", ".join(f"{n}={resets.count(i)}" for i, n in enumerate("A1 A2 A3 M1 M2 X1 X2 X3".split())))
     missing = [n for n in names if not cov.get(n) and n not in ("FE", "FF")]
     print("unexercised instructions: " + (", ".join(missing) if missing else "none"))
     print(f"c9: ram_bank={a.ram_bank} seed={a.seed} programs={a.nprog} cycles={a.ncyc} mismatching_programs={bad}")

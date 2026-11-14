@@ -2,7 +2,8 @@
 // pin of every clock period (spec section 4) for tests/random/c9/run.py to compare with ref/ref4004.py.
 // Build: 16 x 4001 (chip n = page n, ROM_PORT_IN = `PORT_IN), 4 x 4002 on bank `RAM_BANK (default 0; one bank only, spec 7 C9 rule).
 // Files in +dir=<d>: prog<p>/rom<n>.hex (256 bytes each), prog<p>/stim.hex
-//   (line 0: rom_io_in, 64-bit hex; lines 1..NCYC: test bit per instruction cycle).
+//   (line 0: rom_io_in, 64-bit hex; lines 1..NCYC per instruction cycle: bit 0 = TEST,
+//    bit 1 = reset during this cycle, bits 4:2 = the period at which reset is raised).
 // Output <d>/prog<p>/pins.txt: one line per period after reset:
 //   sync cm_rom cm_ram d_oe d_out bus conflict   (d_out printed in binary so X/Z shows)
 `ifndef RAM_BANK
@@ -62,9 +63,19 @@ module tb;
                 test = stim[c + 1][0];
                 for (k = 0; k < 8; k = k + 1) begin
                     #4;   // outputs settled for this period
-                    $fdisplay(fd, "%b %b %b %b %b %b %b", dut.cpu_sync, dut.cpu_cm_rom, dut.cpu_cm_ram,
-                              dut.cpu_d_oe, dut.cpu_d_out, bus, bus_conflict);
-                    #1 clk = 1; #5 clk = 0;
+                    if (stim[c + 1][1] && k == stim[c + 1][4:2]) begin
+                        // mid-run reset at period k of this cycle: hold 64 edges (spec 5), not dumped;
+                        // the next cycle starts at A1 (spec 4)
+                        reset = 1;
+                        #1 clk = 1; #5 clk = 0;
+                        repeat (63) begin #4; #1 clk = 1; #5 clk = 0; end
+                        reset = 0;         // at a falling edge, half a period from any rising edge
+                        k = 8;             // leave this cycle; the next one starts at A1
+                    end else begin
+                        $fdisplay(fd, "%b %b %b %b %b %b %b", dut.cpu_sync, dut.cpu_cm_rom, dut.cpu_cm_ram,
+                                  dut.cpu_d_oe, dut.cpu_d_out, bus, bus_conflict);
+                        #1 clk = 1; #5 clk = 0;
+                    end
                 end
             end
             $fclose(fd);
