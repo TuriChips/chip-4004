@@ -13,7 +13,7 @@ module tb_prog;
   wire [3:0] d_out; wire d_oe, sync, cm_rom; wire [3:0] cm_ram;
   string rom0, expf; integer timeout;
   // ASSUMPTION (check against rtl/control/mcs4_system.v when it lands): single 4001, 4 4002 on bank 0
-  mcs4_system #(.N_ROM(1), .ROM_FILES(`ROM_FILES_PARAM), .N_RAM_BANK0(4)) dut (
+  mcs4_system #(.N_ROM(1), .ROM_FILE0(`ROM_FILES_PARAM), .N_RAM_BANK0(4)) dut (
     .clk(clk), .reset(reset), .test(test), .rom_io_in(64'b0),
     .rom_io_out(rom_io_out), .ram_port_out(ram_port_out), .bus(bus), .bus_conflict(bus_conflict));
   // pins of the 4004 are observed through the system's hierarchy-free ports where available:
