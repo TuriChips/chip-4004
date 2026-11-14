@@ -162,14 +162,24 @@ def main():
     ap.add_argument("--rtl", default=os.path.join(ROOT, "rtl"), help="RTL directory under test")
     ap.add_argument("--extra", nargs="*", default=[], help="extra Verilog files (e.g. PDK cell models)")
     ap.add_argument("--define", nargs="*", default=[], help="iverilog defines, e.g. FUNCTIONAL UNIT_DELAY=")
+    ap.add_argument("--gen", choices=["c9", "acc3"], default="c9",
+                    help="acc3: the programs of acceptance test 3 (tests/random/acc3, program p from "
+                         "seed SEED+p, pages 0-4, the rest 00 = no ROM under spec 2), so the RTL runs "
+                         "the same programs as the MAME comparison (spec 9)")
     a = ap.parse_args()
     banks = [int(b) for b in a.ram_banks.split(",") if b != ""] or [a.ram_bank]
     mask = sum(1 << b for b in set(banks))
+    if a.gen == "acc3":
+        sys.path.insert(0, os.path.join(ROOT, "tests", "random", "acc3"))
+        import importlib
+        acc3 = importlib.import_module("run")
     rng = random.Random(a.seed)
     os.makedirs(a.out, exist_ok=True)
     progs = []
     for p in range(a.nprog):
         prog, io_in, tests = gen(rng, a.ncyc)
+        if a.gen == "acc3":
+            prog = acc3.gen(random.Random(a.seed + p)) + [0x00] * (4096 - 5 * 256)
         write(f"{a.out}/prog{p}", prog, io_in, tests)
         progs.append((prog, io_in, tests))
     rtl = sorted(os.path.join(dp, f) for dp, _, fs in os.walk(a.rtl) for f in fs if f.endswith(".v"))
@@ -199,7 +209,7 @@ def main():
     print("unexercised instructions: " + (", ".join(missing) if missing else "none"))
     if len(banks) > 1:
         print(f"multi-bank: {len(STOPPED)} programs stopped at their first bus conflict, bus_conflict raised every time")
-    print(f"c9: ram_banks={','.join(map(str, banks))} seed={a.seed} programs={a.nprog} cycles={a.ncyc} mismatching_programs={bad}")
+    print(f"c9: gen={a.gen} ram_banks={','.join(map(str, banks))} seed={a.seed} programs={a.nprog} cycles={a.ncyc} mismatching_programs={bad}")
     print("PASS" if bad == 0 else "FAIL")
     return 1 if bad else 0
 

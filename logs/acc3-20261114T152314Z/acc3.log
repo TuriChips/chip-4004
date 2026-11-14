@@ -1,0 +1,42 @@
+ok seed 100: 3000 instructions
+ok seed 101: 3000 instructions
+ok seed 102: 3000 instructions
+ok seed 103: 3000 instructions
+ok seed 104: 3000 instructions
+ok seed 105: 3000 instructions
+ok seed 106: 3000 instructions
+ok seed 107: 3000 instructions
+ok seed 108: stopped at instr 522: RAM op after an SRC the bank-0 RAMs did not see (spec 6.3)
+ok seed 109: 3000 instructions
+ok seed 110: 3000 instructions
+ok seed 111: 3000 instructions
+ok seed 112: stopped at instr 104: RAM op after an SRC the bank-0 RAMs did not see (spec 6.3)
+ok seed 113: stopped at instr 200: RAM op after an SRC the bank-0 RAMs did not see (spec 6.3)
+ok seed 114: 3000 instructions
+ok seed 115: 3000 instructions
+ok seed 116: 3000 instructions
+ok seed 117: 3000 instructions
+ok seed 118: 3000 instructions
+ok seed 119: 3000 instructions
+ok seed 120: 3000 instructions
+ok seed 121: stopped at instr 129: RAM op after an SRC the bank-0 RAMs did not see (spec 6.3)
+ok seed 122: stopped at instr 547: RAM op after an SRC the bank-0 RAMs did not see (spec 6.3)
+ok seed 123: 3000 instructions
+ok seed 124: 3000 instructions
+ok seed 125: 3000 instructions
+ok seed 126: 3000 instructions
+ok seed 127: stopped at instr 92: RAM op after an SRC the bank-0 RAMs did not see (spec 6.3)
+ok seed 128: 3000 instructions
+ok seed 129: 3000 instructions
+ok seed 130: 3000 instructions
+ok seed 131: 3000 instructions
+ok seed 132: 3000 instructions
+ok seed 133: 3000 instructions
+ok seed 134: 3000 instructions
+ok seed 135: stopped at instr 927: RAM op after an SRC the bank-0 RAMs did not see (spec 6.3)
+ok seed 136: 3000 instructions
+ok seed 137: 3000 instructions
+ok seed 138: 3000 instructions
+ok seed 139: 3000 instructions
+acc3: seed0=100 programs=40 instructions=3000 agree=40 (stopped early at the spec 6.3 latch difference: 7)
+PASS
