@@ -95,12 +95,13 @@ Our model: while `reset` = 1 on a rising `clk` edge, `acc`, `cy`, `pc`, the stac
 **Pins while `reset` = 1** (*Decision*): `d_oe` = 0, `sync` = 0, `cm_rom` = 0, `cm_ram` = 4'b0000. Nothing else is compared while `reset` = 1. Comparison starts at the first A1 after `reset` falls.
 
 ## 6. Instructions (normative)
-46 instructions. `OPR` = high nibble of the first word, `OPA` = low nibble. `R` = `r[OPA]`, `P` = pair `OPA[3:1]`. All arithmetic is mod 16 unless noted.
+46 instructions. `OPR` = high nibble of the first word, `OPA` = low nibble. `R` = `r[OPA]`, `P` = pair `OPA[3:1]`. All arithmetic is mod 16 unless noted. Every first-word byte is either one of the 46 instructions or one of the 17 bytes **01–0F, FE, FF**, which are not instructions and execute as NOP (§6.1, §6.4). Random tests (C9) exclude those 17 bytes.
 
 ### 6.1 One-word, 1 cycle
 | Hex | Mnemonic | Effect |
 |-----|----------|--------|
 | 00 | NOP | none |
+| 01–0F | (none) | Not instructions (OPR = 0000 is used only by NOP; manual p.30 lists nothing else). **Decision: execute as NOP**: 1 word, 1 cycle, pins as for a non-I/O instruction (§4). Tests must not depend on it |
 | 6R | INC R | `R = R + 1`. `cy` unchanged |
 | 8R | ADD R | `{cy, acc} = acc + R + cy` |
 | 9R | SUB R | `{cy, acc} = acc + ~R + ~cy`. On input, `cy` = 1 means a borrow is pending; on output, `cy` = 1 means *no* borrow. So chained subtraction needs CMC between digits |
@@ -161,7 +162,7 @@ All act on the chip, register and character selected by SRC, **as latched by eac
 | FB | DAA | `if (cy \|\| acc > 9) { t = acc + 6 (5 bits); acc = t[3:0]; cy = cy \| t[4]; }` else nothing. So `cy` is never cleared by DAA: `cy`=1, `acc`=2 gives `acc`=8, `cy`=1 (manual p.35: "set to 1 if the result generates a carry, otherwise unaffected") |
 | FC | KBP | `acc` = 0→0, 1→1, 2→2, 4→3, 8→4, anything else → 15 |
 | FD | DCL | `ram_bank = acc[2:0]` (§6.5) |
-| FE, FF | (none) | Not instructions. **Decision: execute as NOP.** Tests must not depend on it |
+| FE, FF | (none) | Not instructions. **Decision: execute as NOP**: 1 word, 1 cycle, pins as for a non-I/O instruction (§4). Tests must not depend on it |
 
 ### 6.5 RAM bank selection (DCL)
 | `ram_bank` | Active line(s) |
