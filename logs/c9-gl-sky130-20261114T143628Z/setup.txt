@@ -1,0 +1,4 @@
+Netlist: synth/sky130/i4004_sky130.v at main fd29456 (Leo, #31)
+ROM/RAM/system: RTL i4001, i4002, mcs4_system from the same commit
+Cell models: /home/turichips/tools/mm/root/envs/pdk/share/pdk/sky130A/libs.ref/sky130_fd_sc_hd/verilog/{primitives.v,sky130_fd_sc_hd.v}, -DFUNCTIONAL -DUNIT_DELAY= (zero delay), Icarus
+Icarus Verilog version 12.0 (stable) ()

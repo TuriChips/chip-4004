@@ -1,0 +1,6 @@
+DEF vs netlist (synth/sky130/i4004.def vs i4004_sky130.v), main fd29456:
+cells verilog 1095 def 1095 same cell types: True
+verilog nets with cell pins 1102 def 1102 identical: True
+tap cells (tapvpwrvgnd_1, physical only, on no signal net): 275
+COMPONENTS: COMPONENTS 1370 ;
+top pins: 18, each on the net of the same name

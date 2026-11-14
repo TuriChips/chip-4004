@@ -1,0 +1,1 @@
+Mutant check (not committed): first nand2_1 in i4004_sky130.v -> nor2_1: 20/20 programs FAIL (X on cm_rom/cm_ram while reset is held, xxxx on d_out after reset)
