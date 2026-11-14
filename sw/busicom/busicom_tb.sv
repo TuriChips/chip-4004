@@ -2,7 +2,7 @@
 // model of the keyboard matrix, the printer drum and the i4003 shift registers (hardware description: chapter 3
 // of the 4004.com listing). It types a key sequence and prints every line the printer prints as "PRINT <text>".
 // Plusargs: +KEYS=<hex scan codes, e.g. 9b95 8e ...> are given as a file of one hex code per line via +KEYFILE=<file>
-//           +SECT=<clocks per drum sector, default 20800>  +HOLD=<sectors a key is held, default 3>  +MAXCLK=<default: (2*HOLD*keys + 60) sectors>
+//           +SECT=<clocks per drum sector, default 20800>  +HOLD=<sectors a key is held, default 3>  +MAXCLK=<default: (2*HOLD*keys + 120) sectors>
 // Assumptions I made from the listing text, not from a datasheet, that the first run must confirm:
 //   - ROM1 and ROM2 ports are active-high; TEST = 1 while the sector signal is active.
 //   - Confirmed by the first traced run: the firmware fills the keyboard shifter with 1s and walks a single 0 through it,
@@ -115,7 +115,7 @@ module busicom_tb;
         if ($value$plusargs("KEYFILE=%s", kf)) $readmemh(kf, keys); // codes; 0 ends the list
         while (keys[nkeys] !== 8'hxx && nkeys < 255 && keys[nkeys] != 0) nkeys = nkeys + 1;
         set_key(-1);
-        if (maxclk < 0) maxclk = (2 * hold * nkeys + 60) * sect;
+        if (maxclk < 0) maxclk = (2 * hold * nkeys + 120) * sect;
         repeat (80) @(posedge clk);
         reset = 0;
     end
