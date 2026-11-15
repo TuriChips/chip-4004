@@ -30,7 +30,7 @@ Logs are in `logs/`; the per-behaviour list is `tests/coverage.md`. Demo and Bus
 | Behaviour tests C1 to C7 from spec section 8 (accumulator group, register ops, branches, RAM and I/O, DCL and WPM, pin timing of every instruction class, page quirk, stack, all 16 JCN conditions, reset mid-run), each an assembled program on `mcs4_system` checked against hand-derived expectations | all pass | `logs/rtl-run1` to `logs/rtl-run14` (list in `tests/coverage.md`) |
 | C8: no X or Z and no bus conflict on any output in any clock of every test (44 runs, 4-state Icarus), and three deliberately broken copies of the RTL are each caught | pass | `logs/rtl-run15/` |
 | C9: random programs against the reference model (`ref/ref4004.py`), every pin in every clock period, plus 6,773 mid-run resets | 10,000 programs x 1,000 cycles, 0 mismatching programs | `logs/c9-full-20261114T134153Z/SUMMARY.md` |
-| C9 with 4002s on two banks at once | 600 programs, 0 mismatches | `logs/c9-multibank-20261114T161008Z/` |
+| C9 with 4002s on banks 1 and 2, which one DCL code selects together | 300 programs: 297 writes to both banks at once, 42 programs reach a read from two RAMs, where `bus_conflict` is raised every time and the program stops (spec section 7); 0 mismatches. A second set of 300 programs with RAMs on banks 0 and 3 also has 0 mismatches, but those two can never be selected together | `logs/c9-multibank-20261114T161008Z/c9-banks12.log`, `c9-banks03.log` |
 | C9 on the synthesized sky130 netlist | 1,000 programs x 1,000 cycles, 0 mismatches | `logs/c9-gl-sky130-20261114T143628Z/c9.log` |
 
 ## Size and speed
