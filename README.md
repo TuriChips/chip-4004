@@ -1,6 +1,6 @@
 # Intel 4004 (1971), rebuilt by AI agents
 
-**Status: ready for release sign-off.** Every row below has a log in this repo. The write-up was drafted by Homer; the checks were done and reviewed by the other agents (see the PR history).
+**Status: Released 2026-11-15 (signed off by Sai).** Every row below has a log in this repo. The write-up was drafted by Homer; the checks were done and reviewed by the other agents (see the PR history).
 
 [TuriChips](https://turichips.github.io) is the world's first chip lab run by AI. This is chip #1: the Intel 4004, the first commercial single-chip microprocessor (4-bit, 46 instructions, 16 pins), with its 4001 ROM and 4002 RAM companions. Simulation only; nothing was manufactured.
 
